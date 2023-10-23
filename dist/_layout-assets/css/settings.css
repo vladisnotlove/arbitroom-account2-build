@@ -1,0 +1,338 @@
+.userdata {
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  grid-template-areas: "a i e";
+  grid-gap: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.16);
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.userdata__avatar {
+  grid-area: a;
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.userdata__info {
+  grid-area: i;
+}
+
+.userdata__edit-btn-container {
+  grid-area: e;
+}
+
+.userdata__avatar-img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.userdata__avatar-edit-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 10;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.5s;
+}
+
+.userdata__avatar-edit-overlay svg {
+  fill: white;
+}
+
+.userdata__avatar-edit-overlay:hover {
+  opacity: 1;
+  transition: opacity 0.35s;
+}
+
+.userdata__name {
+  margin-bottom: 0.25rem;
+  font-weight: 400;
+  font-size: 2.25rem;
+  line-height: 3rem;
+}
+
+.userdata__other {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.125rem;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .userdata {
+    grid-template-rows: auto auto;
+    grid-template-areas: "a i" ". e";
+    grid-gap: 1.5rem;
+    grid-row-gap: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .userdata {
+    grid-template-columns: min-content 1fr min-content;
+    grid-template-areas: "a i e";
+    grid-gap: 1.5rem;
+    grid-row-gap: 0.5rem;
+  }
+  .bot-notification-settings__switches {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .userdata {
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "a i" ". e";
+    grid-gap: 1.5rem;
+    grid-row-gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .userdata__avatar {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-top: 0.5rem;
+  }
+  .userdata__name {
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 2.25rem;
+  }
+  .userdata__other {
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}.wallet__title {
+  justify-content: space-between;
+}.editable-socials__content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.editable-social {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editable-social .editable-social__add-btn {
+  display: none;
+}
+
+.editable-social.adding .editable-social__value {
+  display: none;
+}
+
+.editable-social.adding .editable-social__edit-btn {
+  display: none;
+}
+
+.editable-social.adding .editable-social__add-btn {
+  display: initial;
+}
+
+.editable-social__icon {
+  fill: rgba(255, 255, 255, 0.64);
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.editable-social__value {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.editable-social__edit-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: #2ebeff;
+  cursor: pointer;
+  position: relative;
+}
+
+.editable-social__edit-btn:after {
+  position: absolute;
+  top: -0.5rem;
+  left: -0.5rem;
+  content: "";
+  width: calc(100% + 1rem);
+  height: calc(100% + 1rem);
+  z-index: 1;
+  cursor: pointer;
+}
+
+.editable-social__add-btn {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #2ebeff;
+  cursor: pointer;
+  position: relative;
+}
+
+.editable-social__add-btn:after {
+  position: absolute;
+  top: -0.5rem;
+  left: -0.5rem;
+  content: "";
+  width: calc(100% + 1rem);
+  height: calc(100% + 1rem);
+  z-index: 1;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 480px) {
+  .editable-socials__content {
+    gap: 1rem;
+  }
+}.two-factor-auth__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.two-factor-auth__item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.two-factor-auth__item.turn-on .two-factor-auth__turn-on-btn {
+  display: none;
+}
+
+.two-factor-auth__item.turn-on .two-factor-auth__turn-on-chip {
+  display: inline-block;
+}
+
+.two-factor-auth__item.turn-on .two-factor-auth__turn-off-btn {
+  display: inline-block;
+}
+
+.two-factor-auth__item.turn-off .two-factor-auth__turn-on-btn {
+  display: inline-block;
+}
+
+.two-factor-auth__item.turn-off .two-factor-auth__turn-on-chip {
+  display: none;
+}
+
+.two-factor-auth__item.turn-off .two-factor-auth__turn-off-btn {
+  display: none;
+}
+
+.two-factor-auth__label {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+@media screen and (max-width: 480px) {
+  .two-factor-auth-radios {
+    gap: 1rem;
+  }
+}.bot-notification-settings__title {
+  flex-wrap: wrap;
+  row-gap: 1rem;
+  justify-content: space-between;
+}
+
+.bot-notification-settings__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.bot-notification-settings__switches {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.bot-notification-settings__switches > .switch {
+  min-width: 0;
+  flex-wrap: nowrap;
+}
+
+.bot-notification-settings__save {
+  align-self: flex-end;
+}
+
+@media screen and (max-width: 800px) {
+  .bot-notification-settings__switches {
+    grid-template-columns: 1fr;
+  }
+}.content-settings {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: "u u u u u u u w w w w w" "s s s s s s s s s s s s" "p p p p t t t t t t t t" "n n n n n n n n n n n n" "l l l l l l l l l l l l";
+  grid-gap: 1rem;
+}
+
+.content-settings__userdata {
+  grid-area: u;
+}
+
+.content-settings__wallet {
+  grid-area: w;
+}
+
+.content-settings__socials {
+  grid-area: s;
+}
+
+.content-settings__password {
+  grid-area: p;
+}
+
+.content-settings__two-factor-auth {
+  grid-area: t;
+}
+
+.content-settings__bot-notification-settings {
+  grid-area: n;
+}
+
+.content-settings__logout {
+  grid-area: l;
+}
+
+@media screen and (max-width: 800px) {
+  .content-settings {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-areas: "u u u u u u u u u u u u" "w w w w w w w w w w w w" "s s s s s s s s s s s s" "p p p p p t t t t t t t" "n n n n n n n n n n n n" "l l l l l l l l l l l l";
+    grid-gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .content-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

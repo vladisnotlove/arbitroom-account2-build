@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Кластеры | Arbitroom</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+	<link rel="manifest" href="../site.webmanifest">
+	<link rel="stylesheet" href="../_layout-assets/css/_common.css" />
+	<link rel="stylesheet" href="../_layout-assets/css/clusters.css" />
+	<script type="module" src="../_layout-assets/js/clusters.js"></script>
+</head>
+
+<body><!-- LOADER -->
+	<div class="loader" id="loader">
+		<div class="loader__spinner"><svg viewBox="25 25 50 50">
+				<circle class="path" cx="50" cy="50" r="20" style="fill:none;stroke-width:2;stroke-miterlimit:10"></circle>
+			</svg></div>
+	</div>
+	<style>
+	.loader {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100vh;
+		width: 100vw;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		gap: 0.5rem;
+		z-index: 100000000;
+		background: var(--color-background);
+		transition: opacity 0.4s;
+	}
+
+	.loader.hidding {
+		opacity: 0;
+	}
+
+	.loader.hidden {
+		display: none;
+	}
+
+	.loader__spinner {
+		position: relative;
+		margin: 0 auto;
+		width: 80px;
+	}
+
+	.loader__spinner:before {
+		content: "";
+		display: block;
+		padding-top: 100%;
+	}
+
+	.loader__spinner svg {
+		animation: rotate 2s linear infinite;
+		height: 100%;
+		transform-origin: center center;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+
+	.loader__spinner circle {
+		stroke: var(--color-prime-main);
+		stroke-dasharray: 1, 200;
+		stroke-dashoffset: 0;
+		animation:
+			dash 1.5s ease-in-out infinite,
+			color 6s ease-in-out infinite;
+		stroke-linecap: round;
+	}
+
+	@keyframes rotate {
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes dash {
+		0% {
+			stroke-dasharray: 1, 200;
+			stroke-dashoffset: 0;
+		}
+
+		50% {
+			stroke-dasharray: 89, 200;
+			stroke-dashoffset: -35px;
+		}
+
+		100% {
+			stroke-dasharray: 89, 200;
+			stroke-dashoffset: -124px;
+		}
+	}
+	</style>
+	<script>
+	window.addEventListener("load", () => {
+		const loader = document.getElementById("loader");
+		loader.classList.add("hidding");
+		const onHiddingEnd = () => {
+			loader.classList.remove("hidding");
+			loader.classList.add("hidden");
+			loader.removeEventListener("transitionend", onHiddingEnd);
+		};
+		loader.addEventListener("transitionend", onHiddingEnd);
+	});
+	</script><!-- POPPERS -->
+	<div class="popper" data-popper-anchor-element="#languageBtn, #sideMenuLanguageBtn">
+		<div class="menu">
+			<div class="menu__item selected"><img src="../_layout-assets/img/flags/lang-1.svg" alt="">RU </div>
+			<div class="menu__item"><img src="../_layout-assets/img/flags/lang-4.svg" alt="">EN </div>
+			<div class="menu__item"><img src="../_layout-assets/img/flags/lang-3.svg" alt="">FN </div>
+			<div class="menu__item"><img src="../_layout-assets/img/flags/lang-2.svg" alt="">KZ </div>
+		</div>
+	</div>
+	<div class="notifications popper" data-popper-anchor-element="#notifyBtn">
+		<div class="notifications__header">
+			<div class="notifications__header-title">2 новых уведомления</div>
+			<div class="notifications__header-subtitle"><button class="notifications__clean-btn button text small">Очистить список</button><a class="notifications__view-all-btn button text small neutral" data-popper-close-element href="../notifications"> Посмотреть все <svg data-icon-name="chevron-right" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+						<path d="M8.29289 4.29289C7.90237 4.68342 7.90237 5.31658 8.29289 5.70711L14.5858 12L8.29289 18.2929C7.90237 18.6834 7.90237 19.3166 8.29289 19.7071C8.68342 20.0976 9.31658 20.0976 9.70711 19.7071L16.7071 12.7071C17.0976 12.3166 17.0976 11.6834 16.7071 11.2929L9.70711 4.29289C9.31658 3.90237 8.68342 3.90237 8.29289 4.29289Z"></path>
+					</svg></a></div>
+		</div>
+		<div class="notifications__body">
+			<div class="notification new">
+				<div class="notification__status status-dot"></div>
+				<div class="notification__title">Deoposit Successful</div>
+				<div class="notification__subtitle">You have have deposites 13 13 TX at 2021...</div>
+				<div class="notification__date">1 час назад</div>
+			</div>
+			<div class="notification new">
+				<div class="notification__status status-dot"></div>
+				<div class="notification__title">Deoposit Successful</div>
+				<div class="notification__subtitle">You have have deposites 13 13 TX at 2021...</div>
+				<div class="notification__date">1 час назад</div>
+			</div>
+		</div>
+	</div><!-- MODALS --><!-- MEDIA VIEWER --><!-- MAIN -->
+	<div class="container">
+		<div class="main">
+			<header class="header" id="header">
+				<div class="header__left">
+					<div class="header__title overflow logo"><img class="header__logo" src="../_layout-assets/img/logo.svg"></div>
+				</div>
+				<div class="header__right">
+					<div class="header__balance">
+						<div class="header__balance-icon"><svg data-icon-name="wallet-outlined" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+								<path d="M14.5 11H13.5C13.2239 11 13 11.2239 13 11.5C13 11.7761 13.2239 12 13.5 12H14.5C14.7761 12 15 11.7761 15 11.5C15 11.2239 14.7761 11 14.5 11ZM4.5 3C3.67157 3 3 3.67157 3 4.5V14.5C3 15.8807 4.11929 17 5.5 17H15.5C16.3284 17 17 16.3284 17 15.5V6.5C17 5.84689 16.5826 5.29127 16 5.08535V4.5C16 3.67157 15.3284 3 14.5 3H4.5ZM4 14.5V5.91465C4.15639 5.96992 4.32468 6 4.5 6H15.5C15.7761 6 16 6.22386 16 6.5V15.5C16 15.7761 15.7761 16 15.5 16H5.5C4.67157 16 4 15.3284 4 14.5ZM4.5 4H14.5C14.7761 4 15 4.22386 15 4.5V5H4.5C4.22386 5 4 4.77614 4 4.5C4 4.22386 4.22386 4 4.5 4Z"></path>
+							</svg></div>
+						<div class="header__balance-value">0 USDT</div>
+					</div>
+					<div class="header__widgets">
+						<div class="header__widget">
+							<div class="header__widget-icon"><!-- icon: mail --><svg data-icon-name="mail" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<path d="M22 8.608V16.75C22 18.483 20.6435 19.8992 18.9344 19.9949L18.75 20H5.25C3.51697 20 2.10075 18.6435 2.00514 16.9344L2 16.75V8.608L11.652 13.6644C11.87 13.7785 12.13 13.7785 12.348 13.6644L22 8.608ZM5.25 4H18.75C20.4347 4 21.8201 5.28191 21.9838 6.92355L12 12.1533L2.01619 6.92355C2.17386 5.34271 3.46432 4.09545 5.06409 4.00523L5.25 4H18.75H5.25Z"></path>
+								</svg></div>
+						</div>
+						<div class="header__widget" id="notifyBtn">
+							<div class="header__widget-icon"><!-- icon: alert --><svg data-icon-name="alert" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<path d="M9.04173 19.003H14.9583C14.7196 20.4211 13.486 21.5015 12 21.5015C10.514 21.5015 9.28037 20.4211 9.04173 19.003ZM12 2.00391C16.1421 2.00391 19.5 5.36177 19.5 9.50391V13.5024L20.9183 16.6625C20.9732 16.7848 21.0016 16.9174 21.0016 17.0515C21.0016 17.5762 20.5763 18.0015 20.0516 18.0015H3.95219C3.8184 18.0015 3.68613 17.9733 3.56402 17.9186C3.08515 17.7042 2.87073 17.1422 3.08511 16.6633L4.50001 13.5028L4.50011 9.49099L4.50453 9.24107C4.6436 5.21035 7.95588 2.00391 12 2.00391Z"></path>
+								</svg></div>
+						</div>
+					</div>
+					<div class="header__language language-btn" id="languageBtn"><span class="language-btn__text">RU</span><svg data-icon-name="chevron-bottom" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+							<path d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z"></path>
+						</svg></div><a class="header__exit mdn" href="#">Выйти</a>
+				</div>
+			</header>
+			<div class="content">
+				<div class="content-clusters">
+					<div class="content-clusters__menu">
+						<div class="content-clusters__cluster-summary cluster-summary block">
+							<div class="cluster-summary__title block__title">
+								<div class="cluster-summary__title-top"><span>Кластер №245</span>
+									<div class="cluster-summary__timer timer" data-timer-finish-date="Sun Nov 12 2023 18:34:49 GMT+0300 (GMT+03:00)" data-timer-format="ddд : hhч : mmм : ssс"></div>
+								</div>
+								<div class="cluster-summary__subtitle">5 уровень</div>
+							</div>
+							<div class="cluster-summary__content block__content">
+								<div class="cluster-summary__profile"><img class="cluster-summary__profile-avatar" src="../_layout-assets/img/profile.png" alt="">
+									<div class="cluster-summary__profile-main">
+										<div class="cluster-summary__profile-name">Михаил Балгов</div>
+										<div class="cluster-summary__profile-subtitle">Активов: 2500 USDT</div>
+									</div>
+								</div>
+								<div class="cluster-summary__progress">
+									<div class="cluster-summary__progress-labels"><span>5 уровень</span><span>6 уровень</span></div>
+									<div class="cluster-summary__progress-line">
+										<div class="cluster-summary__progress-line-value" style="width: 37%"></div>
+									</div>
+								</div>
+								<div class="cluster-summary__achs-section">
+									<div class="cluster-summary__achs-title">Достижения:</div>
+									<div class="cluster-summary__achs"><img class="cluster-summary__ach" src="../_layout-assets/img/achievement-badges/01.png" alt=""><img class="cluster-summary__ach" src="../_layout-assets/img/achievement-badges/02.png" alt=""><img class="cluster-summary__ach" src="../_layout-assets/img/achievement-badges/03.png" alt=""><img class="cluster-summary__ach" src="../_layout-assets/img/achievement-badges/04.png" alt=""><img class="cluster-summary__ach" src="../_layout-assets/img/achievement-badges/05.png" alt=""><img class="cluster-summary__ach" src="../_layout-assets/img/achievement-badges/06.png" alt=""><img class="cluster-summary__ach" src="../_layout-assets/img/achievement-badges/07.png" alt=""></div>
+								</div>
+								<div class="cluster-summary__checklist">
+									<div class="cluster-summary__checklist-item checked"><svg data-icon-name="checkmark-circle" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+											<path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM15.2197 8.96967L10.75 13.4393L8.78033 11.4697C8.48744 11.1768 8.01256 11.1768 7.71967 11.4697C7.42678 11.7626 7.42678 12.2374 7.71967 12.5303L10.2197 15.0303C10.5126 15.3232 10.9874 15.3232 11.2803 15.0303L16.2803 10.0303C16.5732 9.73744 16.5732 9.26256 16.2803 8.96967C15.9874 8.67678 15.5126 8.67678 15.2197 8.96967Z"></path>
+										</svg> Партнер статуса А1 </div>
+									<div class="cluster-summary__checklist-item checked"><svg data-icon-name="checkmark-circle" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+											<path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM15.2197 8.96967L10.75 13.4393L8.78033 11.4697C8.48744 11.1768 8.01256 11.1768 7.71967 11.4697C7.42678 11.7626 7.42678 12.2374 7.71967 12.5303L10.2197 15.0303C10.5126 15.3232 10.9874 15.3232 11.2803 15.0303L16.2803 10.0303C16.5732 9.73744 16.5732 9.26256 16.2803 8.96967C15.9874 8.67678 15.5126 8.67678 15.2197 8.96967Z"></path>
+										</svg> Работа кластера 10 дней </div>
+									<div class="cluster-summary__checklist-item"><svg data-icon-name="radio-button" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+											<path d="M12.0001 22.0021C17.5238 22.0021 22.0016 17.5243 22.0016 12.0006C22.0016 6.47687 17.5238 1.99902 12.0001 1.99902C6.47638 1.99902 1.99854 6.47687 1.99854 12.0006C1.99854 17.5243 6.47638 22.0021 12.0001 22.0021ZM12.0001 20.5021C7.30481 20.5021 3.49854 16.6959 3.49854 12.0006C3.49854 7.3053 7.30481 3.49902 12.0001 3.49902C16.6954 3.49902 20.5016 7.3053 20.5016 12.0006C20.5016 16.6959 16.6954 20.5021 12.0001 20.5021Z"></path>
+										</svg> Партнер статуса А1 </div>
+								</div>
+							</div>
+						</div><a class="content-clusters__dashboard-btn" href="..">Dashboard</a>
+						<div class="content-clusters__cluster-stats cluster-stats">
+							<div class="cluster-stat">
+								<div class="cluster-stat__icon-wrapper"><svg data-icon-name="align" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path fill-rule="evenodd" clip-rule="evenodd" d="M13 15.75C13 16.9926 14.0074 18 15.25 18H17.75C18.9926 18 20 16.9926 20 15.75V8.75C20 7.50736 18.9926 6.5 17.75 6.5H15.25C14.0074 6.5 13 7.50736 13 8.75L13 15.75Z"></path>
+										<path d="M4 15.75C4 16.9926 5.00736 18 6.25 18H8.75C9.99264 18 11 16.9926 11 15.75L11 5.25C11 4.00736 9.99264 3 8.75 3H6.25C5.00736 3 4 4.00736 4 5.25L4 15.75Z"></path>
+										<path d="M2.75 21C2.33579 21 2 20.6642 2 20.25C2 19.8358 2.33579 19.5 2.75 19.5H21.25C21.6642 19.5 22 19.8358 22 20.25C22 20.6642 21.6642 21 21.25 21H2.75Z"></path>
+									</svg></div>
+								<div class="cluster-stat__label">Блоки активов</div>
+								<div class="cluster-stat__value">2500 USDT</div><svg data-icon-name="info" class="cluster-stat__info svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<path d="M12.3333 1.99902C17.857 1.99902 22.3349 6.47687 22.3349 12.0006C22.3349 17.5243 17.857 22.0021 12.3333 22.0021C6.80963 22.0021 2.33179 17.5243 2.33179 12.0006C2.33179 6.47687 6.80963 1.99902 12.3333 1.99902ZM12.3295 10.2496C11.8167 10.2499 11.3943 10.6363 11.3368 11.1336L11.3302 11.2503L11.3338 16.7519L11.3406 16.8685C11.3987 17.3658 11.8216 17.7515 12.3344 17.7512C12.8473 17.7509 13.2697 17.3645 13.3271 16.8672L13.3338 16.7505L13.3302 11.249L13.3234 11.1323C13.2653 10.635 12.8424 10.2493 12.3295 10.2496ZM12.3338 6.50006C11.6426 6.50006 11.0823 7.06038 11.0823 7.75158C11.0823 8.44277 11.6426 9.0031 12.3338 9.0031C13.025 9.0031 13.5853 8.44277 13.5853 7.75158C13.5853 7.06038 13.025 6.50006 12.3338 6.50006Z"></path>
+								</svg>
+							</div>
+							<div class="cluster-stat">
+								<div class="cluster-stat__icon-wrapper"><svg data-icon-name="send" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+										<path d="M0.349237 8.28432C-0.115667 8.12915 -0.120121 7.87856 0.358143 7.71893L17.3574 2.04546C17.8286 1.8885 18.0984 2.15247 17.9666 2.61441L13.1092 19.6348C12.9756 20.1066 12.7039 20.1226 12.5044 19.675L9.30354 12.4623L14.6473 5.32808L7.5223 10.6787L0.349237 8.28432Z"></path>
+									</svg></div>
+								<div class="cluster-stat__label">Получил активы</div>
+								<div class="cluster-stat__value">200 USDT</div><svg data-icon-name="info" class="cluster-stat__info svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<path d="M12.3333 1.99902C17.857 1.99902 22.3349 6.47687 22.3349 12.0006C22.3349 17.5243 17.857 22.0021 12.3333 22.0021C6.80963 22.0021 2.33179 17.5243 2.33179 12.0006C2.33179 6.47687 6.80963 1.99902 12.3333 1.99902ZM12.3295 10.2496C11.8167 10.2499 11.3943 10.6363 11.3368 11.1336L11.3302 11.2503L11.3338 16.7519L11.3406 16.8685C11.3987 17.3658 11.8216 17.7515 12.3344 17.7512C12.8473 17.7509 13.2697 17.3645 13.3271 16.8672L13.3338 16.7505L13.3302 11.249L13.3234 11.1323C13.2653 10.635 12.8424 10.2493 12.3295 10.2496ZM12.3338 6.50006C11.6426 6.50006 11.0823 7.06038 11.0823 7.75158C11.0823 8.44277 11.6426 9.0031 12.3338 9.0031C13.025 9.0031 13.5853 8.44277 13.5853 7.75158C13.5853 7.06038 13.025 6.50006 12.3338 6.50006Z"></path>
+								</svg>
+							</div>
+							<div class="cluster-stat">
+								<div class="cluster-stat__icon-wrapper"><svg data-icon-name="send-clock" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M3.26526 1.26199L21.6907 10.3412C21.9879 10.4876 22.1101 10.8473 21.9637 11.1446C21.9052 11.2632 21.8093 11.3592 21.6907 11.4176L20.9031 11.8056C19.8879 11.1686 18.6869 10.8002 17.3999 10.8002C13.9676 10.8002 11.1473 13.4202 10.8297 16.7694L3.26563 20.4966C2.96839 20.6431 2.60869 20.5208 2.46222 20.2236C2.39818 20.0936 2.38333 19.9448 2.42042 19.8048L4.24593 12.9111C4.3063 12.6832 4.49463 12.5117 4.72726 12.4729L12.9844 11.0961C13.0856 11.0793 13.1692 11.0125 13.2094 10.9217L13.231 10.8495C13.2544 10.7095 13.1766 10.5759 13.051 10.5234L12.9844 10.5043L4.68064 9.12034C4.44792 9.08155 4.25953 8.90998 4.19922 8.68189L2.42001 1.95366C2.33525 1.63331 2.52624 1.30491 2.84659 1.22015C2.98662 1.18311 3.13532 1.19796 3.26526 1.26199ZM22.7999 17.4002C22.7999 20.3826 20.3823 22.8002 17.3999 22.8002C14.4176 22.8002 11.9999 20.3826 11.9999 17.4002C11.9999 14.4179 14.4176 12.0002 17.3999 12.0002C20.3823 12.0002 22.7999 14.4179 22.7999 17.4002ZM17.3999 14.4002C17.0686 14.4002 16.7999 14.6689 16.7999 15.0002V17.4002C16.7999 17.7316 17.0686 18.0002 17.3999 18.0002H19.1999C19.5313 18.0002 19.7999 17.7316 19.7999 17.4002C19.7999 17.0689 19.5313 16.8002 19.1999 16.8002H17.9999V15.0002C17.9999 14.6689 17.7313 14.4002 17.3999 14.4002Z"></path>
+									</svg></div>
+								<div class="cluster-stat__label">Осталось получить</div>
+								<div class="cluster-stat__value">4000 USDT</div><svg data-icon-name="info" class="cluster-stat__info svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<path d="M12.3333 1.99902C17.857 1.99902 22.3349 6.47687 22.3349 12.0006C22.3349 17.5243 17.857 22.0021 12.3333 22.0021C6.80963 22.0021 2.33179 17.5243 2.33179 12.0006C2.33179 6.47687 6.80963 1.99902 12.3333 1.99902ZM12.3295 10.2496C11.8167 10.2499 11.3943 10.6363 11.3368 11.1336L11.3302 11.2503L11.3338 16.7519L11.3406 16.8685C11.3987 17.3658 11.8216 17.7515 12.3344 17.7512C12.8473 17.7509 13.2697 17.3645 13.3271 16.8672L13.3338 16.7505L13.3302 11.249L13.3234 11.1323C13.2653 10.635 12.8424 10.2493 12.3295 10.2496ZM12.3338 6.50006C11.6426 6.50006 11.0823 7.06038 11.0823 7.75158C11.0823 8.44277 11.6426 9.0031 12.3338 9.0031C13.025 9.0031 13.5853 8.44277 13.5853 7.75158C13.5853 7.06038 13.025 6.50006 12.3338 6.50006Z"></path>
+								</svg>
+							</div>
+							<div class="cluster-stat">
+								<div class="cluster-stat__icon-wrapper"><svg data-icon-name="settings" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+										<path d="M1.91099 7.38266C2.28028 6.24053 2.88863 5.19213 3.69133 4.30364C3.82707 4.15339 4.04002 4.09984 4.23069 4.16802L6.14897 4.85392C6.66905 5.03977 7.24131 4.76883 7.42716 4.24875C7.44544 4.19762 7.45952 4.14507 7.46925 4.09173L7.83471 2.08573C7.87104 1.88627 8.02422 1.7285 8.22251 1.6863C8.8027 1.5628 9.39758 1.5 10.0003 1.5C10.6026 1.5 11.1971 1.56273 11.7769 1.68607C11.9752 1.72824 12.1284 1.88591 12.1648 2.08529L12.5313 4.09165C12.6303 4.63497 13.1511 4.9951 13.6944 4.89601C13.7479 4.88627 13.8004 4.87219 13.8515 4.85395L15.7698 4.16802C15.9605 4.09984 16.1734 4.15339 16.3092 4.30364C17.1119 5.19213 17.7202 6.24053 18.0895 7.38266C18.1518 7.57534 18.0918 7.78658 17.9374 7.91764L16.3825 9.23773C15.9615 9.5952 15.9101 10.2263 16.2675 10.6473C16.3027 10.6887 16.3411 10.7271 16.3825 10.7623L17.9374 12.0824C18.0918 12.2134 18.1518 12.4247 18.0895 12.6173C17.7202 13.7595 17.1119 14.8079 16.3092 15.6964C16.1734 15.8466 15.9605 15.9002 15.7698 15.832L13.8515 15.1461C13.3315 14.9602 12.7592 15.2312 12.5733 15.7512C12.5551 15.8024 12.541 15.8549 12.5312 15.9085L12.1648 17.9147C12.1284 18.1141 11.9752 18.2718 11.7769 18.3139C11.1971 18.4373 10.6026 18.5 10.0003 18.5C9.39758 18.5 8.8027 18.4372 8.22251 18.3137C8.02422 18.2715 7.87104 18.1137 7.83471 17.9143L7.46926 15.9084C7.37018 15.365 6.8494 15.0049 6.30608 15.104C6.25265 15.1137 6.20011 15.1278 6.14906 15.1461L4.23069 15.832C4.04002 15.9002 3.82707 15.8466 3.69133 15.6964C2.88863 14.8079 2.28028 13.7595 1.91099 12.6173C1.84869 12.4247 1.90876 12.2134 2.06313 12.0824L3.61798 10.7623C4.03897 10.4048 4.09046 9.77373 3.73299 9.35274C3.69784 9.31135 3.65937 9.27288 3.618 9.23775L2.06313 7.91764C1.90876 7.78658 1.84869 7.57534 1.91099 7.38266ZM8.00026 10C8.00026 11.1046 8.89569 12 10.0003 12C11.1048 12 12.0003 11.1046 12.0003 10C12.0003 8.89543 11.1048 8 10.0003 8C8.89569 8 8.00026 8.89543 8.00026 10Z"></path>
+									</svg></div>
+								<div class="cluster-stat__label">Обслуживание кластера</div>
+								<div class="cluster-stat__value">200 USDT</div><svg data-icon-name="info" class="cluster-stat__info svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<path d="M12.3333 1.99902C17.857 1.99902 22.3349 6.47687 22.3349 12.0006C22.3349 17.5243 17.857 22.0021 12.3333 22.0021C6.80963 22.0021 2.33179 17.5243 2.33179 12.0006C2.33179 6.47687 6.80963 1.99902 12.3333 1.99902ZM12.3295 10.2496C11.8167 10.2499 11.3943 10.6363 11.3368 11.1336L11.3302 11.2503L11.3338 16.7519L11.3406 16.8685C11.3987 17.3658 11.8216 17.7515 12.3344 17.7512C12.8473 17.7509 13.2697 17.3645 13.3271 16.8672L13.3338 16.7505L13.3302 11.249L13.3234 11.1323C13.2653 10.635 12.8424 10.2493 12.3295 10.2496ZM12.3338 6.50006C11.6426 6.50006 11.0823 7.06038 11.0823 7.75158C11.0823 8.44277 11.6426 9.0031 12.3338 9.0031C13.025 9.0031 13.5853 8.44277 13.5853 7.75158C13.5853 7.06038 13.025 6.50006 12.3338 6.50006Z"></path>
+								</svg>
+							</div>
+						</div>
+						<div class="content-clusters__cluster-timers cluster-timers" id="clusterTimers">
+							<div class="cluster-timers__tabs"><button class="cluster-timers__tab active">Время активов</button><button class="cluster-timers__tab">Время кассет</button></div>
+							<div class="cluster-timers__tab-contents">
+								<div class="cluster-timers__tab-content active">
+									<div class="cluster-timers__timer">
+										<div class="cluster-timers__timer-label">500 USDT</div>
+										<div class="cluster-timers__timer-progress">
+											<div class="cluster-timers__timer-progress-title">
+												<div class="timer" data-timer-finish-date="Sun Jun 09 2024 18:34:49 GMT+0300 (GMT+03:00)" data-timer-format="ddд : hhч : mmм : ssс"></div>
+											</div>
+											<div class="cluster-timers__timer-progress-line">
+												<div class="cluster-timers__timer-progress-line-value green" style="width: 25%"></div>
+											</div>
+										</div>
+									</div>
+									<div class="cluster-timers__timer">
+										<div class="cluster-timers__timer-label">100 000 USDT</div>
+										<div class="cluster-timers__timer-progress">
+											<div class="cluster-timers__timer-progress-title">
+												<div class="timer" data-timer-finish-date="Tue Apr 30 2024 18:34:49 GMT+0300 (GMT+03:00)" data-timer-format="ddд : hhч : mmм : ssс"></div>
+											</div>
+											<div class="cluster-timers__timer-progress-line">
+												<div class="cluster-timers__timer-progress-line-value green" style="width: 25%"></div>
+											</div>
+										</div>
+									</div>
+									<div class="cluster-timers__timer">
+										<div class="cluster-timers__timer-label">500 USDT</div>
+										<div class="cluster-timers__timer-progress">
+											<div class="cluster-timers__timer-progress-title">
+												<div class="timer" data-timer-finish-date="Sun Jun 09 2024 18:34:49 GMT+0300 (GMT+03:00)" data-timer-format="ddд : hhч : mmм : ssс"></div>
+											</div>
+											<div class="cluster-timers__timer-progress-line">
+												<div class="cluster-timers__timer-progress-line-value blue" style="width: 25%"></div>
+											</div>
+										</div>
+									</div>
+									<div class="cluster-timers__timer">
+										<div class="cluster-timers__timer-label">500 USDT</div>
+										<div class="cluster-timers__timer-progress">
+											<div class="cluster-timers__timer-progress-title">
+												<div class="timer" data-timer-finish-date="Sun Jun 09 2024 18:34:49 GMT+0300 (GMT+03:00)" data-timer-format="ddд : hhч : mmм : ssс"></div>
+											</div>
+											<div class="cluster-timers__timer-progress-line">
+												<div class="cluster-timers__timer-progress-line-value purple" style="width: 25%"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="cluster-timers__tab-content">
+									<div class="cluster-timers__timer">
+										<div class="cluster-timers__timer-label">700 USDT</div>
+										<div class="cluster-timers__timer-progress">
+											<div class="cluster-timers__timer-progress-title">
+												<div class="timer" data-timer-finish-date="Sun Jun 09 2024 18:34:49 GMT+0300 (GMT+03:00)" data-timer-format="ddд : hhч : mmм : ssс"></div>
+											</div>
+											<div class="cluster-timers__timer-progress-line">
+												<div class="cluster-timers__timer-progress-line-value green" style="width: 25%"></div>
+											</div>
+										</div>
+									</div>
+									<div class="cluster-timers__timer">
+										<div class="cluster-timers__timer-label">2 000 USDT</div>
+										<div class="cluster-timers__timer-progress">
+											<div class="cluster-timers__timer-progress-title">
+												<div class="timer" data-timer-finish-date="Mon May 20 2024 18:34:49 GMT+0300 (GMT+03:00)" data-timer-format="ddд : hhч : mmм : ssс"></div>
+											</div>
+											<div class="cluster-timers__timer-progress-line">
+												<div class="cluster-timers__timer-progress-line-value blue" style="width: 25%"></div>
+											</div>
+										</div>
+									</div>
+									<div class="cluster-timers__timer">
+										<div class="cluster-timers__timer-label">500 USDT</div>
+										<div class="cluster-timers__timer-progress">
+											<div class="cluster-timers__timer-progress-title">
+												<div class="timer" data-timer-finish-date="Sun Jun 09 2024 18:34:49 GMT+0300 (GMT+03:00)" data-timer-format="ddд : hhч : mmм : ssс"></div>
+											</div>
+											<div class="cluster-timers__timer-progress-line">
+												<div class="cluster-timers__timer-progress-line-value blue" style="width: 25%"></div>
+											</div>
+										</div>
+									</div>
+									<div class="cluster-timers__timer">
+										<div class="cluster-timers__timer-label">500 USDT</div>
+										<div class="cluster-timers__timer-progress">
+											<div class="cluster-timers__timer-progress-title">
+												<div class="timer" data-timer-finish-date="Sun Jun 09 2024 18:34:49 GMT+0300 (GMT+03:00)" data-timer-format="ddд : hhч : mmм : ssс"></div>
+											</div>
+											<div class="cluster-timers__timer-progress-line">
+												<div class="cluster-timers__timer-progress-line-value purple" style="width: 25%"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="content-clusters__daily-rewards daily-rewards block">
+						<div class="daily-rewards__title block__title"><span>150</span><span>рARBC</span></div>
+						<div class="daily-rewards__content block__content">
+							<div class="daily-rewards__rewards" data-drag-scroll>
+								<div class="daily-rewards__reward">
+									<div class="daily-rewards__reward-day">День 1</div><img class="daily-rewards__reward-icon" src="../_layout-assets/img/complex-icons/coin.svg" alt="">
+									<div class="daily-rewards__reward-gain">+10</div>
+								</div>
+								<div class="daily-rewards__divider"></div>
+								<div class="daily-rewards__reward">
+									<div class="daily-rewards__reward-day">День 2</div><img class="daily-rewards__reward-icon" src="../_layout-assets/img/complex-icons/coin.svg" alt="">
+									<div class="daily-rewards__reward-gain">+10</div>
+								</div>
+								<div class="daily-rewards__divider"></div>
+								<div class="daily-rewards__reward">
+									<div class="daily-rewards__reward-day">День 3</div><img class="daily-rewards__reward-icon" src="../_layout-assets/img/complex-icons/coin.svg" alt="">
+									<div class="daily-rewards__reward-gain">+10</div>
+								</div>
+								<div class="daily-rewards__divider"></div>
+								<div class="daily-rewards__reward">
+									<div class="daily-rewards__reward-day">День 4</div><img class="daily-rewards__reward-icon" src="../_layout-assets/img/complex-icons/coin.svg" alt="">
+									<div class="daily-rewards__reward-gain">+20</div>
+								</div>
+								<div class="daily-rewards__divider"></div>
+								<div class="daily-rewards__reward">
+									<div class="daily-rewards__reward-day">День 5</div><img class="daily-rewards__reward-icon" src="../_layout-assets/img/complex-icons/coin.svg" alt="">
+									<div class="daily-rewards__reward-gain">+20</div>
+								</div>
+								<div class="daily-rewards__divider"></div>
+								<div class="daily-rewards__reward">
+									<div class="daily-rewards__reward-day">День 6</div><img class="daily-rewards__reward-icon" src="../_layout-assets/img/complex-icons/coin.svg" alt="">
+									<div class="daily-rewards__reward-gain">+20</div>
+								</div>
+								<div class="daily-rewards__divider"></div>
+								<div class="daily-rewards__reward">
+									<div class="daily-rewards__reward-day">День 7</div><img class="daily-rewards__reward-icon" src="../_layout-assets/img/complex-icons/coin.svg" alt="">
+									<div class="daily-rewards__reward-gain">+50</div>
+								</div>
+							</div>
+							<div class="daily-rewards__progress">
+								<div class="daily-rewards__progress-title">Коэффициент бонуса токена</div>
+								<div class="daily-rewards__progress-line">
+									<div class="daily-rewards__progress-line-value" style="width: 15%"></div>
+								</div>
+								<div class="daily-rewards__progress-labels">
+									<div class="daily-rewards__progress-label">1</div>
+									<div class="daily-rewards__progress-label">1,25</div>
+									<div class="daily-rewards__progress-label">1,5</div>
+									<div class="daily-rewards__progress-label">1,75</div>
+									<div class="daily-rewards__progress-label">2</div>
+									<div class="daily-rewards__progress-label">2,25</div>
+									<div class="daily-rewards__progress-label">2,5</div>
+									<div class="daily-rewards__progress-label">2,75</div>
+									<div class="daily-rewards__progress-label">3</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="content-clusters__board board">
+						<div class="board__top">
+							<div class="board__cooler-left"></div>
+							<div class="board__processor"></div>
+							<div class="board__cooler-right"></div>
+							<div class="board__wire-top-left"></div>
+							<div class="board__wire-top-right"></div>
+						</div>
+						<div class="board__body">
+							<div class="board__center-glow"></div>
+							<div class="board__wire-right"></div>
+							<div class="board__frame"></div>
+							<div class="board__row">
+								<div class="board__chip green">100<br>USDT</div>
+								<div class="board__chip blue">100<br>USDT</div>
+								<div class="board__chip purple">100<br>USDT</div>
+								<div class="board__slot-pair">
+									<div class="board__slot purple">Бонус к начислениям 1%</div>
+									<div class="board__slot blue">Бонус к начислениям 1%</div>
+								</div>
+							</div>
+							<div class="board__row">
+								<div class="board__chip green">500<br>USDT</div>
+								<div class="board__chip blue">500<br>USDT</div>
+								<div class="board__chip purple">500<br>USDT</div>
+								<div class="board__slot-pair">
+									<div class="board__slot green">Бонус к начислениям 1%</div>
+									<div class="board__slot empty"></div>
+								</div>
+							</div>
+							<div class="board__row">
+								<div class="board__chip green">1000<br>USDT</div>
+								<div class="board__chip closed">1000<br>USDT</div>
+								<div class="board__chip closed">1000<br>USDT</div>
+								<div class="board__slot-pair">
+									<div class="board__slot empty"></div>
+									<div class="board__slot empty"></div>
+								</div>
+							</div>
+							<div class="board__row">
+								<div class="board__chip closed">2500<br>USDT</div>
+								<div class="board__chip closed">2500<br>USDT</div>
+								<div class="board__chip closed">2500<br>USDT</div>
+								<div class="board__slot-pair">
+									<div class="board__slot empty"></div>
+									<div class="board__slot empty"></div>
+								</div>
+							</div>
+							<div class="board__row">
+								<div class="board__chip closed"><img src="../_layout-assets/img/_parts/board/lock.svg" alt=""> 2 lvl </div>
+								<div class="board__chip closed"><img src="../_layout-assets/img/_parts/board/lock.svg" alt=""> 2 lvl </div>
+								<div class="board__chip closed"><img src="../_layout-assets/img/_parts/board/lock.svg" alt=""> 2 lvl </div>
+								<div class="board__slot-pair">
+									<div class="board__slot empty"></div>
+									<div class="board__slot empty"></div>
+								</div>
+							</div>
+							<div class="board__row">
+								<div class="board__chip closed"><img src="../_layout-assets/img/_parts/board/lock.svg" alt=""> 2 lvl </div>
+								<div class="board__chip closed"><img src="../_layout-assets/img/_parts/board/lock.svg" alt=""> 2 lvl </div>
+								<div class="board__chip closed"><img src="../_layout-assets/img/_parts/board/lock.svg" alt=""> 2 lvl </div>
+								<div class="board__slot-pair">
+									<div class="board__slot empty"></div>
+									<div class="board__slot empty"></div>
+								</div>
+							</div>
+							<div class="board__row">
+								<div class="board__chip closed"><img src="../_layout-assets/img/_parts/board/lock.svg" alt=""> 2 lvl </div>
+								<div class="board__chip closed"><img src="../_layout-assets/img/_parts/board/lock.svg" alt=""> 2 lvl </div>
+								<div class="board__chip closed"><img src="../_layout-assets/img/_parts/board/lock.svg" alt=""> 2 lvl </div>
+								<div class="board__slot-pair">
+									<div class="board__slot empty"></div>
+									<div class="board__slot empty"></div>
+								</div>
+							</div>
+							<div class="board__row">
+								<div class="board__chip closed"><img src="../_layout-assets/img/_parts/board/lock.svg" alt=""> 3 lvl </div>
+								<div class="board__chip closed"><img src="../_layout-assets/img/_parts/board/lock.svg" alt=""> 3 lvl </div>
+								<div class="board__chip closed"><img src="../_layout-assets/img/_parts/board/lock.svg" alt=""> 3 lvl </div>
+								<div class="board__slot-pair">
+									<div class="board__slot empty"></div>
+									<div class="board__slot empty"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

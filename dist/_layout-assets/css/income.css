@@ -1,0 +1,81 @@
+.wallet-address__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.wallet-address__qrcode {
+  width: 158px;
+  margin: 0.5rem;
+}
+
+.wallet-address__instruction {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.wallet-address__copy-text {
+  max-width: 100%;
+}
+
+.wallet-address__remark {
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: rgba(255, 255, 255, 0.64);
+  text-align: center;
+}.content-income {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: "w i i" "o o o";
+  gap: 1rem;
+}
+
+.content-income__tabs {
+  display: none;
+}
+
+.content-income__wallet-address {
+  grid-area: w;
+  min-width: 0;
+}
+
+.content-income__instructions {
+  grid-area: i;
+}
+
+.content-income__operations {
+  grid-area: o;
+}
+
+@media (max-width: 860px) {
+  .content-income {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "w i" "o o";
+  }
+}
+
+@media (max-width: 680px) {
+  .content-income {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-income.show-income .content-income__instructions {
+    display: none;
+  }
+  .content-income.show-instructions .content-income__wallet-address {
+    display: none;
+  }
+  .content-income.show-instructions .content-income__operations {
+    display: none;
+  }
+  .content-income__tabs {
+    display: flex;
+  }
+}

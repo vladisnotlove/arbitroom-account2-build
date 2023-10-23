@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Настройки | Arbitroom</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+	<link rel="manifest" href="../site.webmanifest">
+	<link rel="stylesheet" href="../_layout-assets/css/_common.css" />
+	<link rel="stylesheet" href="../_layout-assets/css/settings.css" />
+	<script type="module" src="../_layout-assets/js/settings.js"></script>
+</head>
+
+<body><!-- LOADER -->
+	<div class="loader" id="loader">
+		<div class="loader__spinner"><svg viewBox="25 25 50 50">
+				<circle class="path" cx="50" cy="50" r="20" style="fill:none;stroke-width:2;stroke-miterlimit:10"></circle>
+			</svg></div>
+	</div>
+	<style>
+	.loader {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100vh;
+		width: 100vw;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		gap: 0.5rem;
+		z-index: 100000000;
+		background: var(--color-background);
+		transition: opacity 0.4s;
+	}
+
+	.loader.hidding {
+		opacity: 0;
+	}
+
+	.loader.hidden {
+		display: none;
+	}
+
+	.loader__spinner {
+		position: relative;
+		margin: 0 auto;
+		width: 80px;
+	}
+
+	.loader__spinner:before {
+		content: "";
+		display: block;
+		padding-top: 100%;
+	}
+
+	.loader__spinner svg {
+		animation: rotate 2s linear infinite;
+		height: 100%;
+		transform-origin: center center;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+
+	.loader__spinner circle {
+		stroke: var(--color-prime-main);
+		stroke-dasharray: 1, 200;
+		stroke-dashoffset: 0;
+		animation:
+			dash 1.5s ease-in-out infinite,
+			color 6s ease-in-out infinite;
+		stroke-linecap: round;
+	}
+
+	@keyframes rotate {
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes dash {
+		0% {
+			stroke-dasharray: 1, 200;
+			stroke-dashoffset: 0;
+		}
+
+		50% {
+			stroke-dasharray: 89, 200;
+			stroke-dashoffset: -35px;
+		}
+
+		100% {
+			stroke-dasharray: 89, 200;
+			stroke-dashoffset: -124px;
+		}
+	}
+	</style>
+	<script>
+	window.addEventListener("load", () => {
+		const loader = document.getElementById("loader");
+		loader.classList.add("hidding");
+		const onHiddingEnd = () => {
+			loader.classList.remove("hidding");
+			loader.classList.add("hidden");
+			loader.removeEventListener("transitionend", onHiddingEnd);
+		};
+		loader.addEventListener("transitionend", onHiddingEnd);
+	});
+	</script><!-- POPPERS -->
+	<div class="popper" data-popper-anchor-element="#languageBtn, #sideMenuLanguageBtn">
+		<div class="menu">
+			<div class="menu__item selected"><img src="../_layout-assets/img/flags/lang-1.svg" alt="">RU </div>
+			<div class="menu__item"><img src="../_layout-assets/img/flags/lang-4.svg" alt="">EN </div>
+			<div class="menu__item"><img src="../_layout-assets/img/flags/lang-3.svg" alt="">FN </div>
+			<div class="menu__item"><img src="../_layout-assets/img/flags/lang-2.svg" alt="">KZ </div>
+		</div>
+	</div>
+	<div class="notifications popper" data-popper-anchor-element="#notifyBtn">
+		<div class="notifications__header">
+			<div class="notifications__header-title">2 новых уведомления</div>
+			<div class="notifications__header-subtitle"><button class="notifications__clean-btn button text small">Очистить список</button><a class="notifications__view-all-btn button text small neutral" data-popper-close-element href="../notifications"> Посмотреть все <svg data-icon-name="chevron-right" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+						<path d="M8.29289 4.29289C7.90237 4.68342 7.90237 5.31658 8.29289 5.70711L14.5858 12L8.29289 18.2929C7.90237 18.6834 7.90237 19.3166 8.29289 19.7071C8.68342 20.0976 9.31658 20.0976 9.70711 19.7071L16.7071 12.7071C17.0976 12.3166 17.0976 11.6834 16.7071 11.2929L9.70711 4.29289C9.31658 3.90237 8.68342 3.90237 8.29289 4.29289Z"></path>
+					</svg></a></div>
+		</div>
+		<div class="notifications__body">
+			<div class="notification new">
+				<div class="notification__status status-dot"></div>
+				<div class="notification__title">Deoposit Successful</div>
+				<div class="notification__subtitle">You have have deposites 13 13 TX at 2021...</div>
+				<div class="notification__date">1 час назад</div>
+			</div>
+			<div class="notification new">
+				<div class="notification__status status-dot"></div>
+				<div class="notification__title">Deoposit Successful</div>
+				<div class="notification__subtitle">You have have deposites 13 13 TX at 2021...</div>
+				<div class="notification__date">1 час назад</div>
+			</div>
+		</div>
+	</div><!-- MODALS -->
+	<form class="modal" id="changeUserdataDialog">
+		<div class="modal__content">
+			<div class="dialog max-width-xs full-width">
+				<div class="dialog__title">Изменить личные данные<button class="icon-button contained small color-gray" type="button" data-close-modal><svg data-icon-name="close" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M15.9819 3.35147C16.4505 3.8201 16.4505 4.5799 15.9819 5.04853L11.364 9.66667L15.9819 14.2848C16.4115 14.7144 16.4473 15.3886 16.0893 15.859L15.9819 15.9819C15.5132 16.4505 14.7535 16.4505 14.2848 15.9819L9.66667 11.364L5.04853 15.9819C4.5799 16.4505 3.8201 16.4505 3.35147 15.9819C2.88284 15.5132 2.88284 14.7535 3.35147 14.2848L7.96933 9.66667L3.35147 5.04853C2.9219 4.61895 2.8861 3.94471 3.24408 3.47436L3.35147 3.35147C3.8201 2.88284 4.5799 2.88284 5.04853 3.35147L9.66667 7.96933L14.2848 3.35147C14.7535 2.88284 15.5132 2.88284 15.9819 3.35147Z"></path>
+						</svg></button></div>
+				<div class="dialog__content">
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__label">Логин</div>
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="login" value="kris_anfalova" type="text" placeholder="kris_anfalova"></div>
+						</div>
+					</div>
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__label">Ваше имя</div>
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="name" value="Кристина" type="text" placeholder="Кристина"></div>
+						</div>
+					</div>
+					<div class="field" style="margin-bottom:undefinedrem">
+						<div class="field__label">Электронная почта</div>
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="email" value="anfalovakristina@mail.ru" type="text" placeholder="anfalovakristina@mail.ru"></div>
+						</div>
+					</div>
+				</div>
+				<div class="dialog__actions"><button class="button contained full-width" type="submit">Сохранить</button></div>
+			</div>
+		</div>
+	</form>
+	<form class="modal" id="changePasswordDialog">
+		<div class="modal__content">
+			<div class="dialog max-width-xs full-width">
+				<div class="dialog__title">Сменить пароль<button class="icon-button contained small color-gray" type="button" data-close-modal><svg data-icon-name="close" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M15.9819 3.35147C16.4505 3.8201 16.4505 4.5799 15.9819 5.04853L11.364 9.66667L15.9819 14.2848C16.4115 14.7144 16.4473 15.3886 16.0893 15.859L15.9819 15.9819C15.5132 16.4505 14.7535 16.4505 14.2848 15.9819L9.66667 11.364L5.04853 15.9819C4.5799 16.4505 3.8201 16.4505 3.35147 15.9819C2.88284 15.5132 2.88284 14.7535 3.35147 14.2848L7.96933 9.66667L3.35147 5.04853C2.9219 4.61895 2.8861 3.94471 3.24408 3.47436L3.35147 3.35147C3.8201 2.88284 4.5799 2.88284 5.04853 3.35147L9.66667 7.96933L14.2848 3.35147C14.7535 2.88284 15.5132 2.88284 15.9819 3.35147Z"></path>
+						</svg></button></div>
+				<div class="dialog__content">
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__label">Старый пароль</div>
+						<div class="field__input-wrapper">
+							<div class="input-password input"><input class="input-url-sync" data-url-sync-disabled name="oldPassword" type="password" placeholder="••••••••"><button class="icon-button text color-text-color attach-full" slot="end" type="button"><svg data-icon-name="eye-on" class="input-password__eye-on-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M12.0004 9.00462C14.2095 9.00462 16.0004 10.7955 16.0004 13.0046C16.0004 15.2138 14.2095 17.0046 12.0004 17.0046C9.79122 17.0046 8.00036 15.2138 8.00036 13.0046C8.00036 10.7955 9.79122 9.00462 12.0004 9.00462ZM12.0004 5.5C16.6139 5.5 20.5965 8.65001 21.7015 13.0644C21.8021 13.4662 21.5579 13.8735 21.1561 13.9741C20.7542 14.0746 20.347 13.8305 20.2464 13.4286C19.3075 9.67796 15.9217 7 12.0004 7C8.07729 7 4.69046 9.68026 3.75322 13.4332C3.65286 13.835 3.24572 14.0794 2.84385 13.9791C2.44197 13.8787 2.19755 13.4716 2.29792 13.0697C3.40101 8.65272 7.38484 5.5 12.0004 5.5Z"></path>
+									</svg><svg data-icon-name="eye-off" class="input-password__eye-off-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M2.21967 2.21967C1.9534 2.48594 1.9292 2.9026 2.14705 3.19621L2.21967 3.28033L6.25424 7.3149C4.33225 8.66437 2.89577 10.6799 2.29888 13.0644C2.1983 13.4662 2.4425 13.8735 2.84431 13.9741C3.24613 14.0746 3.6534 13.8305 3.75399 13.4286C4.28346 11.3135 5.59112 9.53947 7.33416 8.39452L9.14379 10.2043C8.43628 10.9258 8 11.9143 8 13.0046C8 15.2138 9.79086 17.0046 12 17.0046C13.0904 17.0046 14.0788 16.5683 14.8004 15.8608L20.7197 21.7803C21.0126 22.0732 21.4874 22.0732 21.7803 21.7803C22.0466 21.5141 22.0708 21.0974 21.8529 20.8038L21.7803 20.7197L15.6668 14.6055L15.668 14.604L8.71877 7.65782L8.72 7.656L7.58672 6.52549L3.28033 2.21967C2.98744 1.92678 2.51256 1.92678 2.21967 2.21967ZM12 5.5C10.9997 5.5 10.0291 5.64807 9.11109 5.925L10.3481 7.16119C10.8839 7.05532 11.4364 7 12 7C15.9231 7 19.3099 9.68026 20.2471 13.4332C20.3475 13.835 20.7546 14.0794 21.1565 13.9791C21.5584 13.8787 21.8028 13.4716 21.7024 13.0697C20.5994 8.65272 16.6155 5.5 12 5.5ZM12.1947 9.00928L15.996 12.81C15.8942 10.7531 14.2472 9.10764 12.1947 9.00928Z"></path>
+									</svg></button></div>
+						</div>
+					</div>
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__label">Новый пароль</div>
+						<div class="field__input-wrapper">
+							<div class="input-password input"><input class="input-url-sync" data-url-sync-disabled name="newPassword" type="password" placeholder="••••••••"><button class="icon-button text color-text-color attach-full" slot="end" type="button"><svg data-icon-name="eye-on" class="input-password__eye-on-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M12.0004 9.00462C14.2095 9.00462 16.0004 10.7955 16.0004 13.0046C16.0004 15.2138 14.2095 17.0046 12.0004 17.0046C9.79122 17.0046 8.00036 15.2138 8.00036 13.0046C8.00036 10.7955 9.79122 9.00462 12.0004 9.00462ZM12.0004 5.5C16.6139 5.5 20.5965 8.65001 21.7015 13.0644C21.8021 13.4662 21.5579 13.8735 21.1561 13.9741C20.7542 14.0746 20.347 13.8305 20.2464 13.4286C19.3075 9.67796 15.9217 7 12.0004 7C8.07729 7 4.69046 9.68026 3.75322 13.4332C3.65286 13.835 3.24572 14.0794 2.84385 13.9791C2.44197 13.8787 2.19755 13.4716 2.29792 13.0697C3.40101 8.65272 7.38484 5.5 12.0004 5.5Z"></path>
+									</svg><svg data-icon-name="eye-off" class="input-password__eye-off-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M2.21967 2.21967C1.9534 2.48594 1.9292 2.9026 2.14705 3.19621L2.21967 3.28033L6.25424 7.3149C4.33225 8.66437 2.89577 10.6799 2.29888 13.0644C2.1983 13.4662 2.4425 13.8735 2.84431 13.9741C3.24613 14.0746 3.6534 13.8305 3.75399 13.4286C4.28346 11.3135 5.59112 9.53947 7.33416 8.39452L9.14379 10.2043C8.43628 10.9258 8 11.9143 8 13.0046C8 15.2138 9.79086 17.0046 12 17.0046C13.0904 17.0046 14.0788 16.5683 14.8004 15.8608L20.7197 21.7803C21.0126 22.0732 21.4874 22.0732 21.7803 21.7803C22.0466 21.5141 22.0708 21.0974 21.8529 20.8038L21.7803 20.7197L15.6668 14.6055L15.668 14.604L8.71877 7.65782L8.72 7.656L7.58672 6.52549L3.28033 2.21967C2.98744 1.92678 2.51256 1.92678 2.21967 2.21967ZM12 5.5C10.9997 5.5 10.0291 5.64807 9.11109 5.925L10.3481 7.16119C10.8839 7.05532 11.4364 7 12 7C15.9231 7 19.3099 9.68026 20.2471 13.4332C20.3475 13.835 20.7546 14.0794 21.1565 13.9791C21.5584 13.8787 21.8028 13.4716 21.7024 13.0697C20.5994 8.65272 16.6155 5.5 12 5.5ZM12.1947 9.00928L15.996 12.81C15.8942 10.7531 14.2472 9.10764 12.1947 9.00928Z"></path>
+									</svg></button></div>
+						</div>
+					</div>
+					<div class="field" style="margin-bottom:undefinedrem">
+						<div class="field__label">Повторите новый пароль</div>
+						<div class="field__input-wrapper">
+							<div class="input-password input"><input class="input-url-sync" data-url-sync-disabled name="confirmPassword" type="password" placeholder="••••••••"><button class="icon-button text color-text-color attach-full" slot="end" type="button"><svg data-icon-name="eye-on" class="input-password__eye-on-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M12.0004 9.00462C14.2095 9.00462 16.0004 10.7955 16.0004 13.0046C16.0004 15.2138 14.2095 17.0046 12.0004 17.0046C9.79122 17.0046 8.00036 15.2138 8.00036 13.0046C8.00036 10.7955 9.79122 9.00462 12.0004 9.00462ZM12.0004 5.5C16.6139 5.5 20.5965 8.65001 21.7015 13.0644C21.8021 13.4662 21.5579 13.8735 21.1561 13.9741C20.7542 14.0746 20.347 13.8305 20.2464 13.4286C19.3075 9.67796 15.9217 7 12.0004 7C8.07729 7 4.69046 9.68026 3.75322 13.4332C3.65286 13.835 3.24572 14.0794 2.84385 13.9791C2.44197 13.8787 2.19755 13.4716 2.29792 13.0697C3.40101 8.65272 7.38484 5.5 12.0004 5.5Z"></path>
+									</svg><svg data-icon-name="eye-off" class="input-password__eye-off-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M2.21967 2.21967C1.9534 2.48594 1.9292 2.9026 2.14705 3.19621L2.21967 3.28033L6.25424 7.3149C4.33225 8.66437 2.89577 10.6799 2.29888 13.0644C2.1983 13.4662 2.4425 13.8735 2.84431 13.9741C3.24613 14.0746 3.6534 13.8305 3.75399 13.4286C4.28346 11.3135 5.59112 9.53947 7.33416 8.39452L9.14379 10.2043C8.43628 10.9258 8 11.9143 8 13.0046C8 15.2138 9.79086 17.0046 12 17.0046C13.0904 17.0046 14.0788 16.5683 14.8004 15.8608L20.7197 21.7803C21.0126 22.0732 21.4874 22.0732 21.7803 21.7803C22.0466 21.5141 22.0708 21.0974 21.8529 20.8038L21.7803 20.7197L15.6668 14.6055L15.668 14.604L8.71877 7.65782L8.72 7.656L7.58672 6.52549L3.28033 2.21967C2.98744 1.92678 2.51256 1.92678 2.21967 2.21967ZM12 5.5C10.9997 5.5 10.0291 5.64807 9.11109 5.925L10.3481 7.16119C10.8839 7.05532 11.4364 7 12 7C15.9231 7 19.3099 9.68026 20.2471 13.4332C20.3475 13.835 20.7546 14.0794 21.1565 13.9791C21.5584 13.8787 21.8028 13.4716 21.7024 13.0697C20.5994 8.65272 16.6155 5.5 12 5.5ZM12.1947 9.00928L15.996 12.81C15.8942 10.7531 14.2472 9.10764 12.1947 9.00928Z"></path>
+									</svg></button></div>
+						</div>
+					</div>
+				</div>
+				<div class="dialog__actions"><button class="button contained full-width" type="submit">Сохранить</button></div>
+			</div>
+		</div>
+	</form>
+	<form class="modal" id="changeWalletDialog">
+		<div class="modal__content">
+			<div class="dialog max-width-xs full-width">
+				<div class="dialog__title">Изменить адрес кошелька<button class="icon-button contained small color-gray" type="button" data-close-modal><svg data-icon-name="close" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M15.9819 3.35147C16.4505 3.8201 16.4505 4.5799 15.9819 5.04853L11.364 9.66667L15.9819 14.2848C16.4115 14.7144 16.4473 15.3886 16.0893 15.859L15.9819 15.9819C15.5132 16.4505 14.7535 16.4505 14.2848 15.9819L9.66667 11.364L5.04853 15.9819C4.5799 16.4505 3.8201 16.4505 3.35147 15.9819C2.88284 15.5132 2.88284 14.7535 3.35147 14.2848L7.96933 9.66667L3.35147 5.04853C2.9219 4.61895 2.8861 3.94471 3.24408 3.47436L3.35147 3.35147C3.8201 2.88284 4.5799 2.88284 5.04853 3.35147L9.66667 7.96933L14.2848 3.35147C14.7535 2.88284 15.5132 2.88284 15.9819 3.35147Z"></path>
+						</svg></button></div>
+				<div class="dialog__content">
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="walletAddress" value="0x29D7d1dd5B6f9C864d9db560D72a28qwerqv" type="text" placeholder="Адрес кошелька"></div>
+						</div>
+					</div>
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="code" type="text" placeholder="Код с Google Authenticator"></div>
+						</div>
+					</div>
+				</div>
+				<div class="dialog__actions"><button class="button contained full-width" type="submit">Сохранить</button></div>
+			</div>
+		</div>
+	</form><!-- MEDIA VIEWER --><!-- MAIN -->
+	<div class="container">
+		<div class="side-menu" id="sideMenu">
+			<div class="side-menu__overlay"></div>
+			<div class="side-menu__body"><a class="side-menu__link" href="#"><svg data-icon-name="arrow-left" class="svg-icon" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+						<path d="M8.73171 16.7948C9.03264 17.0795 9.50733 17.0662 9.79196 16.7653C10.0766 16.4644 10.0634 15.9897 9.76243 15.7051L4.52339 10.75H17.2471C17.6613 10.75 17.9971 10.4142 17.9971 9.99995C17.9971 9.58574 17.6613 9.24995 17.2471 9.24995H4.52112L9.76243 4.29269C10.0634 4.00807 10.0766 3.53338 9.79196 3.23245C9.50733 2.93151 9.03264 2.91829 8.73171 3.20291L2.31449 9.27236C2.14819 9.42964 2.04819 9.62975 2.01448 9.83854C2.00308 9.89053 1.99707 9.94454 1.99707 9.99995C1.99707 10.0575 2.00356 10.1136 2.01585 10.1675C2.05084 10.3733 2.15039 10.5702 2.31449 10.7254L8.73171 16.7948Z"></path>
+					</svg> Вернуться на сайт </a>
+				<div class="side-menu__cluster">Cluster №245</div>
+				<div class="side-menu__profile-container">
+					<div class="side-menu__profile profile">
+						<div class="profile__img"><img src="../_layout-assets/img/profile.png" alt=""></div>
+						<div class="profile__descr">
+							<div class="profile__name">kris_anfasdfasdfasdfasdalova</div>
+							<div class="profile__level">4 уровень</div>
+						</div>
+					</div>
+					<div class="side-menu__language language-btn" id="sideMenuLanguageBtn"><span class="language-btn__text">RU</span><svg data-icon-name="chevron-bottom" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+							<path d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z"></path>
+						</svg></div>
+				</div>
+				<div class="side-menu__tabs"><a class="tab tab_to_main" data-key="dashboard" href=".."><svg data-icon-name="pie-chart" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M10 3C6.13401 3 3 6.13401 3 10C3 13.866 6.13401 17 10 17C11.933 17 13.683 16.2165 14.9497 14.9497C16.2165 13.683 17 11.933 17 10C17 6.13401 13.866 3 10 3ZM2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10Z"></path>
+							<path d="M10 3C6.13401 3 3 6.13401 3 10C3 13.866 6.13401 17 10 17C11.933 17 13.683 16.2165 14.9497 14.9497L10 10V3Z"></path>
+						</svg>
+						<div class="tab__name">Dashboard</div>
+					</a><a class="tab" data-key="income" href="../income"><svg data-icon-name="wallet" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M3 4.5C3 3.67157 3.67157 3 4.5 3H14.5C15.3284 3 16 3.67157 16 4.5V5.08535C16.5826 5.29127 17 5.84689 17 6.5V15.5C17 16.3284 16.3284 17 15.5 17H5.5C4.11929 17 3 15.8807 3 14.5V4.5ZM4 4.5C4 4.77614 4.22386 5 4.5 5H15V4.5C15 4.22386 14.7761 4 14.5 4H4.5C4.22386 4 4 4.22386 4 4.5ZM14.5 11H13.5C13.2239 11 13 11.2239 13 11.5C13 11.7761 13.2239 12 13.5 12H14.5C14.7761 12 15 11.7761 15 11.5C15 11.2239 14.7761 11 14.5 11Z"></path>
+						</svg>
+						<div class="tab__name">Пополнение</div>
+					</a><a class="tab" data-key="actives" href="../actives"><svg data-icon-name="tag" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M18.0065 4.03302C18.0049 2.93471 17.1179 2.04321 16.0196 2.03601L11.1292 2.00395C10.5951 2.00045 10.0818 2.21071 9.7037 2.58789L3.02216 9.25243C2.23941 10.0332 2.2386 11.3009 3.02036 12.0827L7.96875 17.0311C8.7498 17.8121 10.0161 17.8121 10.7972 17.0311L17.428 10.4002C17.8038 10.0244 18.0146 9.51453 18.0138 8.98308L18.0065 4.03302ZM14 6.99985C13.4477 6.99985 13 6.55213 13 5.99985C13 5.44756 13.4477 4.99985 14 4.99985C14.5523 4.99985 15 5.44756 15 5.99985C15 6.55213 14.5523 6.99985 14 6.99985Z"></path>
+						</svg>
+						<div class="tab__name">Блок активов</div>
+					</a><a class="tab" data-key="outcome" href="../outcome"><svg data-icon-name="withdraw" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M15.0781 2.13672H4.92188C3.39453 2.13672 2.14844 3.38281 2.14844 4.91016C2.14844 6.27734 3.14062 7.41406 4.44141 7.64063V15.5039C4.44141 16.1328 4.6875 16.7266 5.13281 17.1719C5.57812 17.6172 6.16797 17.8633 6.80078 17.8633H13.2031C14.5039 17.8633 15.5586 16.8047 15.5586 15.5078V7.64063C16.8594 7.41406 17.8516 6.27344 17.8516 4.91016C17.8516 3.38281 16.6055 2.13672 15.0781 2.13672ZM12.4492 13.9336L10.4141 15.9688C10.3047 16.0781 10.1562 16.1406 10 16.1406C9.84375 16.1406 9.69531 16.0781 9.58594 15.9688L7.55078 13.9336C7.32031 13.7031 7.32031 13.332 7.55078 13.1055C7.78125 12.875 8.15234 12.875 8.37891 13.1055L9.41406 14.1406V10.5391C9.41406 10.2148 9.67578 9.95313 10 9.95313C10.3242 9.95313 10.5859 10.2148 10.5859 10.5391V14.1406L11.6211 13.1055C11.8516 12.875 12.2227 12.875 12.4492 13.1055C12.6797 13.3359 12.6797 13.707 12.4492 13.9336ZM8.23438 7.72656C8.23438 7.40234 8.49609 7.14063 8.82031 7.14063H11.1758C11.5 7.14063 11.7617 7.40234 11.7617 7.72656C11.7617 8.05078 11.5 8.3125 11.1758 8.3125H8.82031C8.49609 8.3125 8.23438 8.04688 8.23438 7.72656ZM15.5586 6.4375V5.49609H15.6211C15.9453 5.49609 16.207 5.23438 16.207 4.91016C16.207 4.58594 15.9453 4.32422 15.6211 4.32422H4.37891C4.05469 4.32422 3.79297 4.58594 3.79297 4.91016C3.79297 5.23438 4.05469 5.49609 4.37891 5.49609H4.44141V6.4375C3.79297 6.23438 3.32031 5.62891 3.32031 4.91016C3.32031 4.02734 4.03906 3.30859 4.92188 3.30859H15.0781C15.9609 3.30859 16.6797 4.02734 16.6797 4.91016C16.6797 5.62891 16.207 6.23438 15.5586 6.4375Z"></path>
+						</svg>
+						<div class="tab__name">Вывод средств</div>
+					</a>
+					<div class="tab-group">
+						<div class="tab-group__label"><svg data-icon-name="globe-persone" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+								<path d="M9.99966 1.66602C14.6028 1.66602 18.3343 5.39755 18.3343 10.0006C18.3343 10.5537 18.2804 11.0942 18.1776 11.6172C17.9733 11.0663 17.5804 10.607 17.0773 10.3178C17.082 10.2126 17.0843 10.1069 17.0843 10.0006C17.0843 9.42614 17.0159 8.8676 16.8868 8.33274L14.0885 8.33345C14.1406 8.87296 14.1676 9.43063 14.1676 10.0006C14.1676 10.2129 14.1639 10.4234 14.1565 10.6319C13.6507 11.0894 13.3329 11.7508 13.3329 12.4865C13.3329 12.9806 13.4762 13.4411 13.7235 13.8289C13.696 13.9395 13.6672 14.0486 13.6373 14.1562C12.8849 14.1961 12.2384 14.6353 11.9058 15.2658C12.1126 14.8241 12.2964 14.3143 12.4488 13.7504H7.55058C8.09395 15.7622 9.0384 17.0853 9.99966 17.0853C10.6632 17.0853 11.3187 16.4549 11.8398 15.4028C11.7282 15.6581 11.6663 15.9401 11.6663 16.2365C11.6663 16.9174 11.8311 17.5336 12.1296 18.0606C11.4497 18.2398 10.7358 18.3353 9.99966 18.3353C5.39658 18.3353 1.66504 14.6037 1.66504 10.0006C1.66504 5.39755 5.39658 1.66602 9.99966 1.66602ZM6.25659 13.7509L3.98785 13.7508C4.78647 15.0283 5.98101 16.033 7.39966 16.593C6.96443 15.9098 6.60527 15.0545 6.3411 14.0801L6.25659 13.7509ZM5.91085 8.33343H3.11285L3.10888 8.34777C2.98215 8.87807 2.91504 9.43152 2.91504 10.0006C2.91504 10.8808 3.07553 11.7234 3.36884 12.5009L6.01314 12.5006C5.89456 11.7097 5.83171 10.8695 5.83171 10.0006C5.83171 9.43063 5.85876 8.87296 5.91085 8.33343ZM7.16889 8.33349C7.11221 8.86704 7.08171 9.42513 7.08171 10.0006C7.08171 10.8836 7.15349 11.7255 7.28148 12.5007H12.7178C12.8458 11.7255 12.9176 10.8836 12.9176 10.0006C12.9176 9.42513 12.8871 8.86704 12.8304 8.33349H7.16889ZM7.40054 3.40827L7.38145 3.41553C5.67536 4.09446 4.29534 5.41722 3.54145 7.08377L6.08156 7.08407C6.34268 5.62341 6.79839 4.35181 7.40054 3.40827ZM9.99966 2.91602L9.90329 2.92043C8.84875 3.0169 7.83002 4.6852 7.35693 7.08373H12.6424C12.1706 4.69192 11.1563 3.02625 10.1049 2.92128L9.99966 2.91602ZM12.5997 3.40832L12.6887 3.5534C13.2464 4.48045 13.6698 5.69702 13.9178 7.08407L16.4579 7.08377C15.7373 5.49093 14.4448 4.21215 12.8423 3.50938L12.5997 3.40832Z"></path>
+								<path d="M17.9163 14.9865C18.6066 14.9865 19.1663 15.5462 19.1663 16.2365C19.1663 17.1666 18.7838 17.9118 18.1561 18.4155C17.5384 18.9114 16.7105 19.1532 15.8329 19.1532C14.9554 19.1532 14.1274 18.9114 13.5097 18.4155C13.2898 18.239 13.1 18.0328 12.9461 17.7995C12.661 17.3668 12.4996 16.8407 12.4996 16.2365C12.4996 15.6865 12.8549 15.2194 13.3485 15.0523C13.4744 15.0096 13.6093 14.9865 13.7496 14.9865L17.9163 14.9865Z"></path>
+								<path d="M17.4996 12.4865C17.4996 13.407 16.7534 14.1532 15.8329 14.1532C15.8025 14.1532 15.7722 14.1524 15.7421 14.1508C15.3628 14.1304 15.0172 13.9832 14.7469 13.7508C14.3947 13.448 14.1705 13.0006 14.1663 12.5006C14.1663 12.4959 14.1663 12.4912 14.1663 12.4865C14.1663 11.5661 14.9125 10.8199 15.8329 10.8199C16.273 10.8199 16.6732 10.9904 16.9711 11.269C17.2963 11.5731 17.4996 12.0061 17.4996 12.4865Z"></path>
+							</svg>
+							<div class="tab-group__name">Партнёрам</div>
+							<div class="tab-group__expand"><svg data-icon-name="chevron-left" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<path d="M15.7071 4.29289C16.0976 4.68342 16.0976 5.31658 15.7071 5.70711L9.41421 12L15.7071 18.2929C16.0976 18.6834 16.0976 19.3166 15.7071 19.7071C15.3166 20.0976 14.6834 20.0976 14.2929 19.7071L7.29289 12.7071C6.90237 12.3166 6.90237 11.6834 7.29289 11.2929L14.2929 4.29289C14.6834 3.90237 15.3166 3.90237 15.7071 4.29289Z"></path>
+								</svg></div>
+						</div>
+						<div class="tab-group__tabs"><a class="tab" data-key="personal-partners" href="../personal-partners"><svg data-icon-name="people" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<path d="M3.5 14L13.5 14.001C14.2793 14.001 14.9204 14.5963 14.9931 15.3566L15 15.501V17.5C14.999 21 11.284 22 8.5 22C5.77787 22 2.1647 21.044 2.00545 17.7296L2 17.5V15.5C2 14.7207 2.59527 14.0796 3.35561 14.0069L3.5 14ZM15.488 14H20.5C21.2793 14 21.9204 14.5944 21.9931 15.3555L22 15.5V17C21.999 20.062 19.142 21 17 21C16.32 21 15.569 20.904 14.86 20.678C15.5128 19.9277 15.9362 18.9748 15.9934 17.78L16 17.5V15.5C16 15.0056 15.8507 14.5488 15.601 14.1616L15.488 14H20.5H15.488ZM8.5 3C10.985 3 13 5.015 13 7.5C13 9.985 10.985 12 8.5 12C6.015 12 4 9.985 4 7.5C4 5.015 6.015 3 8.5 3ZM17.5 5C19.433 5 21 6.567 21 8.5C21 10.433 19.433 12 17.5 12C15.567 12 14 10.433 14 8.5C14 6.567 15.567 5 17.5 5Z"></path>
+								</svg>
+								<div class="tab__name">Личные партнёры</div>
+							</a><a class="tab" data-key="statuses" href="../statuses"><svg data-icon-name="record" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+									<path d="M10 15C12.7614 15 15 12.7614 15 10C15 7.23858 12.7614 5 10 5C7.23858 5 5 7.23858 5 10C5 12.7614 7.23858 15 10 15ZM10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2ZM3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10Z"></path>
+								</svg>
+								<div class="tab__name">Статусы</div>
+							</a></div>
+					</div><a class="tab" data-key="operations" href="../operations"><svg data-icon-name="clock" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M10 2C14.4183 2 18 5.58172 18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2ZM9.5 5C9.22386 5 9 5.22386 9 5.5V10.5L9.00806 10.5899C9.05039 10.8231 9.25454 11 9.5 11H12.5L12.5899 10.9919C12.8231 10.9496 13 10.7455 13 10.5C13 10.2239 12.7761 10 12.5 10H10V5.5L9.99194 5.41012C9.94961 5.17688 9.74546 5 9.5 5Z"></path>
+						</svg>
+						<div class="tab__name">История операций</div>
+					</a><a class="tab tab_active" data-key="settings" href=""><svg data-icon-name="settings" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M1.91099 7.38266C2.28028 6.24053 2.88863 5.19213 3.69133 4.30364C3.82707 4.15339 4.04002 4.09984 4.23069 4.16802L6.14897 4.85392C6.66905 5.03977 7.24131 4.76883 7.42716 4.24875C7.44544 4.19762 7.45952 4.14507 7.46925 4.09173L7.83471 2.08573C7.87104 1.88627 8.02422 1.7285 8.22251 1.6863C8.8027 1.5628 9.39758 1.5 10.0003 1.5C10.6026 1.5 11.1971 1.56273 11.7769 1.68607C11.9752 1.72824 12.1284 1.88591 12.1648 2.08529L12.5313 4.09165C12.6303 4.63497 13.1511 4.9951 13.6944 4.89601C13.7479 4.88627 13.8004 4.87219 13.8515 4.85395L15.7698 4.16802C15.9605 4.09984 16.1734 4.15339 16.3092 4.30364C17.1119 5.19213 17.7202 6.24053 18.0895 7.38266C18.1518 7.57534 18.0918 7.78658 17.9374 7.91764L16.3825 9.23773C15.9615 9.5952 15.9101 10.2263 16.2675 10.6473C16.3027 10.6887 16.3411 10.7271 16.3825 10.7623L17.9374 12.0824C18.0918 12.2134 18.1518 12.4247 18.0895 12.6173C17.7202 13.7595 17.1119 14.8079 16.3092 15.6964C16.1734 15.8466 15.9605 15.9002 15.7698 15.832L13.8515 15.1461C13.3315 14.9602 12.7592 15.2312 12.5733 15.7512C12.5551 15.8024 12.541 15.8549 12.5312 15.9085L12.1648 17.9147C12.1284 18.1141 11.9752 18.2718 11.7769 18.3139C11.1971 18.4373 10.6026 18.5 10.0003 18.5C9.39758 18.5 8.8027 18.4372 8.22251 18.3137C8.02422 18.2715 7.87104 18.1137 7.83471 17.9143L7.46926 15.9084C7.37018 15.365 6.8494 15.0049 6.30608 15.104C6.25265 15.1137 6.20011 15.1278 6.14906 15.1461L4.23069 15.832C4.04002 15.9002 3.82707 15.8466 3.69133 15.6964C2.88863 14.8079 2.28028 13.7595 1.91099 12.6173C1.84869 12.4247 1.90876 12.2134 2.06313 12.0824L3.61798 10.7623C4.03897 10.4048 4.09046 9.77373 3.73299 9.35274C3.69784 9.31135 3.65937 9.27288 3.618 9.23775L2.06313 7.91764C1.90876 7.78658 1.84869 7.57534 1.91099 7.38266ZM8.00026 10C8.00026 11.1046 8.89569 12 10.0003 12C11.1048 12 12.0003 11.1046 12.0003 10C12.0003 8.89543 11.1048 8 10.0003 8C8.89569 8 8.00026 8.89543 8.00026 10Z"></path>
+						</svg>
+						<div class="tab__name">Настройки</div>
+					</a><a class="tab" data-key="info" href="../info"><svg data-icon-name="chat" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+							<path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.3596 22 8.77516 21.6039 7.35578 20.8583L3.06538 21.9753C2.6111 22.0937 2.1469 21.8213 2.02858 21.367C1.99199 21.2266 1.99198 21.0791 2.02855 20.9386L3.1449 16.6502C2.3972 15.2294 2 13.6428 2 12C2 6.47715 6.47715 2 12 2ZM13.2517 13H8.75L8.64823 13.0068C8.28215 13.0565 8 13.3703 8 13.75C8 14.1297 8.28215 14.4435 8.64823 14.4932L8.75 14.5H13.2517L13.3535 14.4932C13.7196 14.4435 14.0017 14.1297 14.0017 13.75C14.0017 13.3703 13.7196 13.0565 13.3535 13.0068L13.2517 13ZM15.25 9.5H8.75L8.64823 9.50685C8.28215 9.55651 8 9.8703 8 10.25C8 10.6297 8.28215 10.9435 8.64823 10.9932L8.75 11H15.25L15.3518 10.9932C15.7178 10.9435 16 10.6297 16 10.25C16 9.8703 15.7178 9.55651 15.3518 9.50685L15.25 9.5Z"></path>
+						</svg>
+						<div class="tab__name">Контакты</div>
+					</a>
+				</div><a class="side-menu__exit">Выйти</a>
+			</div>
+		</div>
+		<div class="main">
+			<header class="header" id="header">
+				<div class="header__left"><button class="header__burger-btn icon-button text large color-text-color">
+						<div class="pseudo-svg">
+							<div class="pseudo-svg__rect" style="top: 20%; left: 10%; width: 80%; height: 7.5%; border-radius: 10px"></div>
+							<div class="pseudo-svg__rect" style="top: 45%; left: 10%; width: 80%; height: 7.5%; border-radius: 10px"></div>
+							<div class="pseudo-svg__rect" style="top: 70%; left: 10%; width: 80%; height: 7.5%; border-radius: 10px"></div>
+						</div>
+					</button>
+					<div class="header__title overflow">Настройки</div>
+				</div>
+				<div class="header__right">
+					<div class="header__balance">
+						<div class="header__balance-icon"><svg data-icon-name="wallet-outlined" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+								<path d="M14.5 11H13.5C13.2239 11 13 11.2239 13 11.5C13 11.7761 13.2239 12 13.5 12H14.5C14.7761 12 15 11.7761 15 11.5C15 11.2239 14.7761 11 14.5 11ZM4.5 3C3.67157 3 3 3.67157 3 4.5V14.5C3 15.8807 4.11929 17 5.5 17H15.5C16.3284 17 17 16.3284 17 15.5V6.5C17 5.84689 16.5826 5.29127 16 5.08535V4.5C16 3.67157 15.3284 3 14.5 3H4.5ZM4 14.5V5.91465C4.15639 5.96992 4.32468 6 4.5 6H15.5C15.7761 6 16 6.22386 16 6.5V15.5C16 15.7761 15.7761 16 15.5 16H5.5C4.67157 16 4 15.3284 4 14.5ZM4.5 4H14.5C14.7761 4 15 4.22386 15 4.5V5H4.5C4.22386 5 4 4.77614 4 4.5C4 4.22386 4.22386 4 4.5 4Z"></path>
+							</svg></div>
+						<div class="header__balance-value">0 USDT</div>
+					</div>
+					<div class="header__widgets">
+						<div class="header__widget">
+							<div class="header__widget-icon"><!-- icon: mail --><svg data-icon-name="mail" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<path d="M22 8.608V16.75C22 18.483 20.6435 19.8992 18.9344 19.9949L18.75 20H5.25C3.51697 20 2.10075 18.6435 2.00514 16.9344L2 16.75V8.608L11.652 13.6644C11.87 13.7785 12.13 13.7785 12.348 13.6644L22 8.608ZM5.25 4H18.75C20.4347 4 21.8201 5.28191 21.9838 6.92355L12 12.1533L2.01619 6.92355C2.17386 5.34271 3.46432 4.09545 5.06409 4.00523L5.25 4H18.75H5.25Z"></path>
+								</svg></div>
+						</div>
+						<div class="header__widget" id="notifyBtn">
+							<div class="header__widget-icon"><!-- icon: alert --><svg data-icon-name="alert" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<path d="M9.04173 19.003H14.9583C14.7196 20.4211 13.486 21.5015 12 21.5015C10.514 21.5015 9.28037 20.4211 9.04173 19.003ZM12 2.00391C16.1421 2.00391 19.5 5.36177 19.5 9.50391V13.5024L20.9183 16.6625C20.9732 16.7848 21.0016 16.9174 21.0016 17.0515C21.0016 17.5762 20.5763 18.0015 20.0516 18.0015H3.95219C3.8184 18.0015 3.68613 17.9733 3.56402 17.9186C3.08515 17.7042 2.87073 17.1422 3.08511 16.6633L4.50001 13.5028L4.50011 9.49099L4.50453 9.24107C4.6436 5.21035 7.95588 2.00391 12 2.00391Z"></path>
+								</svg></div>
+						</div>
+					</div>
+					<div class="header__language language-btn" id="languageBtn"><span class="language-btn__text">RU</span><svg data-icon-name="chevron-bottom" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+							<path d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z"></path>
+						</svg></div><a class="header__exit mdn" href="#">Выйти</a>
+				</div>
+			</header>
+			<div class="content">
+				<div class="content-settings">
+					<div class="content-settings__userdata userdata">
+						<div class="userdata__avatar"><img class="userdata__avatar-img" src="../_layout-assets/img/profile.png">
+							<div class="userdata__avatar-edit-overlay"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+									<path d="M21.9247 10.5039C22.7225 10.5039 23.4607 10.9264 23.8647 11.6143L24.6793 13.0009H26.75C28.5449 13.0009 30 14.4559 30 16.2509V25.7509C30 27.5458 28.5449 29.0009 26.75 29.0009H13.25C11.4551 29.0009 10 27.5458 10 25.7509V16.2509C10 14.4559 11.4551 13.0009 13.25 13.0009H15.3304L16.205 11.5766C16.6143 10.9101 17.3403 10.5039 18.1224 10.5039H21.9247ZM20 16.0009C17.5147 16.0009 15.5 18.0156 15.5 20.5009C15.5 22.9861 17.5147 25.0009 20 25.0009C22.4853 25.0009 24.5 22.9861 24.5 20.5009C24.5 18.0156 22.4853 16.0009 20 16.0009ZM20 17.5009C21.6569 17.5009 23 18.844 23 20.5009C23 22.1577 21.6569 23.5009 20 23.5009C18.3431 23.5009 17 22.1577 17 20.5009C17 18.844 18.3431 17.5009 20 17.5009Z"></path>
+								</svg></div>
+						</div>
+						<div class="userdata__info">
+							<div class="userdata__name">Кристина</div>
+							<div class="userdata__other">
+								<div class="userdata__login">kris_anfalova</div>
+								<div class="userdata__email">anfalovakristina@mail.ru</div>
+							</div>
+						</div>
+						<div class="userdata__edit-btn-container"><button class="button text attach-full" data-open-modal="#changeUserdataDialog">Изменить</button></div>
+					</div>
+					<div class="content-settings__wallet wallet block">
+						<div class="wallet__title block__title"> Мой кошелёк <button class="button text attach-full" data-open-modal="#changeWalletDialog">Изменить</button></div>
+						<div class="block__content">
+							<div class="copy-text">
+								<div class="copy-text__value">0x29D7d1dd5B6f9C864d9db560D72a247c64d9db560D772a247c64</div>
+								<div class="copy-text__icon-wrapper"><svg data-icon-name="copy" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M8 4V16C8 16.5304 8.21071 17.0391 8.58579 17.4142C8.96086 17.7893 9.46957 18 10 18H18C18.5304 18 19.0391 17.7893 19.4142 17.4142C19.7893 17.0391 20 16.5304 20 16V7.242C20 6.97556 19.9467 6.71181 19.8433 6.46624C19.7399 6.22068 19.5885 5.99824 19.398 5.812L16.083 2.57C15.7094 2.20466 15.2076 2.00007 14.685 2H10C9.46957 2 8.96086 2.21071 8.58579 2.58579C8.21071 2.96086 8 3.46957 8 4V4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+										<path d="M16 18V20C16 20.5304 15.7893 21.0391 15.4142 21.4142C15.0391 21.7893 14.5304 22 14 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V9C4 8.46957 4.21071 7.96086 4.58579 7.58579C4.96086 7.21071 5.46957 7 6 7H8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+									</svg></div>
+								<div class="copy-text__success-tooltip tooltip top">
+									<div class="tooltip__content">Скопировано ✓</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="content-settings__socials editable-socials block">
+						<div class="block__title">Социальные сети</div>
+						<div class="editable-socials__content block__content">
+							<div class="editable-social"><svg data-icon-name="social-telegram" class="editable-social__icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<path fill-rule="evenodd" clip-rule="evenodd" d="M24 12C24 18.627 18.627 24 12 24C5.373 24 0 18.627 0 12C0 5.373 5.373 0 12 0C18.627 0 24 5.373 24 12ZM12.43 8.859C11.263 9.344 8.93 10.349 5.432 11.873C4.864 12.099 4.566 12.32 4.539 12.536C4.493 12.902 4.951 13.046 5.573 13.241C5.658 13.268 5.746 13.295 5.836 13.325C6.449 13.524 7.273 13.757 7.701 13.766C8.09 13.774 8.524 13.614 9.003 13.286C12.271 11.079 13.958 9.964 14.064 9.94C14.139 9.923 14.243 9.901 14.313 9.964C14.383 10.026 14.376 10.144 14.369 10.176C14.323 10.369 12.529 12.038 11.599 12.902C11.309 13.171 11.104 13.362 11.062 13.406C10.968 13.503 10.872 13.596 10.78 13.685C10.21 14.233 9.784 14.645 10.804 15.317C11.294 15.64 11.686 15.907 12.077 16.173C12.504 16.464 12.93 16.754 13.482 17.116C13.622 17.208 13.756 17.303 13.887 17.396C14.384 17.751 14.831 18.069 15.383 18.019C15.703 17.989 16.035 17.688 16.203 16.789C16.6 14.663 17.382 10.059 17.563 8.161C17.574 8.00341 17.5673 7.84509 17.543 7.689C17.5285 7.56293 17.4671 7.44693 17.371 7.364C17.228 7.247 17.006 7.222 16.906 7.224C16.455 7.232 15.763 7.473 12.43 8.859Z"></path>
+								</svg>
+								<div class="editable-social__add-btn">привязать</div>
+								<div class="editable-social__value">kris_anfalova</div><svg data-icon-name="edit" class="editable-social__edit-btn svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+									<path d="M11.677 4.38395L15.613 8.31995L7.57506 16.3586C7.36997 16.5636 7.12323 16.7212 6.85236 16.821L6.68708 16.8739L2.63211 17.9798C2.28552 18.0743 1.96546 17.7857 2.00301 17.4452L2.01817 17.3658L3.12407 13.3109C3.20039 13.031 3.33646 12.7718 3.52212 12.5508L3.63939 12.4229L11.677 4.38395ZM13.2452 2.81706C14.332 1.73025 16.0941 1.73025 17.1809 2.81706C18.2224 3.85858 18.2658 5.52026 17.3111 6.61346L17.1809 6.75273L16.32 7.61295L12.384 3.67695L13.2452 2.81706Z"></path>
+								</svg>
+							</div>
+							<div class="editable-social"><svg data-icon-name="social-instagram" class="editable-social__icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+									<g clip-path="url(#clip0_5932_66962)">
+										<path fill-rule="evenodd" clip-rule="evenodd" d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32ZM13.0639 15.9508C13.0639 14.3624 14.3601 13.0662 15.9485 13.0662C17.5368 13.0662 18.833 14.3624 18.833 15.9508C18.833 17.5391 17.5368 18.8353 15.9485 18.8353C14.3601 18.8353 13.0639 17.5391 13.0639 15.9508ZM24.6001 15.5138C24.6 15.6593 24.5998 15.805 24.5998 15.9508C24.5998 16.1138 24.6001 16.2767 24.6003 16.4393C24.6018 17.4686 24.6033 18.4917 24.5436 19.5213C24.4765 20.9063 24.1627 22.1332 23.1478 23.1481C22.1351 24.1609 20.906 24.4768 19.5211 24.5439C18.4743 24.6028 17.4342 24.6016 16.3875 24.6005C16.242 24.6003 16.0964 24.6001 15.9506 24.6001C15.8051 24.6001 15.6598 24.6003 15.5145 24.6005C14.4693 24.6016 13.4289 24.6028 12.3801 24.5439C10.9952 24.4768 9.7683 24.163 8.75342 23.1481C7.7407 22.1354 7.42477 20.9063 7.35769 19.5213C7.29879 18.4745 7.29994 17.4326 7.3011 16.387C7.30126 16.2416 7.30142 16.0963 7.30142 15.9508C7.30142 15.8053 7.30126 15.6599 7.3011 15.5146C7.29994 14.4694 7.29879 13.429 7.35769 12.3802C7.42477 10.9953 7.73854 9.76834 8.75342 8.75344C9.76613 7.74071 10.9952 7.42477 12.3801 7.35769C13.4269 7.29879 14.4671 7.29994 15.5137 7.3011C15.6592 7.30126 15.8048 7.30142 15.9506 7.30142C16.0961 7.30142 16.2415 7.30126 16.3868 7.3011C17.432 7.29994 18.4724 7.29879 19.5211 7.35769C20.906 7.42477 22.1329 7.73854 23.1478 8.75344C24.1605 9.76618 24.4765 10.9953 24.5436 12.3802C24.6024 13.427 24.6013 14.4672 24.6001 15.5138ZM11.5103 15.9508C11.5103 18.4069 13.4924 20.3891 15.9485 20.3891C18.4045 20.3891 20.3867 18.4069 20.3867 15.9508C20.3867 13.4947 18.4045 11.5125 15.9485 11.5125C13.4924 11.5125 11.5103 13.4947 11.5103 15.9508ZM19.5319 11.3307C19.5319 11.9042 19.995 12.3673 20.5684 12.3673C20.7046 12.3674 20.8395 12.3407 20.9653 12.2887C21.0911 12.2367 21.2055 12.1603 21.3017 12.064C21.398 11.9678 21.4744 11.8534 21.5264 11.7276C21.5784 11.6018 21.6051 11.4669 21.6049 11.3307C21.6049 10.7573 21.1419 10.2942 20.5684 10.2942C19.995 10.2942 19.5319 10.7573 19.5319 11.3307Z"></path>
+									</g>
+									<defs>
+										<clipPath id="clip0_5932_66962">
+											<rect width="32" height="32" fill="white"></rect>
+										</clipPath>
+									</defs>
+								</svg>
+								<div class="editable-social__add-btn">привязать</div>
+								<div class="editable-social__value">kris_anfalova</div><svg data-icon-name="edit" class="editable-social__edit-btn svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+									<path d="M11.677 4.38395L15.613 8.31995L7.57506 16.3586C7.36997 16.5636 7.12323 16.7212 6.85236 16.821L6.68708 16.8739L2.63211 17.9798C2.28552 18.0743 1.96546 17.7857 2.00301 17.4452L2.01817 17.3658L3.12407 13.3109C3.20039 13.031 3.33646 12.7718 3.52212 12.5508L3.63939 12.4229L11.677 4.38395ZM13.2452 2.81706C14.332 1.73025 16.0941 1.73025 17.1809 2.81706C18.2224 3.85858 18.2658 5.52026 17.3111 6.61346L17.1809 6.75273L16.32 7.61295L12.384 3.67695L13.2452 2.81706Z"></path>
+								</svg>
+							</div>
+							<div class="editable-social adding"><svg data-icon-name="social-facebook" class="editable-social__icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+									<path fill-rule="evenodd" clip-rule="evenodd" d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32ZM20.4426 10.0625H18.7715C17.4559 10.0625 17.207 10.6669 17.207 11.6002V13.618H20.3359L19.927 16.7825H17.207V24.8891H13.9359V16.7825H11.207V13.618H13.9359V11.2891C13.9359 8.58691 15.5893 7.11135 18.007 7.11135C18.8205 7.11012 19.6335 7.15166 20.4426 7.2358V10.0625Z"></path>
+								</svg>
+								<div class="editable-social__add-btn">привязать</div>
+								<div class="editable-social__value">kris_anfalova</div><svg data-icon-name="edit" class="editable-social__edit-btn svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+									<path d="M11.677 4.38395L15.613 8.31995L7.57506 16.3586C7.36997 16.5636 7.12323 16.7212 6.85236 16.821L6.68708 16.8739L2.63211 17.9798C2.28552 18.0743 1.96546 17.7857 2.00301 17.4452L2.01817 17.3658L3.12407 13.3109C3.20039 13.031 3.33646 12.7718 3.52212 12.5508L3.63939 12.4229L11.677 4.38395ZM13.2452 2.81706C14.332 1.73025 16.0941 1.73025 17.1809 2.81706C18.2224 3.85858 18.2658 5.52026 17.3111 6.61346L17.1809 6.75273L16.32 7.61295L12.384 3.67695L13.2452 2.81706Z"></path>
+								</svg>
+							</div>
+							<div class="editable-social"><svg data-icon-name="social-youtube" class="editable-social__icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+									<path fill-rule="evenodd" clip-rule="evenodd" d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32ZM23.1564 11.492C23.4 11.7229 23.5765 12.0155 23.6671 12.3387C23.906 13.5497 24.0177 14.7818 24.0004 16.016C24.0083 17.2451 23.8965 18.472 23.6664 19.6794C23.5762 20.0026 23.3999 20.2952 23.1564 20.526C22.9059 20.764 22.5989 20.9343 22.2644 21.0207C20.1835 21.2532 18.0902 21.3579 15.9964 21.334C15.9964 21.334 11.0051 21.334 9.73641 21.0047C9.39775 20.9147 9.08974 20.7447 8.84241 20.5094C8.59508 20.274 8.41708 19.9827 8.32574 19.6634C8.10108 18.454 7.99241 17.228 8.00041 16.0007C7.99261 14.7723 8.10154 13.5459 8.32574 12.338C8.41908 12.0174 8.59774 11.7247 8.84441 11.4874C9.09545 11.2476 9.40187 11.0735 9.73641 10.9807C11.8147 10.7482 13.9053 10.6436 15.9964 10.6674C15.9964 10.6674 21.0124 10.6674 22.2644 10.9974C22.5989 11.0838 22.9059 11.254 23.1564 11.492ZM14.4017 13.7187V18.2834L18.5751 16.0014L14.4017 13.7187Z"></path>
+								</svg>
+								<div class="editable-social__add-btn">привязать</div>
+								<div class="editable-social__value">kris_anfalova</div><svg data-icon-name="edit" class="editable-social__edit-btn svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+									<path d="M11.677 4.38395L15.613 8.31995L7.57506 16.3586C7.36997 16.5636 7.12323 16.7212 6.85236 16.821L6.68708 16.8739L2.63211 17.9798C2.28552 18.0743 1.96546 17.7857 2.00301 17.4452L2.01817 17.3658L3.12407 13.3109C3.20039 13.031 3.33646 12.7718 3.52212 12.5508L3.63939 12.4229L11.677 4.38395ZM13.2452 2.81706C14.332 1.73025 16.0941 1.73025 17.1809 2.81706C18.2224 3.85858 18.2658 5.52026 17.3111 6.61346L17.1809 6.75273L16.32 7.61295L12.384 3.67695L13.2452 2.81706Z"></path>
+								</svg>
+							</div>
+							<div class="editable-social"><svg data-icon-name="social-vk" class="editable-social__icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+									<path fill-rule="evenodd" clip-rule="evenodd" d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32ZM22.2517 21.6943H24.1961C24.7517 21.6943 25.0294 21.4165 24.8628 20.8749C24.4442 20.0314 23.8906 19.262 23.224 18.5971C22.9998 18.3321 22.7224 18.0605 22.4748 17.818C22.2161 17.5648 21.9899 17.3433 21.8906 17.1943C21.599 16.8193 21.6823 16.6526 21.8906 16.3332C22.9188 14.9355 23.7942 13.4315 24.5017 11.8471C24.6267 11.4304 24.5017 11.1387 23.9184 11.1387H21.974C21.7914 11.1261 21.6098 11.1736 21.4568 11.2739C21.3038 11.3742 21.1879 11.5219 21.1267 11.6943C20.5275 13.1273 19.7227 14.4655 18.7378 15.6665C18.2795 16.1249 18.085 16.2637 17.835 16.2637C17.71 16.2637 17.5295 16.1249 17.5295 15.7082V11.8471C17.5295 11.3471 17.3906 11.1387 16.974 11.1387H13.9184C13.7936 11.1332 13.6716 11.1765 13.5782 11.2595C13.4848 11.3425 13.4275 11.4586 13.4184 11.5832C13.4184 11.7651 13.5215 11.8935 13.653 12.0572C13.8628 12.3184 14.1449 12.6696 14.1961 13.4721V16.3332C14.1961 16.9582 14.085 17.0693 13.835 17.0693C13.1823 17.0693 11.5711 14.6526 10.6267 11.8749C10.4323 11.361 10.2517 11.1387 9.75171 11.1387H7.80729C7.25171 11.1387 7.14062 11.4026 7.14062 11.6943C7.64851 14.052 8.69951 16.2586 10.21 18.1387C10.8463 19.1587 11.7158 20.013 12.7469 20.6312C13.778 21.2493 14.9411 21.6137 16.1406 21.6943C17.3767 21.6943 17.5295 21.4165 17.5295 20.9443V19.1943C17.5295 18.6387 17.6406 18.5276 18.0434 18.5276C18.335 18.5276 18.8211 18.6665 19.974 19.7776C20.3687 20.1724 20.6653 20.5025 20.9067 20.7713C21.4724 21.401 21.7359 21.6943 22.2517 21.6943Z"></path>
+								</svg>
+								<div class="editable-social__add-btn">привязать</div>
+								<div class="editable-social__value">kris_anfalova</div><svg data-icon-name="edit" class="editable-social__edit-btn svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+									<path d="M11.677 4.38395L15.613 8.31995L7.57506 16.3586C7.36997 16.5636 7.12323 16.7212 6.85236 16.821L6.68708 16.8739L2.63211 17.9798C2.28552 18.0743 1.96546 17.7857 2.00301 17.4452L2.01817 17.3658L3.12407 13.3109C3.20039 13.031 3.33646 12.7718 3.52212 12.5508L3.63939 12.4229L11.677 4.38395ZM13.2452 2.81706C14.332 1.73025 16.0941 1.73025 17.1809 2.81706C18.2224 3.85858 18.2658 5.52026 17.3111 6.61346L17.1809 6.75273L16.32 7.61295L12.384 3.67695L13.2452 2.81706Z"></path>
+								</svg>
+							</div>
+						</div>
+					</div>
+					<div class="content-settings__password block">
+						<div class="block__title">Пароль</div>
+						<div class="block__content"><button class="button text attach-full" data-open-modal="#changePasswordDialog">Сменить пароль</button></div>
+					</div>
+					<div class="content-settings__two-factor-auth two-factor-auth block">
+						<div class="block__title">Двухфакторная аутентификация</div>
+						<div class="two-factor-auth__content block__content">
+							<div class="two-factor-auth__item turn-off">
+								<div class="two-factor-auth__label">Электронная почта</div>
+								<div class="two-factor-auth__control"><button class="two-factor-auth__turn-on-btn button text small">Подключить</button>
+									<div class="two-factor-auth__turn-on-chip chip success">Подключён</div><button class="two-factor-auth__turn-off-btn button text small">Отключить</button>
+								</div>
+							</div>
+							<div class="two-factor-auth__item turn-on">
+								<div class="two-factor-auth__label">Google authenticator</div>
+								<div class="two-factor-auth__control"><button class="two-factor-auth__turn-on-btn button text small">Подключить</button>
+									<div class="two-factor-auth__turn-on-chip chip success">Подключён</div><button class="two-factor-auth__turn-off-btn button text small">Отключить</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="content-settings__bot-notification-settings bot-notification-settings block">
+						<div class="bot-notification-settings__title block__title"> Уведомления в телеграм бот <button class="button text attach-full"><svg data-icon-name="social-telegram" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<path fill-rule="evenodd" clip-rule="evenodd" d="M24 12C24 18.627 18.627 24 12 24C5.373 24 0 18.627 0 12C0 5.373 5.373 0 12 0C18.627 0 24 5.373 24 12ZM12.43 8.859C11.263 9.344 8.93 10.349 5.432 11.873C4.864 12.099 4.566 12.32 4.539 12.536C4.493 12.902 4.951 13.046 5.573 13.241C5.658 13.268 5.746 13.295 5.836 13.325C6.449 13.524 7.273 13.757 7.701 13.766C8.09 13.774 8.524 13.614 9.003 13.286C12.271 11.079 13.958 9.964 14.064 9.94C14.139 9.923 14.243 9.901 14.313 9.964C14.383 10.026 14.376 10.144 14.369 10.176C14.323 10.369 12.529 12.038 11.599 12.902C11.309 13.171 11.104 13.362 11.062 13.406C10.968 13.503 10.872 13.596 10.78 13.685C10.21 14.233 9.784 14.645 10.804 15.317C11.294 15.64 11.686 15.907 12.077 16.173C12.504 16.464 12.93 16.754 13.482 17.116C13.622 17.208 13.756 17.303 13.887 17.396C14.384 17.751 14.831 18.069 15.383 18.019C15.703 17.989 16.035 17.688 16.203 16.789C16.6 14.663 17.382 10.059 17.563 8.161C17.574 8.00341 17.5673 7.84509 17.543 7.689C17.5285 7.56293 17.4671 7.44693 17.371 7.364C17.228 7.247 17.006 7.222 16.906 7.224C16.455 7.232 15.763 7.473 12.43 8.859Z"></path>
+								</svg> Подключить бота </button></div>
+						<form class="bot-notification-settings__content block__content">
+							<div class="bot-notification-settings__switches"><label class="switch success" style="--swith-width: 40px"><input type="checkbox" checked="true">
+									<div class="switch__slider">
+										<div class="switch__on">ВКЛ</div>
+										<div class="switch__off">ВЫКЛ</div>
+									</div>
+									<div class="switch__label">Подтверждение операции</div>
+								</label><label class="switch" style="--swith-width: 40px"><input type="checkbox">
+									<div class="switch__slider">
+										<div class="switch__on">ВКЛ</div>
+										<div class="switch__off">ВЫКЛ</div>
+									</div>
+									<div class="switch__label">Регистрация нового партнера</div>
+								</label><label class="switch" style="--swith-width: 40px"><input type="checkbox" checked="true">
+									<div class="switch__slider">
+										<div class="switch__on">ВКЛ</div>
+										<div class="switch__off">ВЫКЛ</div>
+									</div>
+									<div class="switch__label">Начисление с пула</div>
+								</label><label class="switch" style="--swith-width: 40px"><input type="checkbox" checked="true">
+									<div class="switch__slider">
+										<div class="switch__on">ВКЛ</div>
+										<div class="switch__off">ВЫКЛ</div>
+									</div>
+									<div class="switch__label">Пополнение пула партнером</div>
+								</label><label class="switch" style="--swith-width: 40px"><input type="checkbox" checked="true">
+									<div class="switch__slider">
+										<div class="switch__on">ВКЛ</div>
+										<div class="switch__off">ВЫКЛ</div>
+									</div>
+									<div class="switch__label">Доп. начисления с пула</div>
+								</label><label class="switch" style="--swith-width: 40px"><input type="checkbox" checked="true">
+									<div class="switch__slider">
+										<div class="switch__on">ВКЛ</div>
+										<div class="switch__off">ВЫКЛ</div>
+									</div>
+									<div class="switch__label">Реферальные начисления от актива</div>
+								</label><label class="switch" style="--swith-width: 40px"><input type="checkbox">
+									<div class="switch__slider">
+										<div class="switch__on">ВКЛ</div>
+										<div class="switch__off">ВЫКЛ</div>
+									</div>
+									<div class="switch__label">Премия/Бонус</div>
+								</label><label class="switch" style="--swith-width: 40px"><input type="checkbox" checked="true">
+									<div class="switch__slider">
+										<div class="switch__on">ВКЛ</div>
+										<div class="switch__off">ВЫКЛ</div>
+									</div>
+									<div class="switch__label">Реферальные начисления от дохода</div>
+								</label></div><button class="bot-notification-settings__save button outlined" type="submit"> Сохранить изменения </button>
+						</form>
+					</div>
+					<div class="content-settings__logout"><button class="button outlined">Выйти из профиля</button></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

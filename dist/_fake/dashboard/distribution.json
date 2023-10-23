@@ -1,0 +1,6 @@
+[
+	{ "label": "Зеленый блок", "value": 230, "type": "green" },
+	{ "label": "Синий блок", "value": 190, "type": "blue" },
+	{ "label": "Фиолетовый блок", "value": 330, "type": "purple" },
+	{ "label": "Прочее", "value": 250, "type": "other" }
+]

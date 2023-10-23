@@ -1,0 +1,437 @@
+.banner {
+  width: 100%;
+  border-radius: 1rem;
+}.fillness__progress {
+  position: relative;
+  width: 254px;
+  max-width: 100%;
+  aspect-ratio: 254/195;
+  margin: 2.5rem auto;
+  background-image: url(../img/_parts/dashboard/progress.png);
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+
+.fillness__progress-title {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4.25rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.fillness__progress-title::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 94px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #2ebeff;
+  opacity: 0.4;
+  -webkit-filter: blur(28px);
+  filter: blur(28px);
+  z-index: -1;
+}
+
+.fillness__progress-value {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 1;
+  background-image: url(../img/_parts/dashboard/progress-prime.png);
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  -webkit-mask-image: conic-gradient(from -0.34turn, #000 0turn, #000 0.68turn, transparent 0.68turn);
+  mask-image: conic-gradient(from -0.34turn, #000 0turn, #000 0.68turn, transparent 0.68turn);
+}
+
+.fillness__stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 4rem;
+}
+
+.fillness__stat-label {
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.fillness__stat-value {
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  text-align: center;
+}.blocks-work__tabs {
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.5rem;
+}
+
+.blocks-work__content {
+  flex-grow: 0;
+}
+
+.blocks-work__tab {
+  position: relative;
+  flex-basis: 80px;
+  flex-grow: 1;
+  padding: 0.5rem 0.75rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 2;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-align: center;
+  background: linear-gradient(0deg, #181134 0%, #222c5f 100%);
+}
+
+.blocks-work__tab:first-child {
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
+}
+
+.blocks-work__tab:last-child {
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit;
+  border-right: none;
+}
+
+.blocks-work__tab::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 60%);
+  width: 95.2px;
+  height: 61.6px;
+  border-radius: 59.733px;
+  background: transparent;
+  opacity: 0.32;
+  transition: opacity 0.35s;
+  filter: blur(18.6666660309px);
+  z-index: -1;
+}
+
+.blocks-work__tab.green::before {
+  background: rgba(37, 255, 1, 0.9);
+}
+
+.blocks-work__tab.blue::before {
+  background: rgba(1, 224, 255, 0.9);
+}
+
+.blocks-work__tab.purple::before {
+  background: rgba(171, 41, 250, 0.9);
+}
+
+.blocks-work__tab.active::before {
+  opacity: 1 !important;
+}
+
+.blocks-work__tab:hover::before {
+  opacity: 0.64;
+}
+
+.blocks-work__chart-container {
+  padding: 1rem;
+}
+
+@media (max-width: 480px) {
+  .blocks-work__chart-container {
+    max-height: 334px;
+  }
+}.distribution__chart-container {
+  width: 224px;
+  max-width: 100%;
+  aspect-ratio: 1;
+  margin: 1.5rem auto;
+}
+
+.distribution__stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 3rem;
+}
+
+.distribution__stat-label {
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.distribution__stat-value {
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  text-align: center;
+}.income-metric {
+  container-type: inline-size;
+  container-name: income-metric;
+}
+
+.income-metric__stats {
+  display: flex;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.income-metric__stat {
+  position: relative;
+  flex-basis: 120px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-inline-end: 1px solid rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.income-metric__stat:last-child {
+  border-inline-end: none;
+}
+
+.income-metric__stat::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(40%, 40%);
+  width: 144px;
+  height: 140px;
+  background: white;
+  opacity: 0.24;
+  filter: blur(50px);
+}
+
+.income-metric__stat.green::before {
+  background: #25ff01;
+}
+
+.income-metric__stat.blue::before {
+  background: #01e0ff;
+}
+
+.income-metric__stat.purple::before {
+  background: #ab29fa;
+}
+
+.income-metric__stat-title {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.income-metric__stat-value {
+  display: flex;
+  align-items: first baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 2.25rem;
+}
+
+.income-metric__stat-value-unit {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.income-metric__stat-name {
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: rgba(255, 255, 255, 0.32);
+}
+
+.income-metric__chart-container {
+  padding: 1rem;
+}
+
+@container income-metric  (width < 500px) {
+  .income-metric__stats {
+    flex-direction: column;
+  }
+  .income-metric__stat {
+    gap: 0.25rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .income-metric__stat:last-child {
+    border-bottom: none;
+  }
+}
+
+@container income-metric  (width < 450px) {
+  .income-metric__scroll-container {
+    scrollbar-color: rgba(255, 255, 255, 0.64) rgba(33, 33, 33, 0.08);
+    scrollbar-width: thin;
+    overflow: auto;
+  }
+  .income-metric__scroll-container::-webkit-scrollbar {
+    width: 1rem;
+    height: 1rem;
+  }
+  .income-metric__scroll-container::-webkit-scrollbar-track {
+    background-color: rgba(33, 33, 33, 0.08);
+    border-radius: 0.25rem;
+    margin: 0.25rem;
+  }
+  .income-metric__scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.32);
+    border-radius: 0.5rem;
+    border: 0.25rem solid transparent;
+    background-clip: padding-box;
+  }
+  .income-metric__scroll-container *::-webkit-scrollbar-corner {
+    background: rgba(0, 0, 0, 0);
+  }
+  @media (hover: none) {
+    .income-metric__scroll-container {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .income-metric__scroll-container::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  .income-metric__chart-container {
+    min-width: 600px;
+    max-height: 400px;
+  }
+}.avg-income__chart-blocks {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.avg-income__chart-block {
+  flex-basis: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.avg-income__chart-stats {
+  flex-basis: 0;
+  display: flex;
+  padding: 1.25rem 1.5rem 1rem 1.5rem;
+}
+
+.avg-income__chart-stat {
+  flex-basis: 0;
+  flex-grow: 1;
+  display: flex;
+  align-items: first baseline;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 2.25rem;
+}
+
+.avg-income__chart-stat-unit {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.avg-income__chart-container {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-height: 156px;
+}
+
+@media (max-width: 480px) {
+  .avg-income__chart-container {
+    min-height: 104px;
+    max-height: 104px;
+  }
+}.content-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas: "mb mb mb ob ob ob" "s s s s s s" "f f b b d d" "i i i i a a" "o o o o o o";
+  gap: 1rem;
+}
+
+.content-dashboard__main-banner {
+  grid-area: mb;
+}
+
+.content-dashboard__other-banners {
+  grid-area: ob;
+}
+
+.content-dashboard__stats {
+  grid-area: s;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.content-dashboard__stats > * {
+  flex-basis: 120px;
+  flex-grow: 1;
+}
+
+.content-dashboard__fillness {
+  grid-area: f;
+}
+
+.content-dashboard__blocks-work {
+  grid-area: b;
+}
+
+.content-dashboard__distribution {
+  grid-area: d;
+}
+
+.content-dashboard__income-metric {
+  grid-area: i;
+}
+
+.content-dashboard__avg-income {
+  grid-area: a;
+}
+
+.content-dashboard__operations {
+  grid-area: o;
+}
+
+@media (max-width: 800px) {
+  .content-dashboard {
+    grid-template-areas: "mb mb mb mb mb mb" "ob ob ob ob ob ob" "s s s s s s" "f f f b b b " "d d d a a a" "i i i i i i" "o o o o o o";
+  }
+}
+
+@media (max-width: 580px) {
+  .content-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .content-dashboard__stats {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 1rem;
+  }
+}
