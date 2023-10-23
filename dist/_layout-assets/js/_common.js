@@ -256,23 +256,6 @@ window.addEventListener("load", () => {
   });
 });
 
-window.addEventListener("load", () => {
-  document.querySelectorAll(".input").forEach((root) => {
-    const input = root.querySelector("input");
-    if (!input)
-      return;
-    root.addEventListener("click", () => {
-      input.focus();
-    });
-    input.addEventListener("focus", () => {
-      input.classList.add("focus");
-    });
-    input.addEventListener("blur", () => {
-      input.classList.remove("focus");
-    });
-  });
-});
-
 const getFinishDate = (el) => {
   const str = el.getAttribute("data-timer-finish-date");
   const finishDate = str ? new Date(str) : void 0;
@@ -310,6 +293,23 @@ window.addEventListener("load", () => {
       updateTimer(timer);
     }, 1e3);
     updateTimer(timer);
+  });
+});
+
+window.addEventListener("load", () => {
+  document.querySelectorAll(".input").forEach((root) => {
+    const input = root.querySelector("input");
+    if (!input)
+      return;
+    root.addEventListener("click", () => {
+      input.focus();
+    });
+    input.addEventListener("focus", () => {
+      input.classList.add("focus");
+    });
+    input.addEventListener("blur", () => {
+      input.classList.remove("focus");
+    });
   });
 });
 
@@ -356,110 +356,6 @@ window.addEventListener("load", () => {
   document.documentElement.style.scrollBehavior = "auto";
   window.scrollTo({ top: pageScrollTop });
   document.documentElement.style.scrollBehavior = "";
-});
-
-const createPlacementHandler = (onPlacementChange) => {
-  return {
-    name: "placementHandler",
-    enabled: true,
-    phase: "beforeWrite",
-    requires: ["computeStyles"],
-    fn: ({ state }) => {
-      onPlacementChange(state.placement, state.elements.popper);
-    }
-  };
-};
-
-function copyToClipboard(textToCopy) {
-  if (navigator.clipboard && window.isSecureContext) {
-    return navigator.clipboard.writeText(textToCopy);
-  } else {
-    let textArea = document.createElement("textarea");
-    textArea.value = textToCopy;
-    textArea.style.position = "fixed";
-    textArea.style.left = "-999999px";
-    textArea.style.top = "-999999px";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    return new Promise((res, rej) => {
-      document.execCommand("copy") ? res(void 0) : rej();
-      textArea.remove();
-    });
-  }
-}
-
-const parsePlacement = (className) => {
-  return (className.match(/left|right|top|bottom/g) || [])[0];
-};
-const SHOW_TIME_MS = 2e3;
-window.addEventListener("load", () => {
-  const ANIMATION_SLOW_MS = parseFloat(getCssVariable("--animation-slow")) * 1e3;
-  document.querySelectorAll(".copy-text").forEach((copyText) => {
-    const value = copyText.querySelector(".copy-text__value")?.textContent?.trim();
-    const tooltip = copyText.querySelector(".copy-text__success-tooltip");
-    if (!value || !(tooltip instanceof HTMLElement))
-      return;
-    let popper;
-    let hidingTimeout;
-    let autoHidingTimeout;
-    const showTooltip = () => {
-      clearTimeout(hidingTimeout);
-      popper = createPopper(copyText, tooltip, {
-        placement: parsePlacement(tooltip.className) ?? "auto",
-        strategy: "absolute",
-        modifiers: [
-          {
-            name: "flip",
-            options: {
-              fallbackPlacements: ["auto"]
-            }
-          },
-          createPlacementHandler((placement, element) => {
-            element.classList.remove("top");
-            element.classList.remove("left");
-            element.classList.remove("right");
-            element.classList.remove("bottom");
-            element.classList.add(placement);
-          })
-        ]
-      });
-      tooltip.classList.add("show");
-      tooltip.classList.remove("fade-out-slow");
-    };
-    const hideTooltip = (options = {}) => {
-      clearTimeout(hidingTimeout);
-      if (options.rightNow) {
-        tooltip.classList.remove("show");
-        tooltip.classList.remove("fade-out-slow");
-      } else {
-        tooltip.classList.add("fade-out-slow");
-        hidingTimeout = window.setTimeout(() => {
-          tooltip.classList.remove("show");
-          tooltip.classList.remove("fade-out-slow");
-          popper?.destroy();
-        }, ANIMATION_SLOW_MS);
-      }
-    };
-    const onClickOutside = (e) => {
-      if (e.target instanceof HTMLElement && e.target.closest(".copy-text") === copyText)
-        return;
-      hideTooltip({ rightNow: true });
-      document.documentElement.removeEventListener("click", onClickOutside);
-    };
-    copyText.addEventListener("click", () => {
-      copyToClipboard(value).then(() => {
-        clearTimeout(autoHidingTimeout);
-        showTooltip();
-        autoHidingTimeout = window.setTimeout(() => {
-          hideTooltip();
-          document.documentElement.removeEventListener("click", onClickOutside);
-        }, SHOW_TIME_MS);
-      });
-      document.documentElement.addEventListener("click", onClickOutside);
-    });
-    document.body.appendChild(tooltip);
-  });
 });
 
 window.addEventListener("load", () => {
@@ -599,6 +495,110 @@ window.addEventListener("load", () => {
   });
 });
 
+const createPlacementHandler = (onPlacementChange) => {
+  return {
+    name: "placementHandler",
+    enabled: true,
+    phase: "beforeWrite",
+    requires: ["computeStyles"],
+    fn: ({ state }) => {
+      onPlacementChange(state.placement, state.elements.popper);
+    }
+  };
+};
+
+function copyToClipboard(textToCopy) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(textToCopy);
+  } else {
+    let textArea = document.createElement("textarea");
+    textArea.value = textToCopy;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    return new Promise((res, rej) => {
+      document.execCommand("copy") ? res(void 0) : rej();
+      textArea.remove();
+    });
+  }
+}
+
+const parsePlacement = (className) => {
+  return (className.match(/left|right|top|bottom/g) || [])[0];
+};
+const SHOW_TIME_MS = 2e3;
+window.addEventListener("load", () => {
+  const ANIMATION_SLOW_MS = parseFloat(getCssVariable("--animation-slow")) * 1e3;
+  document.querySelectorAll(".copy-text").forEach((copyText) => {
+    const value = copyText.querySelector(".copy-text__value")?.textContent?.trim();
+    const tooltip = copyText.querySelector(".copy-text__success-tooltip");
+    if (!value || !(tooltip instanceof HTMLElement))
+      return;
+    let popper;
+    let hidingTimeout;
+    let autoHidingTimeout;
+    const showTooltip = () => {
+      clearTimeout(hidingTimeout);
+      popper = createPopper(copyText, tooltip, {
+        placement: parsePlacement(tooltip.className) ?? "auto",
+        strategy: "absolute",
+        modifiers: [
+          {
+            name: "flip",
+            options: {
+              fallbackPlacements: ["auto"]
+            }
+          },
+          createPlacementHandler((placement, element) => {
+            element.classList.remove("top");
+            element.classList.remove("left");
+            element.classList.remove("right");
+            element.classList.remove("bottom");
+            element.classList.add(placement);
+          })
+        ]
+      });
+      tooltip.classList.add("show");
+      tooltip.classList.remove("fade-out-slow");
+    };
+    const hideTooltip = (options = {}) => {
+      clearTimeout(hidingTimeout);
+      if (options.rightNow) {
+        tooltip.classList.remove("show");
+        tooltip.classList.remove("fade-out-slow");
+      } else {
+        tooltip.classList.add("fade-out-slow");
+        hidingTimeout = window.setTimeout(() => {
+          tooltip.classList.remove("show");
+          tooltip.classList.remove("fade-out-slow");
+          popper?.destroy();
+        }, ANIMATION_SLOW_MS);
+      }
+    };
+    const onClickOutside = (e) => {
+      if (e.target instanceof HTMLElement && e.target.closest(".copy-text") === copyText)
+        return;
+      hideTooltip({ rightNow: true });
+      document.documentElement.removeEventListener("click", onClickOutside);
+    };
+    copyText.addEventListener("click", () => {
+      copyToClipboard(value).then(() => {
+        clearTimeout(autoHidingTimeout);
+        showTooltip();
+        autoHidingTimeout = window.setTimeout(() => {
+          hideTooltip();
+          document.documentElement.removeEventListener("click", onClickOutside);
+        }, SHOW_TIME_MS);
+      });
+      document.documentElement.addEventListener("click", onClickOutside);
+    });
+    document.body.appendChild(tooltip);
+  });
+});
+
 window.addEventListener("load", () => {
   document.querySelectorAll("input-password").forEach((root) => {
     const input = root.querySelector("input");
@@ -652,77 +652,6 @@ window.addEventListener("load", () => {
         });
       });
     }
-  });
-});
-
-const VIEWPORT_PADDING = 12;
-const createTooltip = (text) => {
-  const tooltipContent = document.createElement("div");
-  tooltipContent.classList.add("tooltip__content");
-  tooltipContent.textContent = text;
-  const tooltip = document.createElement("div");
-  tooltip.classList.add("tooltip");
-  tooltip.appendChild(tooltipContent);
-  return tooltip;
-};
-window.addEventListener("load", () => {
-  const ANIMATION_SLOW_MS = parseFloat(getCssVariable("--animation-slow")) * 1e3;
-  document.querySelectorAll("[data-tooltip]").forEach((trigger) => {
-    if (!(trigger instanceof HTMLElement))
-      return;
-    const placement = trigger.dataset.placement || "top";
-    const text = trigger?.dataset?.tooltipText || "";
-    const tooltip = trigger.querySelector(".tooltip") || createTooltip(text);
-    if (!(tooltip instanceof HTMLElement))
-      return;
-    let popper;
-    let disappearTimeoutId = -1;
-    trigger.addEventListener("mouseenter", () => {
-      if (tooltip.parentElement !== document.body) {
-        document.body.appendChild(tooltip);
-      }
-      if (!popper)
-        popper = createPopper(trigger, tooltip, {
-          placement,
-          strategy: "absolute",
-          modifiers: [
-            {
-              name: "flip",
-              options: {
-                fallbackPlacements: ["auto"]
-              }
-            },
-            {
-              name: "preventOverflow",
-              options: {
-                padding: VIEWPORT_PADDING
-              }
-            },
-            createPlacementHandler((placement2, element) => {
-              element.classList.remove("top");
-              element.classList.remove("left");
-              element.classList.remove("right");
-              element.classList.remove("bottom");
-              element.classList.add(placement2);
-            })
-          ]
-        });
-      tooltip.style.maxWidth = `calc(100vw - ${VIEWPORT_PADDING * 2}px)`;
-      tooltip.classList.add("show");
-      tooltip.classList.remove("fade-out-slow");
-      clearTimeout(disappearTimeoutId);
-      popper.update();
-    });
-    trigger.addEventListener("mouseleave", () => {
-      tooltip.classList.add("fade-out-slow");
-      disappearTimeoutId = window.setTimeout(() => {
-        tooltip.classList.remove("show");
-        if (popper) {
-          popper.destroy();
-          popper = void 0;
-        }
-      }, ANIMATION_SLOW_MS);
-    });
   });
 });
 
@@ -831,4 +760,75 @@ window.addEventListener("load", () => {
   } catch (e) {
     console.error(e);
   }
+});
+
+const VIEWPORT_PADDING = 12;
+const createTooltip = (text) => {
+  const tooltipContent = document.createElement("div");
+  tooltipContent.classList.add("tooltip__content");
+  tooltipContent.textContent = text;
+  const tooltip = document.createElement("div");
+  tooltip.classList.add("tooltip");
+  tooltip.appendChild(tooltipContent);
+  return tooltip;
+};
+window.addEventListener("load", () => {
+  const ANIMATION_SLOW_MS = parseFloat(getCssVariable("--animation-slow")) * 1e3;
+  document.querySelectorAll("[data-tooltip]").forEach((trigger) => {
+    if (!(trigger instanceof HTMLElement))
+      return;
+    const placement = trigger.dataset.placement || "top";
+    const text = trigger?.dataset?.tooltipText || "";
+    const tooltip = trigger.querySelector(".tooltip") || createTooltip(text);
+    if (!(tooltip instanceof HTMLElement))
+      return;
+    let popper;
+    let disappearTimeoutId = -1;
+    trigger.addEventListener("mouseenter", () => {
+      if (tooltip.parentElement !== document.body) {
+        document.body.appendChild(tooltip);
+      }
+      if (!popper)
+        popper = createPopper(trigger, tooltip, {
+          placement,
+          strategy: "absolute",
+          modifiers: [
+            {
+              name: "flip",
+              options: {
+                fallbackPlacements: ["auto"]
+              }
+            },
+            {
+              name: "preventOverflow",
+              options: {
+                padding: VIEWPORT_PADDING
+              }
+            },
+            createPlacementHandler((placement2, element) => {
+              element.classList.remove("top");
+              element.classList.remove("left");
+              element.classList.remove("right");
+              element.classList.remove("bottom");
+              element.classList.add(placement2);
+            })
+          ]
+        });
+      tooltip.style.maxWidth = `calc(100vw - ${VIEWPORT_PADDING * 2}px)`;
+      tooltip.classList.add("show");
+      tooltip.classList.remove("fade-out-slow");
+      clearTimeout(disappearTimeoutId);
+      popper.update();
+    });
+    trigger.addEventListener("mouseleave", () => {
+      tooltip.classList.add("fade-out-slow");
+      disappearTimeoutId = window.setTimeout(() => {
+        tooltip.classList.remove("show");
+        if (popper) {
+          popper.destroy();
+          popper = void 0;
+        }
+      }, ANIMATION_SLOW_MS);
+    });
+  });
 });
