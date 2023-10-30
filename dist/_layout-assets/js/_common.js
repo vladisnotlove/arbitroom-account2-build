@@ -261,18 +261,28 @@ const getFinishDate = (el) => {
   const finishDate = str ? new Date(str) : void 0;
   return finishDate;
 };
+const getStartDate = (el) => {
+  const str = el.getAttribute("data-timer-start-date");
+  const startDate = str ? new Date(str) : void 0;
+  return startDate;
+};
 const getFormat = (el) => {
   const str = el.getAttribute("data-timer-format");
   return str || "hhhh:mm:ss";
 };
 const updateTimer = (timer) => {
   const finishDate = getFinishDate(timer);
+  const startDate = getStartDate(timer);
   const format = getFormat(timer);
-  if (!finishDate)
+  if (!finishDate && !startDate)
     return;
-  const finish = finishDate.getTime();
   const now = Date.now();
-  let diff = finish - now;
+  let diff = 0;
+  if (finishDate) {
+    diff = finishDate.getTime() - now;
+  } else if (startDate) {
+    diff = now - startDate.getTime();
+  }
   diff = diff > 0 ? diff : 0;
   let seconds = String(Math.floor(diff / 1e3) % 60).padStart(2, "0");
   let minutes = String(Math.floor(diff / (60 * 1e3)) % 60).padStart(2, "0");
@@ -285,8 +295,9 @@ window.addEventListener("load", () => {
   const timers = document.querySelectorAll(".timer");
   timers.forEach((timer) => {
     const finishDate = getFinishDate(timer);
-    if (!finishDate) {
-      console.warn("timer has no finish date", timer);
+    const startDate = getStartDate(timer);
+    if (!finishDate && !startDate) {
+      console.warn("timer has no finish date adn start date", timer);
       return;
     }
     window.setInterval(() => {
@@ -356,6 +367,41 @@ window.addEventListener("load", () => {
   document.documentElement.style.scrollBehavior = "auto";
   window.scrollTo({ top: pageScrollTop });
   document.documentElement.style.scrollBehavior = "";
+});
+
+const isModal = (element) => {
+  return element.classList.contains("modal");
+};
+const getModalParent = (element) => {
+  return element.closest(".modal");
+};
+const openModal = (modal) => {
+  if (!isModal(modal)) {
+    console.warn(`It is not a modal`, modal);
+  }
+  document.documentElement.classList.add("modal-open");
+  modal.classList.add("open");
+};
+const closeModal = (modal) => {
+  if (!isModal(modal)) {
+    console.warn(`It is not a modal`, modal);
+  }
+  document.documentElement.classList.remove("modal-open");
+  modal.classList.remove("open");
+};
+
+window.addEventListener("load", () => {
+  document.querySelectorAll("[data-open-modal]").forEach((trigger) => {
+    const modalQuery = trigger.getAttribute("data-open-modal");
+    const modals = Array.from(document.querySelectorAll(modalQuery));
+    const allModals = document.querySelectorAll(".modal");
+    if (trigger && modals.length > 0) {
+      trigger.addEventListener("click", () => {
+        allModals.forEach((modal) => closeModal(modal));
+        modals.forEach((modal) => openModal(modal));
+      });
+    }
+  });
 });
 
 window.addEventListener("load", () => {
@@ -462,39 +508,32 @@ window.addEventListener("load", () => {
   });
 });
 
-const isModal = (element) => {
-  return element.classList.contains("modal");
+const enablePopper = (popper) => {
+  popper.setOptions((options) => ({
+    ...options,
+    modifiers: [...options.modifiers || [], { name: "eventListeners", enabled: true }]
+  }));
+  popper.update();
 };
-const getModalParent = (element) => {
-  return element.closest(".modal");
-};
-const openModal = (modal) => {
-  if (!isModal(modal)) {
-    console.warn(`It is not a modal`, modal);
-  }
-  document.documentElement.classList.add("modal-open");
-  modal.classList.add("open");
-};
-const closeModal = (modal) => {
-  if (!isModal(modal)) {
-    console.warn(`It is not a modal`, modal);
-  }
-  document.documentElement.classList.remove("modal-open");
-  modal.classList.remove("open");
+const disablePopper = (popper) => {
+  popper.setOptions((options) => ({
+    ...options,
+    modifiers: [...options.modifiers || [], { name: "eventListeners", enabled: false }]
+  }));
 };
 
-window.addEventListener("load", () => {
-  document.querySelectorAll("[data-open-modal]").forEach((trigger) => {
-    const modalQuery = trigger.getAttribute("data-open-modal");
-    const modals = Array.from(document.querySelectorAll(modalQuery));
-    if (trigger && modals.length > 0) {
-      trigger.addEventListener("click", () => {
-        modals.forEach((modal) => openModal(modal));
-      });
-    }
-  });
-});
-
+const sameWidth = {
+  name: "sameWidth",
+  enabled: true,
+  phase: "beforeWrite",
+  requires: ["computeStyles"],
+  fn: ({ state }) => {
+    state.styles.popper.width = `${state.rects.reference.width}px`;
+  },
+  effect: ({ state }) => {
+    state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
+  }
+};
 const createPlacementHandler = (onPlacementChange) => {
   return {
     name: "placementHandler",
@@ -506,6 +545,107 @@ const createPlacementHandler = (onPlacementChange) => {
     }
   };
 };
+
+window.addEventListener("load", () => {
+  document.querySelectorAll(".select").forEach((select) => {
+    const input = select.querySelector("input");
+    const trigger = select.querySelector(".select__trigger");
+    const triggerValue = select.querySelector(".select__trigger-value");
+    const menu = select.querySelector(".select__menu");
+    const menuItems = select.querySelectorAll(".select__menu-item");
+    if (!input) {
+      console.warn("'.select' has no input", input);
+      return;
+    }
+    if (!(trigger instanceof HTMLElement)) {
+      console.warn("'.select' has no trigger", trigger);
+      return;
+    }
+    if (!(triggerValue instanceof HTMLElement)) {
+      console.warn("'.select' has no triggerValue", triggerValue);
+      return;
+    }
+    if (!(menu instanceof HTMLElement)) {
+      console.warn("'.select' has no menu", menu);
+      return;
+    }
+    document.body.append(menu);
+    const popper = createPopper(trigger, menu, {
+      strategy: "absolute",
+      modifiers: [sameWidth]
+    });
+    const isMenuOpen = () => {
+      return select.classList.contains("open");
+    };
+    const openMenu = () => {
+      select.classList.add("open");
+      menu.classList.add("open");
+      enablePopper(popper);
+      popper.update();
+    };
+    const closeMenu = () => {
+      select.classList.remove("open");
+      menu.classList.remove("open");
+      disablePopper(popper);
+    };
+    const updateSelected = () => {
+      let displayValue = "";
+      const value = input.value;
+      menuItems.forEach((menuItem) => {
+        if (menuItem.getAttribute("data-value") === value) {
+          menuItem.classList.add("selected");
+          displayValue = menuItem.textContent || "";
+        } else {
+          menuItem.classList.remove("selected");
+        }
+      });
+      triggerValue.textContent = displayValue;
+    };
+    const setValue = (value) => {
+      input.value = value || "";
+      input.dispatchEvent(new Event("change"));
+    };
+    const onClickOutside = (e) => {
+      if (e.target instanceof HTMLElement && e.target.closest(".select__menu"))
+        return;
+      closeMenu();
+      document.documentElement.removeEventListener("click", onClickOutside);
+    };
+    trigger.addEventListener("click", (e) => {
+      if (!isMenuOpen()) {
+        openMenu();
+        e.stopPropagation();
+        document.documentElement.addEventListener("click", onClickOutside);
+      }
+    });
+    menu.addEventListener("click", (e) => {
+      if (!(e.target instanceof Element))
+        return;
+      const menuItem = e.target.closest(".select__menu-item");
+      if (!(menuItem instanceof HTMLElement))
+        return;
+      const value = menuItem.dataset.value;
+      setValue(value || "");
+      closeMenu();
+    });
+    input.addEventListener("change", () => {
+      updateSelected();
+    });
+    updateSelected();
+  });
+});
+
+window.addEventListener("load", () => {
+  document.querySelectorAll("[data-close-modal]").forEach((trigger) => {
+    const modalQuery = trigger.getAttribute("data-close-modal");
+    const modals = modalQuery ? Array.from(document.querySelectorAll(modalQuery)) : [getModalParent(trigger)];
+    if (trigger && modals.length > 0) {
+      trigger.addEventListener("click", () => {
+        modals.forEach((modal) => closeModal(modal));
+      });
+    }
+  });
+});
 
 function copyToClipboard(textToCopy) {
   if (navigator.clipboard && window.isSecureContext) {
@@ -600,58 +740,29 @@ window.addEventListener("load", () => {
 });
 
 window.addEventListener("load", () => {
-  document.querySelectorAll("input-password").forEach((root) => {
+  document.querySelectorAll(".input-password").forEach((root) => {
     const input = root.querySelector("input");
     const eyeBtn = root.querySelector(".input-password__eye-btn");
     if (!input || !eyeBtn)
       return;
     const turnEyeOn = () => {
-      input.classList.add("eye-on");
-      input.classList.remove("eye-off");
+      root.classList.add("eye-on");
+      root.classList.remove("eye-off");
       input.setAttribute("type", "text");
     };
     const turnEyeOff = () => {
-      input.classList.remove("eye-on");
-      input.classList.add("eye-off");
+      root.classList.remove("eye-on");
+      root.classList.add("eye-off");
       input.setAttribute("type", "password");
     };
     eyeBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      if (input.classList.contains("eye-on")) {
+      if (root.classList.contains("eye-on")) {
         turnEyeOff();
       } else {
         turnEyeOn();
       }
     });
-  });
-});
-
-window.addEventListener("load", () => {
-  document.querySelectorAll("[data-close-modal]").forEach((trigger) => {
-    const modalQuery = trigger.getAttribute("data-close-modal");
-    const modals = modalQuery ? Array.from(document.querySelectorAll(modalQuery)) : [getModalParent(trigger)];
-    if (trigger && modals.length > 0) {
-      trigger.addEventListener("click", () => {
-        modals.forEach((modal) => closeModal(modal));
-      });
-    }
-  });
-});
-
-window.addEventListener("load", () => {
-  document.querySelectorAll("[data-toggle-class]").forEach((elem) => {
-    if (!(elem instanceof HTMLElement))
-      return;
-    const className = elem.dataset.toggleClass;
-    const selector = elem.dataset.target;
-    const targets = selector ? document.querySelectorAll(selector) : void 0;
-    if (className && targets) {
-      elem.addEventListener("click", (e) => {
-        targets.forEach((target) => {
-          target.classList.toggle(className);
-        });
-      });
-    }
   });
 });
 
@@ -760,6 +871,23 @@ window.addEventListener("load", () => {
   } catch (e) {
     console.error(e);
   }
+});
+
+window.addEventListener("load", () => {
+  document.querySelectorAll("[data-toggle-class]").forEach((elem) => {
+    if (!(elem instanceof HTMLElement))
+      return;
+    const className = elem.dataset.toggleClass;
+    const selector = elem.dataset.target;
+    const targets = selector ? document.querySelectorAll(selector) : void 0;
+    if (className && targets) {
+      elem.addEventListener("click", (e) => {
+        targets.forEach((target) => {
+          target.classList.toggle(className);
+        });
+      });
+    }
+  });
 });
 
 const VIEWPORT_PADDING = 12;

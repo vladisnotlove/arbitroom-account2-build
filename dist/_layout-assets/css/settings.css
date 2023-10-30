@@ -285,6 +285,12 @@
   .bot-notification-settings__switches {
     grid-template-columns: 1fr;
   }
+}
+
+@media screen and (max-width: 650px) {
+  .bot-notification-settings__save {
+    width: 100%;
+  }
 }.content-settings {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -335,4 +341,33 @@
     flex-direction: column;
     gap: 1rem;
   }
+  .content-settings__logout > .button {
+    width: 100%;
+  }
+}.enableGADialog__tip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.enableGADialog__tip-text {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.enableGADialog__tip-qrcode {
+  width: 176px;
+  aspect-ratio: 1;
+  max-width: 100%;
+}
+
+.enableGADialog__tip-code {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
 }

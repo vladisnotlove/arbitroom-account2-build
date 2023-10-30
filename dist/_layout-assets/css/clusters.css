@@ -456,13 +456,52 @@
 .board__cooler-left::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  transform: translateX(-4.716981132%) translateY(-6.081081081%);
-  height: 106.093189964%;
-  aspect-ratio: 424/296;
-  background-image: url(../img/_parts/board/cooler-left.png);
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  height: 143.3691756272%;
+  aspect-ratio: 600/400;
+  background-image: url(../img/_parts/board/cooler-left-background.png);
   background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+@keyframes fan-rotation {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.board__cooler-left-fan {
+  position: absolute;
+  top: 11.9569892473%;
+  left: 8.125%;
+  height: 61.2903225806%;
+  aspect-ratio: 1;
+}
+
+.board__cooler-left-fan::before, .board__cooler-left-fan::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 116.9590643275%;
+  aspect-ratio: 1;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.board__cooler-left-fan::before {
+  background-image: url(../img/_parts/board/cooler-fan.png);
+  animation: fan-rotation 6s infinite linear;
+}
+
+.board__cooler-left-fan::after {
+  background-image: url(../img/_parts/board/cooler-fan-light.png);
 }
 
 .board__cooler-right {
@@ -476,13 +515,44 @@
 .board__cooler-right::before {
   content: "";
   position: absolute;
-  top: 0;
-  right: 0;
-  transform: translateX(4.716981132%) translateY(-6.081081081%);
-  height: 106.093189964%;
-  aspect-ratio: 424/296;
-  background-image: url(../img/_parts/board/cooler-right.png);
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  height: 143.3691756272%;
+  aspect-ratio: 600/400;
+  background-image: url(../img/_parts/board/cooler-right-background.png);
   background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.board__cooler-right-fan {
+  position: absolute;
+  top: 11.9569892473%;
+  right: 8.125%;
+  height: 61.2903225806%;
+  aspect-ratio: 1;
+}
+
+.board__cooler-right-fan::before, .board__cooler-right-fan::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 116.9590643275%;
+  aspect-ratio: 1;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.board__cooler-right-fan::before {
+  background-image: url(../img/_parts/board/cooler-fan.png);
+  animation: fan-rotation 6s infinite linear;
+  animation-delay: -3s;
+}
+
+.board__cooler-right-fan::after {
+  background-image: url(../img/_parts/board/cooler-fan-light.png);
 }
 
 .board__processor {
@@ -500,11 +570,60 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 135.739856802%;
-  height: 128.716013683%;
   transform: translate(-50%, -50%);
+  height: 120.1413427562%;
+  aspect-ratio: 1;
   background-image: url(../img/_parts/board/processor.png);
   background-size: 100% 100%;
+}
+
+@keyframes processor-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.board__processor-light {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 120.1413427562%;
+  aspect-ratio: 1;
+}
+
+.board__processor-light::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../img/_parts/board/processor-light1.png);
+  background-size: 100% 100%;
+  animation: processor-pulse 2s infinite;
+  animation-delay: -0.5s;
+}
+
+.board__processor-light::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../img/_parts/board/processor-light2.png);
+  background-size: 100% 100%;
+  animation: processor-pulse 2s infinite;
 }
 
 .board__wire-top-left {
@@ -571,18 +690,34 @@
 
 .board__frame {
   position: absolute;
-  top: -16px;
+  top: 0;
   right: 94px;
   width: 335px;
   height: 100%;
   background-image: url(../img/_parts/board/frame.svg);
-  background-size: cover;
+  background-size: 100% 100%;
+  background-position: top left;
 }
 
 .board__row {
   display: flex;
   align-items: stretch;
   gap: 2.5rem;
+}
+
+@keyframes chip-pulse {
+  0% {
+    opacity: 0.2;
+  }
+  45% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
 }
 
 .board__chip {
@@ -601,7 +736,7 @@
   line-height: normal;
 }
 
-.board__chip::before {
+.board__chip::after, .board__chip::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -622,6 +757,12 @@
   background-size: 100% 100%;
 }
 
+.board__chip.green::after {
+  background-image: url(../img/_parts/board/chips/green-light.svg);
+  background-size: 100% 100%;
+  animation: chip-pulse 4s infinite linear;
+}
+
 .board__chip.blue {
   color: #01e0ff;
 }
@@ -629,6 +770,12 @@
 .board__chip.blue::before {
   background-image: url(../img/_parts/board/chips/blue.svg);
   background-size: 100% 100%;
+}
+
+.board__chip.blue::after {
+  background-image: url(../img/_parts/board/chips/blue-light.svg);
+  background-size: 100% 100%;
+  animation: chip-pulse 4s infinite;
 }
 
 .board__chip.purple {
@@ -640,6 +787,12 @@
   background-size: 100% 100%;
 }
 
+.board__chip.purple::after {
+  background-image: url(../img/_parts/board/chips/purple-light.svg);
+  background-size: 100% 100%;
+  animation: chip-pulse 4s infinite;
+}
+
 .board__chip.closed {
   color: #787878;
 }
@@ -647,6 +800,102 @@
 .board__chip.closed::before {
   background-image: url(../img/_parts/board/chips/closed.svg);
   background-size: 100% 100%;
+}
+
+.board__row:nth-child(1) > .board__chip:nth-child(1)::after {
+  animation-delay: -1s;
+}
+
+.board__row:nth-child(1) > .board__chip:nth-child(2)::after {
+  animation-delay: -1.25s;
+}
+
+.board__row:nth-child(1) > .board__chip:nth-child(3)::after {
+  animation-delay: -1.5s;
+}
+
+.board__row:nth-child(2) > .board__chip:nth-child(1)::after {
+  animation-delay: -1.75s;
+}
+
+.board__row:nth-child(2) > .board__chip:nth-child(2)::after {
+  animation-delay: -2s;
+}
+
+.board__row:nth-child(2) > .board__chip:nth-child(3)::after {
+  animation-delay: -2.25s;
+}
+
+.board__row:nth-child(3) > .board__chip:nth-child(1)::after {
+  animation-delay: -2.5s;
+}
+
+.board__row:nth-child(3) > .board__chip:nth-child(2)::after {
+  animation-delay: -2.75s;
+}
+
+.board__row:nth-child(3) > .board__chip:nth-child(3)::after {
+  animation-delay: -3s;
+}
+
+.board__row:nth-child(4) > .board__chip:nth-child(1)::after {
+  animation-delay: -3.25s;
+}
+
+.board__row:nth-child(4) > .board__chip:nth-child(2)::after {
+  animation-delay: -3.5s;
+}
+
+.board__row:nth-child(4) > .board__chip:nth-child(3)::after {
+  animation-delay: -3.75s;
+}
+
+.board__row:nth-child(5) > .board__chip:nth-child(1)::after {
+  animation-delay: -4s;
+}
+
+.board__row:nth-child(5) > .board__chip:nth-child(2)::after {
+  animation-delay: -4.25s;
+}
+
+.board__row:nth-child(5) > .board__chip:nth-child(3)::after {
+  animation-delay: -4.5s;
+}
+
+.board__row:nth-child(6) > .board__chip:nth-child(1)::after {
+  animation-delay: -4.75s;
+}
+
+.board__row:nth-child(6) > .board__chip:nth-child(2)::after {
+  animation-delay: -5s;
+}
+
+.board__row:nth-child(6) > .board__chip:nth-child(3)::after {
+  animation-delay: -5.25s;
+}
+
+.board__row:nth-child(7) > .board__chip:nth-child(1)::after {
+  animation-delay: -5.5s;
+}
+
+.board__row:nth-child(7) > .board__chip:nth-child(2)::after {
+  animation-delay: -5.75s;
+}
+
+.board__row:nth-child(7) > .board__chip:nth-child(3)::after {
+  animation-delay: -6s;
+}
+
+.board__row:nth-child(8) > .board__chip:nth-child(1)::after {
+  animation-delay: -6.25s;
+}
+
+.board__row:nth-child(8) > .board__chip:nth-child(2)::after {
+  animation-delay: -6.5s;
+}
+
+.board__row:nth-child(8) > .board__chip:nth-child(3)::after {
+  animation-delay: -6.75s;
 }
 
 .board__slot-pair {
@@ -766,7 +1015,6 @@
     border-bottom: 1px solid rgba(2, 177, 255, 0.4);
   }
   .board__chip {
-    min-width: 100px;
     max-width: 140px;
     width: 100%;
     height: auto;
@@ -793,6 +1041,30 @@
   .board {
     margin: 0 -1rem;
   }
+}html.login-overlay-open {
+  overflow: hidden;
+  padding-right: 0.5rem;
+}
+@media (hover: none) {
+  html.login-overlay-open {
+    padding-right: 0;
+  }
+}
+.login-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(2rem);
+  backdrop-filter: blur(2rem);
+  z-index: 480;
 }.content-clusters {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -869,4 +1141,27 @@
     flex-direction: column;
     gap: 1rem;
   }
+}.signup-dialog__no-inviter {
+  padding: 0 3rem 2rem 3rem;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #2ebeff;
+}
+
+.signup-dialog__inviter {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 3rem 2rem 3rem;
+}
+
+.signup-dialog__inviter-name {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.signup-dialog__inviter-name-label {
+  color: rgba(255, 255, 255, 0.32);
 }

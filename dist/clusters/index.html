@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru-RU">
+<html lang="ru-RU" class="login-overlay-open">
 
 <head>
 	<meta charset="UTF-8">
@@ -144,7 +144,148 @@
 				<div class="notification__date">1 час назад</div>
 			</div>
 		</div>
-	</div><!-- MODALS --><!-- MEDIA VIEWER --><!-- MAIN -->
+	</div><!-- MODALS -->
+	<form class="modal" id="loginDialog">
+		<div class="modal__content">
+			<div class="dialog large max-width-sm full-width">
+				<div class="dialog__title">Войти в личный кабинет<button class="icon-button contained small color-gray" type="button" data-close-modal><svg data-icon-name="close" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M15.9819 3.35147C16.4505 3.8201 16.4505 4.5799 15.9819 5.04853L11.364 9.66667L15.9819 14.2848C16.4115 14.7144 16.4473 15.3886 16.0893 15.859L15.9819 15.9819C15.5132 16.4505 14.7535 16.4505 14.2848 15.9819L9.66667 11.364L5.04853 15.9819C4.5799 16.4505 3.8201 16.4505 3.35147 15.9819C2.88284 15.5132 2.88284 14.7535 3.35147 14.2848L7.96933 9.66667L3.35147 5.04853C2.9219 4.61895 2.8861 3.94471 3.24408 3.47436L3.35147 3.35147C3.8201 2.88284 4.5799 2.88284 5.04853 3.35147L9.66667 7.96933L14.2848 3.35147C14.7535 2.88284 15.5132 2.88284 15.9819 3.35147Z"></path>
+						</svg></button></div>
+				<div class="dialog__content">
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="email" type="text" placeholder="Электронная почта"></div>
+						</div>
+					</div>
+					<div class="field error">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="password" type="password" placeholder="Пароль"><button class="button text attach-full" type="button" data-open-modal="#restorePasswordDialog" data-close-others="true">Забыли?</button></div>
+						</div>
+						<div class="field__helper-text">Неверный пароль</div>
+					</div>
+				</div>
+				<div class="dialog__actions"><button class="button contained full-width" type="submit">Войти</button></div>
+				<div class="dialog__subactions"> Нет аккаунта? <span style="text-decoration: underline; cursor: pointer" data-open-modal="#signupDialog" data-close-others="true">Зарегистрируйтесь</span></div>
+			</div>
+		</div>
+	</form><!-- fake script -->
+	<script>
+	window.addEventListener("load", () => {
+		const form = document.getElementById("loginDialog");
+		const loginOverlay = document.querySelector(".login-overlay");
+		form.addEventListener("submit", (e) => {
+			e.preventDefault();
+			// close login overlay
+			document.documentElement.classList.remove("login-overlay-open");
+			loginOverlay.setAttribute("hidden", "");
+			// close modal
+			document.documentElement.classList.remove("modal-open");
+			form.classList.remove("open");
+		});
+	});
+	</script>
+	<form class="modal" id="restorePasswordDialog">
+		<div class="modal__content">
+			<div class="dialog large max-width-sm full-width">
+				<div class="dialog__title">Забыли пароль?<button class="icon-button contained small color-gray" type="button" data-close-modal><svg data-icon-name="close" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M15.9819 3.35147C16.4505 3.8201 16.4505 4.5799 15.9819 5.04853L11.364 9.66667L15.9819 14.2848C16.4115 14.7144 16.4473 15.3886 16.0893 15.859L15.9819 15.9819C15.5132 16.4505 14.7535 16.4505 14.2848 15.9819L9.66667 11.364L5.04853 15.9819C4.5799 16.4505 3.8201 16.4505 3.35147 15.9819C2.88284 15.5132 2.88284 14.7535 3.35147 14.2848L7.96933 9.66667L3.35147 5.04853C2.9219 4.61895 2.8861 3.94471 3.24408 3.47436L3.35147 3.35147C3.8201 2.88284 4.5799 2.88284 5.04853 3.35147L9.66667 7.96933L14.2848 3.35147C14.7535 2.88284 15.5132 2.88284 15.9819 3.35147Z"></path>
+						</svg></button></div>
+				<div class="dialog__content">
+					<div class="field">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="email" type="text" placeholder="Электронная почта"></div>
+						</div>
+					</div>
+				</div>
+				<div class="dialog__actions"><button class="button contained full-width" type="submit">Восстановление пароля</button></div>
+				<div class="dialog__subactions"><span style="text-decoration: underline; cursor: pointer">Или введите секретную фразу</span></div>
+			</div>
+		</div>
+	</form>
+	<form class="modal" id="signupDialog">
+		<div class="modal__content">
+			<div class="signup-dialog dialog large max-width-sm full-width">
+				<div class="dialog__title">Регистрация на платформе<button class="icon-button contained small color-gray" type="button" data-close-modal><svg data-icon-name="close" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M15.9819 3.35147C16.4505 3.8201 16.4505 4.5799 15.9819 5.04853L11.364 9.66667L15.9819 14.2848C16.4115 14.7144 16.4473 15.3886 16.0893 15.859L15.9819 15.9819C15.5132 16.4505 14.7535 16.4505 14.2848 15.9819L9.66667 11.364L5.04853 15.9819C4.5799 16.4505 3.8201 16.4505 3.35147 15.9819C2.88284 15.5132 2.88284 14.7535 3.35147 14.2848L7.96933 9.66667L3.35147 5.04853C2.9219 4.61895 2.8861 3.94471 3.24408 3.47436L3.35147 3.35147C3.8201 2.88284 4.5799 2.88284 5.04853 3.35147L9.66667 7.96933L14.2848 3.35147C14.7535 2.88284 15.5132 2.88284 15.9819 3.35147Z"></path>
+						</svg></button></div>
+				<div class="signup-dialog__no-inviter">Для регистрации необходима партнерская ссылка</div>
+				<div class="signup-dialog__inviter">
+					<div class="signup-dialog__inviter-name">
+						<div class="signup-dialog__inviter-name-label">Вас пригласил:</div>
+						<div class="signup-dialog__inviter-name-value">Иван Иванов</div>
+					</div>
+					<div class="signup-dialog__inviter-email">info_ivanoooov@gmail.com</div>
+				</div>
+				<div class="dialog__content">
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="login" type="text" placeholder="Ваш логин"></div>
+						</div>
+					</div>
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="name" type="text" placeholder="Фамилия и имя"></div>
+						</div>
+					</div>
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="email" type="text" placeholder="Электронная почта"></div>
+						</div>
+					</div>
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="password" type="password" placeholder="Пароль"></div>
+						</div>
+					</div>
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="confirmPassword" type="password" placeholder="Повторите пароль"></div>
+						</div>
+					</div>
+					<div class="field" style="margin-bottom:2rem">
+						<div class="field__input-wrapper">
+							<div class="select"><input name="question" value="">
+								<div class="select__trigger" tabindex="0">
+									<div class="select__trigger-value" data-placeholder="Выберите вопрос для ключевой фразы"></div><svg data-icon-name="chevron-bottom" class="select__trigger-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z"></path>
+									</svg>
+								</div>
+								<div class="select__menu">
+									<div class="select__menu-item" data-value="1">Любимое блюдо</div>
+									<div class="select__menu-item" data-value="2">Почтовый индекс</div>
+									<div class="select__menu-item" data-value="3">Дата рождения бабушки</div>
+									<div class="select__menu-item" data-value="4">Ваше прозвище в школе</div>
+									<div class="select__menu-item" data-value="5">Номер паспорта</div>
+									<div class="select__menu-item" data-value="6">Пять последних цифр кред. карты</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="field" style="margin-bottom:1rem">
+						<div class="field__input-wrapper"><label class="checkbox"><input type="checkbox" name="termsOfUse">
+								<div class="checkbox__mark"><svg data-icon-name="checkbox-empty" class="checkbox__empty-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M5.75 3H18.25C19.7688 3 21 4.23122 21 5.75V18.25C21 19.7688 19.7688 21 18.25 21H5.75C4.23122 21 3 19.7688 3 18.25V5.75C3 4.23122 4.23122 3 5.75 3ZM5.75 4.5C5.05964 4.5 4.5 5.05964 4.5 5.75V18.25C4.5 18.9404 5.05964 19.5 5.75 19.5H18.25C18.9404 19.5 19.5 18.9404 19.5 18.25V5.75C19.5 5.05964 18.9404 4.5 18.25 4.5H5.75Z"></path>
+									</svg><svg data-icon-name="checkbox" class="checkbox__checked-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M18 3C19.6569 3 21 4.34315 21 6V18C21 19.6569 19.6569 21 18 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H18ZM16.4697 7.96967L10 14.4393L7.53033 11.9697C7.23744 11.6768 6.76256 11.6768 6.46967 11.9697C6.17678 12.2626 6.17678 12.7374 6.46967 13.0303L9.46967 16.0303C9.76256 16.3232 10.2374 16.3232 10.5303 16.0303L17.5303 9.03033C17.8232 8.73744 17.8232 8.26256 17.5303 7.96967C17.2374 7.67678 16.7626 7.67678 16.4697 7.96967Z"></path>
+									</svg></div>Я прочел(а) и согласен(а) с пользовательским соглашением
+							</label></div>
+					</div>
+					<div class="field">
+						<div class="field__input-wrapper"><label class="checkbox"><input type="checkbox" name="privacyPolicy">
+								<div class="checkbox__mark"><svg data-icon-name="checkbox-empty" class="checkbox__empty-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M5.75 3H18.25C19.7688 3 21 4.23122 21 5.75V18.25C21 19.7688 19.7688 21 18.25 21H5.75C4.23122 21 3 19.7688 3 18.25V5.75C3 4.23122 4.23122 3 5.75 3ZM5.75 4.5C5.05964 4.5 4.5 5.05964 4.5 5.75V18.25C4.5 18.9404 5.05964 19.5 5.75 19.5H18.25C18.9404 19.5 19.5 18.9404 19.5 18.25V5.75C19.5 5.05964 18.9404 4.5 18.25 4.5H5.75Z"></path>
+									</svg><svg data-icon-name="checkbox" class="checkbox__checked-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M18 3C19.6569 3 21 4.34315 21 6V18C21 19.6569 19.6569 21 18 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H18ZM16.4697 7.96967L10 14.4393L7.53033 11.9697C7.23744 11.6768 6.76256 11.6768 6.46967 11.9697C6.17678 12.2626 6.17678 12.7374 6.46967 13.0303L9.46967 16.0303C9.76256 16.3232 10.2374 16.3232 10.5303 16.0303L17.5303 9.03033C17.8232 8.73744 17.8232 8.26256 17.5303 7.96967C17.2374 7.67678 16.7626 7.67678 16.4697 7.96967Z"></path>
+									</svg></div>Я прочел(а) и согласен(а) с политикой конфиденциальности
+							</label></div>
+					</div>
+				</div>
+				<div class="dialog__actions"><button class="button contained full-width" type="submit">Регистрация на платформе</button></div>
+				<div class="dialog__subactions"> Уже есть аккаунт? <span style="text-decoration: underline; cursor: pointer" data-open-modal="#loginDialog" data-close-others="true">Войти с логином и паролем</span></div>
+			</div>
+		</div>
+	</form><!-- MEDIA VIEWER --><!-- LOGIN OVERLAY -->
+	<div class="login-overlay"><button class="button contained" data-open-modal="#loginDialog">Войти / Зарегистрироваться</button></div><!-- MAIN -->
 	<div class="container">
 		<div class="main">
 			<header class="header" id="header">
@@ -181,7 +322,7 @@
 						<div class="content-clusters__cluster-summary cluster-summary block">
 							<div class="cluster-summary__title block__title">
 								<div class="cluster-summary__title-top"><span>Кластер №245</span>
-									<div class="cluster-summary__timer timer" data-timer-finish-date="Sun Nov 12 2023 21:44:14 GMT+0300 (GMT+03:00)" data-timer-format="ddд : hhч : mmм : ssс"></div>
+									<div class="cluster-summary__timer timer" data-timer-start-date="Tue Oct 10 2023 03:09:52 GMT+0300 (GMT+03:00)" data-timer-format="ddд : hhч : mmм : ssс"></div>
 								</div>
 								<div class="cluster-summary__subtitle">5 уровень</div>
 							</div>
@@ -413,9 +554,15 @@
 					</div>
 					<div class="content-clusters__board board">
 						<div class="board__top">
-							<div class="board__cooler-left"></div>
-							<div class="board__processor"></div>
-							<div class="board__cooler-right"></div>
+							<div class="board__cooler-left">
+								<div class="board__cooler-left-fan"></div>
+							</div>
+							<div class="board__processor">
+								<div class="board__processor-light"></div>
+							</div>
+							<div class="board__cooler-right">
+								<div class="board__cooler-right-fan"></div>
+							</div>
 							<div class="board__wire-top-left"></div>
 							<div class="board__wire-top-right"></div>
 						</div>

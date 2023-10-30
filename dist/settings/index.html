@@ -153,21 +153,20 @@
 						</svg></button></div>
 				<div class="dialog__content">
 					<div class="field" style="margin-bottom:1.5rem">
-						<div class="field__label">Логин</div>
-						<div class="field__input-wrapper">
-							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="login" value="kris_anfalova" type="text" placeholder="kris_anfalova"></div>
-						</div>
-					</div>
-					<div class="field" style="margin-bottom:1.5rem">
 						<div class="field__label">Ваше имя</div>
 						<div class="field__input-wrapper">
 							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="name" value="Кристина" type="text" placeholder="Кристина"></div>
 						</div>
 					</div>
-					<div class="field" style="margin-bottom:undefinedrem">
+					<div class="field" style="margin-bottom:1.5rem">
 						<div class="field__label">Электронная почта</div>
 						<div class="field__input-wrapper">
 							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="email" value="anfalovakristina@mail.ru" type="text" placeholder="anfalovakristina@mail.ru"></div>
+						</div>
+					</div>
+					<div class="field">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="code" type="text" placeholder="Код с Google Authenticator"></div>
 						</div>
 					</div>
 				</div>
@@ -185,7 +184,7 @@
 					<div class="field" style="margin-bottom:1.5rem">
 						<div class="field__label">Старый пароль</div>
 						<div class="field__input-wrapper">
-							<div class="input-password input"><input class="input-url-sync" data-url-sync-disabled name="oldPassword" type="password" placeholder="••••••••"><button class="icon-button text color-text-color attach-full" slot="end" type="button"><svg data-icon-name="eye-on" class="input-password__eye-on-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+							<div class="input-password input"><input class="input-url-sync" data-url-sync-disabled name="oldPassword" type="password" placeholder="••••••••"><button class="input-password__eye-btn icon-button text color-text-color attach-full" slot="end" type="button"><svg data-icon-name="eye-on" class="input-password__eye-on-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 										<path d="M12.0004 9.00462C14.2095 9.00462 16.0004 10.7955 16.0004 13.0046C16.0004 15.2138 14.2095 17.0046 12.0004 17.0046C9.79122 17.0046 8.00036 15.2138 8.00036 13.0046C8.00036 10.7955 9.79122 9.00462 12.0004 9.00462ZM12.0004 5.5C16.6139 5.5 20.5965 8.65001 21.7015 13.0644C21.8021 13.4662 21.5579 13.8735 21.1561 13.9741C20.7542 14.0746 20.347 13.8305 20.2464 13.4286C19.3075 9.67796 15.9217 7 12.0004 7C8.07729 7 4.69046 9.68026 3.75322 13.4332C3.65286 13.835 3.24572 14.0794 2.84385 13.9791C2.44197 13.8787 2.19755 13.4716 2.29792 13.0697C3.40101 8.65272 7.38484 5.5 12.0004 5.5Z"></path>
 									</svg><svg data-icon-name="eye-off" class="input-password__eye-off-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 										<path d="M2.21967 2.21967C1.9534 2.48594 1.9292 2.9026 2.14705 3.19621L2.21967 3.28033L6.25424 7.3149C4.33225 8.66437 2.89577 10.6799 2.29888 13.0644C2.1983 13.4662 2.4425 13.8735 2.84431 13.9741C3.24613 14.0746 3.6534 13.8305 3.75399 13.4286C4.28346 11.3135 5.59112 9.53947 7.33416 8.39452L9.14379 10.2043C8.43628 10.9258 8 11.9143 8 13.0046C8 15.2138 9.79086 17.0046 12 17.0046C13.0904 17.0046 14.0788 16.5683 14.8004 15.8608L20.7197 21.7803C21.0126 22.0732 21.4874 22.0732 21.7803 21.7803C22.0466 21.5141 22.0708 21.0974 21.8529 20.8038L21.7803 20.7197L15.6668 14.6055L15.668 14.604L8.71877 7.65782L8.72 7.656L7.58672 6.52549L3.28033 2.21967C2.98744 1.92678 2.51256 1.92678 2.21967 2.21967ZM12 5.5C10.9997 5.5 10.0291 5.64807 9.11109 5.925L10.3481 7.16119C10.8839 7.05532 11.4364 7 12 7C15.9231 7 19.3099 9.68026 20.2471 13.4332C20.3475 13.835 20.7546 14.0794 21.1565 13.9791C21.5584 13.8787 21.8028 13.4716 21.7024 13.0697C20.5994 8.65272 16.6155 5.5 12 5.5ZM12.1947 9.00928L15.996 12.81C15.8942 10.7531 14.2472 9.10764 12.1947 9.00928Z"></path>
@@ -195,21 +194,26 @@
 					<div class="field" style="margin-bottom:1.5rem">
 						<div class="field__label">Новый пароль</div>
 						<div class="field__input-wrapper">
-							<div class="input-password input"><input class="input-url-sync" data-url-sync-disabled name="newPassword" type="password" placeholder="••••••••"><button class="icon-button text color-text-color attach-full" slot="end" type="button"><svg data-icon-name="eye-on" class="input-password__eye-on-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+							<div class="input-password input"><input class="input-url-sync" data-url-sync-disabled name="newPassword" type="password" placeholder="••••••••"><button class="input-password__eye-btn icon-button text color-text-color attach-full" slot="end" type="button"><svg data-icon-name="eye-on" class="input-password__eye-on-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 										<path d="M12.0004 9.00462C14.2095 9.00462 16.0004 10.7955 16.0004 13.0046C16.0004 15.2138 14.2095 17.0046 12.0004 17.0046C9.79122 17.0046 8.00036 15.2138 8.00036 13.0046C8.00036 10.7955 9.79122 9.00462 12.0004 9.00462ZM12.0004 5.5C16.6139 5.5 20.5965 8.65001 21.7015 13.0644C21.8021 13.4662 21.5579 13.8735 21.1561 13.9741C20.7542 14.0746 20.347 13.8305 20.2464 13.4286C19.3075 9.67796 15.9217 7 12.0004 7C8.07729 7 4.69046 9.68026 3.75322 13.4332C3.65286 13.835 3.24572 14.0794 2.84385 13.9791C2.44197 13.8787 2.19755 13.4716 2.29792 13.0697C3.40101 8.65272 7.38484 5.5 12.0004 5.5Z"></path>
 									</svg><svg data-icon-name="eye-off" class="input-password__eye-off-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 										<path d="M2.21967 2.21967C1.9534 2.48594 1.9292 2.9026 2.14705 3.19621L2.21967 3.28033L6.25424 7.3149C4.33225 8.66437 2.89577 10.6799 2.29888 13.0644C2.1983 13.4662 2.4425 13.8735 2.84431 13.9741C3.24613 14.0746 3.6534 13.8305 3.75399 13.4286C4.28346 11.3135 5.59112 9.53947 7.33416 8.39452L9.14379 10.2043C8.43628 10.9258 8 11.9143 8 13.0046C8 15.2138 9.79086 17.0046 12 17.0046C13.0904 17.0046 14.0788 16.5683 14.8004 15.8608L20.7197 21.7803C21.0126 22.0732 21.4874 22.0732 21.7803 21.7803C22.0466 21.5141 22.0708 21.0974 21.8529 20.8038L21.7803 20.7197L15.6668 14.6055L15.668 14.604L8.71877 7.65782L8.72 7.656L7.58672 6.52549L3.28033 2.21967C2.98744 1.92678 2.51256 1.92678 2.21967 2.21967ZM12 5.5C10.9997 5.5 10.0291 5.64807 9.11109 5.925L10.3481 7.16119C10.8839 7.05532 11.4364 7 12 7C15.9231 7 19.3099 9.68026 20.2471 13.4332C20.3475 13.835 20.7546 14.0794 21.1565 13.9791C21.5584 13.8787 21.8028 13.4716 21.7024 13.0697C20.5994 8.65272 16.6155 5.5 12 5.5ZM12.1947 9.00928L15.996 12.81C15.8942 10.7531 14.2472 9.10764 12.1947 9.00928Z"></path>
 									</svg></button></div>
 						</div>
 					</div>
-					<div class="field" style="margin-bottom:undefinedrem">
+					<div class="field">
 						<div class="field__label">Повторите новый пароль</div>
 						<div class="field__input-wrapper">
-							<div class="input-password input"><input class="input-url-sync" data-url-sync-disabled name="confirmPassword" type="password" placeholder="••••••••"><button class="icon-button text color-text-color attach-full" slot="end" type="button"><svg data-icon-name="eye-on" class="input-password__eye-on-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+							<div class="input-password input"><input class="input-url-sync" data-url-sync-disabled name="confirmPassword" type="password" placeholder="••••••••"><button class="input-password__eye-btn icon-button text color-text-color attach-full" slot="end" type="button"><svg data-icon-name="eye-on" class="input-password__eye-on-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 										<path d="M12.0004 9.00462C14.2095 9.00462 16.0004 10.7955 16.0004 13.0046C16.0004 15.2138 14.2095 17.0046 12.0004 17.0046C9.79122 17.0046 8.00036 15.2138 8.00036 13.0046C8.00036 10.7955 9.79122 9.00462 12.0004 9.00462ZM12.0004 5.5C16.6139 5.5 20.5965 8.65001 21.7015 13.0644C21.8021 13.4662 21.5579 13.8735 21.1561 13.9741C20.7542 14.0746 20.347 13.8305 20.2464 13.4286C19.3075 9.67796 15.9217 7 12.0004 7C8.07729 7 4.69046 9.68026 3.75322 13.4332C3.65286 13.835 3.24572 14.0794 2.84385 13.9791C2.44197 13.8787 2.19755 13.4716 2.29792 13.0697C3.40101 8.65272 7.38484 5.5 12.0004 5.5Z"></path>
 									</svg><svg data-icon-name="eye-off" class="input-password__eye-off-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 										<path d="M2.21967 2.21967C1.9534 2.48594 1.9292 2.9026 2.14705 3.19621L2.21967 3.28033L6.25424 7.3149C4.33225 8.66437 2.89577 10.6799 2.29888 13.0644C2.1983 13.4662 2.4425 13.8735 2.84431 13.9741C3.24613 14.0746 3.6534 13.8305 3.75399 13.4286C4.28346 11.3135 5.59112 9.53947 7.33416 8.39452L9.14379 10.2043C8.43628 10.9258 8 11.9143 8 13.0046C8 15.2138 9.79086 17.0046 12 17.0046C13.0904 17.0046 14.0788 16.5683 14.8004 15.8608L20.7197 21.7803C21.0126 22.0732 21.4874 22.0732 21.7803 21.7803C22.0466 21.5141 22.0708 21.0974 21.8529 20.8038L21.7803 20.7197L15.6668 14.6055L15.668 14.604L8.71877 7.65782L8.72 7.656L7.58672 6.52549L3.28033 2.21967C2.98744 1.92678 2.51256 1.92678 2.21967 2.21967ZM12 5.5C10.9997 5.5 10.0291 5.64807 9.11109 5.925L10.3481 7.16119C10.8839 7.05532 11.4364 7 12 7C15.9231 7 19.3099 9.68026 20.2471 13.4332C20.3475 13.835 20.7546 14.0794 21.1565 13.9791C21.5584 13.8787 21.8028 13.4716 21.7024 13.0697C20.5994 8.65272 16.6155 5.5 12 5.5ZM12.1947 9.00928L15.996 12.81C15.8942 10.7531 14.2472 9.10764 12.1947 9.00928Z"></path>
 									</svg></button></div>
+						</div>
+					</div>
+					<div class="field">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="code" type="text" placeholder="Код с Google Authenticator"></div>
 						</div>
 					</div>
 				</div>
@@ -229,7 +233,7 @@
 							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="walletAddress" value="0x29D7d1dd5B6f9C864d9db560D72a28qwerqv" type="text" placeholder="Адрес кошелька"></div>
 						</div>
 					</div>
-					<div class="field" style="margin-bottom:1.5rem">
+					<div class="field">
 						<div class="field__input-wrapper">
 							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="code" type="text" placeholder="Код с Google Authenticator"></div>
 						</div>
@@ -238,7 +242,124 @@
 				<div class="dialog__actions"><button class="button contained full-width" type="submit">Сохранить</button></div>
 			</div>
 		</div>
-	</form><!-- MEDIA VIEWER --><!-- MAIN -->
+	</form>
+	<form class="modal" id="enableEmailVerificationDialog">
+		<div class="modal__content">
+			<div class="dialog max-width-xs full-width">
+				<div class="dialog__title">Подключить проверку через почту<button class="icon-button contained small color-gray" type="button" data-close-modal><svg data-icon-name="close" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M15.9819 3.35147C16.4505 3.8201 16.4505 4.5799 15.9819 5.04853L11.364 9.66667L15.9819 14.2848C16.4115 14.7144 16.4473 15.3886 16.0893 15.859L15.9819 15.9819C15.5132 16.4505 14.7535 16.4505 14.2848 15.9819L9.66667 11.364L5.04853 15.9819C4.5799 16.4505 3.8201 16.4505 3.35147 15.9819C2.88284 15.5132 2.88284 14.7535 3.35147 14.2848L7.96933 9.66667L3.35147 5.04853C2.9219 4.61895 2.8861 3.94471 3.24408 3.47436L3.35147 3.35147C3.8201 2.88284 4.5799 2.88284 5.04853 3.35147L9.66667 7.96933L14.2848 3.35147C14.7535 2.88284 15.5132 2.88284 15.9819 3.35147Z"></path>
+						</svg></button></div>
+				<div class="dialog__content">
+					<div style="font-size: 1rem; font-weight: 500; line-height: 1.5rem; margin-bottom: 2rem"> Введите электронную почту. На неё будет отправлен код подтверждения </div>
+					<div class="field">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="email" type="text" placeholder="Электронная почта"></div>
+						</div>
+					</div>
+				</div>
+				<div class="dialog__actions"><button class="button contained full-width" type="submit">Отправить код</button></div>
+			</div>
+		</div>
+	</form><!-- fake script -->
+	<script>
+	window.addEventListener("load", () => {
+		const form1 = document.getElementById("enableEmailVerificationDialog");
+		const form2 = document.getElementById("confirmEmailVerificationDialog");
+		form1.addEventListener("submit", (e) => {
+			e.preventDefault();
+			form1.classList.remove("open");
+			form2.classList.add("open");
+		});
+	});
+	</script>
+	<form class="modal" id="confirmEmailVerificationDialog">
+		<div class="modal__content">
+			<div class="dialog max-width-xs full-width">
+				<div class="dialog__title">Подключить проверку через почту<button class="icon-button contained small color-gray" type="button" data-close-modal><svg data-icon-name="close" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M15.9819 3.35147C16.4505 3.8201 16.4505 4.5799 15.9819 5.04853L11.364 9.66667L15.9819 14.2848C16.4115 14.7144 16.4473 15.3886 16.0893 15.859L15.9819 15.9819C15.5132 16.4505 14.7535 16.4505 14.2848 15.9819L9.66667 11.364L5.04853 15.9819C4.5799 16.4505 3.8201 16.4505 3.35147 15.9819C2.88284 15.5132 2.88284 14.7535 3.35147 14.2848L7.96933 9.66667L3.35147 5.04853C2.9219 4.61895 2.8861 3.94471 3.24408 3.47436L3.35147 3.35147C3.8201 2.88284 4.5799 2.88284 5.04853 3.35147L9.66667 7.96933L14.2848 3.35147C14.7535 2.88284 15.5132 2.88284 15.9819 3.35147Z"></path>
+						</svg></button></div>
+				<div class="dialog__content">
+					<div style="font-size: 1rem; font-weight: 500; line-height: 1.5rem; margin-bottom: 2rem"> Введите код, отправленный на example@mail.ru </div>
+					<div class="field">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="code" type="text" placeholder="Код подтверждения"></div>
+						</div>
+					</div>
+				</div>
+				<div class="dialog__actions"><button class="button contained full-width" type="submit">Подтвердить</button></div>
+			</div>
+		</div>
+	</form>
+	<form class="modal" id="enableGoogleAuthenticationDialog">
+		<div class="modal__content">
+			<div class="enableGADialog dialog max-width-xs full-width">
+				<div class="dialog__title">Отсканируйте QR<button class="icon-button contained small color-gray" type="button" data-close-modal><svg data-icon-name="close" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M15.9819 3.35147C16.4505 3.8201 16.4505 4.5799 15.9819 5.04853L11.364 9.66667L15.9819 14.2848C16.4115 14.7144 16.4473 15.3886 16.0893 15.859L15.9819 15.9819C15.5132 16.4505 14.7535 16.4505 14.2848 15.9819L9.66667 11.364L5.04853 15.9819C4.5799 16.4505 3.8201 16.4505 3.35147 15.9819C2.88284 15.5132 2.88284 14.7535 3.35147 14.2848L7.96933 9.66667L3.35147 5.04853C2.9219 4.61895 2.8861 3.94471 3.24408 3.47436L3.35147 3.35147C3.8201 2.88284 4.5799 2.88284 5.04853 3.35147L9.66667 7.96933L14.2848 3.35147C14.7535 2.88284 15.5132 2.88284 15.9819 3.35147Z"></path>
+						</svg></button></div>
+				<div class="dialog__content">
+					<div class="enableGADialog__tip">
+						<div class="enableGADialog__tip-text">Воспользуйтесь приложением Google Authenticator</div><img class="enableGADialog__tip-qrcode" src="../_layout-assets/img/qrcode.png" alt="">
+						<div class="enableGADialog__tip-code">RJIORSQMNWSK62DO</div>
+					</div>
+					<div class="field">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="answer" type="text" placeholder="Ответ на ключевой вопрос"></div>
+						</div>
+					</div>
+				</div>
+				<div class="dialog__actions"><button class="button contained full-width" type="submit">Отключить</button></div>
+			</div>
+		</div>
+	</form>
+	<form class="modal" id="disableGoogleAuthenticationDialog">
+		<div class="modal__content">
+			<div class="dialog max-width-xs full-width">
+				<div class="dialog__title">Отключить Google Authenticator<button class="icon-button contained small color-gray" type="button" data-close-modal><svg data-icon-name="close" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+							<path d="M15.9819 3.35147C16.4505 3.8201 16.4505 4.5799 15.9819 5.04853L11.364 9.66667L15.9819 14.2848C16.4115 14.7144 16.4473 15.3886 16.0893 15.859L15.9819 15.9819C15.5132 16.4505 14.7535 16.4505 14.2848 15.9819L9.66667 11.364L5.04853 15.9819C4.5799 16.4505 3.8201 16.4505 3.35147 15.9819C2.88284 15.5132 2.88284 14.7535 3.35147 14.2848L7.96933 9.66667L3.35147 5.04853C2.9219 4.61895 2.8861 3.94471 3.24408 3.47436L3.35147 3.35147C3.8201 2.88284 4.5799 2.88284 5.04853 3.35147L9.66667 7.96933L14.2848 3.35147C14.7535 2.88284 15.5132 2.88284 15.9819 3.35147Z"></path>
+						</svg></button></div>
+				<div class="dialog__content">
+					<div class="field" style="margin-bottom:1.5rem">
+						<div class="field__input-wrapper">
+							<div class="select"><input name="question" value="">
+								<div class="select__trigger" tabindex="0">
+									<div class="select__trigger-value" data-placeholder="Выберите вопрос для ключевой фразы"></div><svg data-icon-name="chevron-bottom" class="select__trigger-icon svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z"></path>
+									</svg>
+								</div>
+								<div class="select__menu">
+									<div class="select__menu-item" data-value="1">Любимое блюдо</div>
+									<div class="select__menu-item" data-value="2">Почтовый индекс</div>
+									<div class="select__menu-item" data-value="3">Дата рождения бабушки</div>
+									<div class="select__menu-item" data-value="4">Ваше прозвище в школе</div>
+									<div class="select__menu-item" data-value="5">Номер паспорта</div>
+									<div class="select__menu-item" data-value="6">Пять последних цифр кред. карты</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="field">
+						<div class="field__input-wrapper">
+							<div class="input"><input class="input-url-sync" data-url-sync-disabled name="answer" type="text" placeholder="Ответ на ключевой вопрос"></div>
+						</div>
+					</div>
+				</div>
+				<div class="dialog__actions"><button class="button contained full-width" type="submit">Отключить</button></div>
+			</div>
+		</div>
+	</form><!-- fake script -->
+	<script>
+	window.addEventListener("load", () => {
+		const form = document.getElementById("disableGoogleAuthenticationDialog");
+		const gauth = document.querySelector(".two-factor-auth__content > div.two-factor-auth__item:nth-child(2)");
+		form.addEventListener("submit", (e) => {
+			e.preventDefault();
+			form.classList.remove("open");
+			document.documentElement.classList.remove("modal-open");
+			gauth.classList.add("turn-off");
+			gauth.classList.remove("turn-on");
+		});
+	});
+	</script><!-- MEDIA VIEWER --><!-- MAIN -->
 	<div class="container">
 		<div class="side-menu" id="sideMenu">
 			<div class="side-menu__overlay"></div>
@@ -439,14 +560,14 @@
 						<div class="two-factor-auth__content block__content">
 							<div class="two-factor-auth__item turn-off">
 								<div class="two-factor-auth__label">Электронная почта</div>
-								<div class="two-factor-auth__control"><button class="two-factor-auth__turn-on-btn button text small">Подключить</button>
+								<div class="two-factor-auth__control"><button class="two-factor-auth__turn-on-btn button text small" data-open-modal="#enableEmailVerificationDialog">Подключить</button>
 									<div class="two-factor-auth__turn-on-chip chip success">Подключён</div><button class="two-factor-auth__turn-off-btn button text small">Отключить</button>
 								</div>
 							</div>
 							<div class="two-factor-auth__item turn-on">
 								<div class="two-factor-auth__label">Google authenticator</div>
-								<div class="two-factor-auth__control"><button class="two-factor-auth__turn-on-btn button text small">Подключить</button>
-									<div class="two-factor-auth__turn-on-chip chip success">Подключён</div><button class="two-factor-auth__turn-off-btn button text small">Отключить</button>
+								<div class="two-factor-auth__control"><button class="two-factor-auth__turn-on-btn button text small" data-open-modal="#enableGoogleAuthenticationDialog">Подключить</button>
+									<div class="two-factor-auth__turn-on-chip chip success">Подключён</div><button class="two-factor-auth__turn-off-btn button text small" data-open-modal="#disableGoogleAuthenticationDialog">Отключить</button>
 								</div>
 							</div>
 						</div>
