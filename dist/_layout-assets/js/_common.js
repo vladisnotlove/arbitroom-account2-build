@@ -1,165 +1,4 @@
-import { S as Swiper, N as Navigation, P as Pagination, c as createPopper } from './_vendor.js';
-
-window.addEventListener("load", () => {
-  new Swiper(".swiper", {
-    modules: [Navigation, Pagination],
-    navigation: {
-      prevEl: ".swiper-button-prev",
-      nextEl: ".swiper-button-next"
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true
-    },
-    loop: true
-  });
-});
-
-window.addEventListener("load", () => {
-  const headerTitle = document.querySelector("#header .header__title");
-  if (headerTitle instanceof HTMLElement) {
-    new ResizeObserver(() => {
-      if (headerTitle.scrollWidth > headerTitle.clientWidth) {
-        headerTitle.classList.add("overflow");
-      } else {
-        headerTitle.classList.remove("overflow");
-      }
-    }).observe(headerTitle);
-  }
-});
-
-window.addEventListener("load", () => {
-  const sideMenu = document.getElementById("sideMenu");
-  if (!sideMenu)
-    return;
-  const sideMenuBody = sideMenu.querySelector(".side-menu__body");
-  const overlay = sideMenu.querySelector(".side-menu__overlay");
-  const burger = document.querySelector("#header .header__burger-btn");
-  const openMenu = () => {
-    if (sideMenu && burger && sideMenuBody) {
-      sideMenuBody.scrollTop = 0;
-      sideMenu.classList.add("open");
-      burger.classList.add("open");
-      document.documentElement.classList.add("side-menu-open");
-    }
-  };
-  const closeMenu = () => {
-    if (sideMenu && burger) {
-      sideMenu.classList.remove("open");
-      burger.classList.remove("open");
-      document.documentElement.classList.remove("side-menu-open");
-    }
-  };
-  const toggleMenu = () => {
-    if (sideMenu.classList.contains("open")) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  };
-  if (overlay)
-    overlay.addEventListener("click", closeMenu);
-  if (burger)
-    burger.addEventListener("click", toggleMenu);
-  document.querySelectorAll(".tab-group").forEach((tabGroup) => {
-    const label = tabGroup.querySelector(".tab-group__label");
-    if (label)
-      label.addEventListener("click", () => {
-        tabGroup.classList.toggle("expanded");
-      });
-  });
-});
-
-const getCssVariable = (name) => {
-  return getComputedStyle(document.body).getPropertyValue(name);
-};
-
-window.addEventListener("load", () => {
-  const POPPER_VIEWPORT_PADDING = getCssVariable("--popper-viewport-padding");
-  const ANIMATION_SLOW_MS = parseFloat(getCssVariable("--animation-slow")) * 1e3;
-  document.querySelectorAll(".popper").forEach((popperElement) => {
-    if (!(popperElement instanceof HTMLElement))
-      return;
-    const onHover = !!popperElement.getAttribute("data-popper-on-hover");
-    const anchorElementQuery = popperElement.getAttribute("data-popper-anchor-element");
-    const anchorElements = document.querySelectorAll(anchorElementQuery);
-    const closeElements = popperElement.querySelectorAll("[data-popper-close-element]");
-    if (!anchorElements)
-      console.warn(popperElement, "has no 'data-popper-anchor-element'");
-    let overlay;
-    let popper;
-    let closingTimeout;
-    const openPopper = (currentAnchorElement, options = {}) => {
-      const disableOverlay = options.disableOverlay ?? false;
-      clearTimeout(closingTimeout);
-      if (!popper)
-        popper = createPopper(currentAnchorElement, popperElement, {
-          strategy: "fixed",
-          modifiers: [
-            {
-              name: "preventOverflow",
-              options: {
-                altAxis: true,
-                padding: POPPER_VIEWPORT_PADDING
-              }
-            }
-          ]
-        });
-      if (!disableOverlay) {
-        overlay = document.createElement("div");
-        overlay.classList.add("popper-overlay");
-        overlay.addEventListener("click", closePopper);
-        document.body.prepend(overlay);
-      }
-      popperElement.classList.add("open");
-    };
-    const closePopper = () => {
-      if (overlay) {
-        overlay.remove();
-        overlay = void 0;
-      }
-      popperElement.classList.remove("open");
-      clearTimeout(closingTimeout);
-      closingTimeout = window.setTimeout(() => {
-        popper?.destroy();
-        popper = void 0;
-      }, ANIMATION_SLOW_MS);
-    };
-    anchorElements.forEach((anchorElement) => {
-      if (onHover) {
-        anchorElement.addEventListener("mouseenter", (e) => {
-          const isOpen = popperElement.classList.contains("open");
-          if (!isOpen) {
-            openPopper(e.currentTarget, { disableOverlay: true });
-          }
-        });
-        anchorElement.addEventListener("mouseenter", (e) => {
-        });
-        anchorElement.addEventListener("mouseleave", () => {
-          const isOpen = popperElement.classList.contains("open");
-          if (isOpen) {
-            closePopper();
-          }
-        });
-      } else {
-        closeElements.forEach((closeElement) => {
-          closeElement.addEventListener("click", closePopper);
-        });
-        anchorElement.addEventListener("click", (e) => {
-          const isOpen = popperElement.classList.contains("open");
-          if (!isOpen) {
-            openPopper(e.currentTarget);
-          } else {
-            closePopper();
-          }
-        });
-        window.addEventListener("blur", () => {
-          closePopper();
-        });
-      }
-    });
-  });
-});
+import { c as createPopper, S as Swiper, N as Navigation, P as Pagination } from './_vendor.js';
 
 const setValue = (elements, value) => {
   elements.input?.setAttribute("value", value);
@@ -256,6 +95,106 @@ window.addEventListener("load", () => {
   });
 });
 
+const INPUT_VALUE_SEP = ",";
+window.addEventListener("load", () => {
+  const elements = document.querySelectorAll(".input-url-sync:not([data-url-sync-disabled])");
+  const updateValue = (input) => {
+    const url = new URL(window.location.href);
+    const paramValues = url.searchParams.getAll(input.name);
+    const value = paramValues.join(INPUT_VALUE_SEP);
+    if (input.value !== value) {
+      input.setAttribute("value", value);
+      input.dispatchEvent(new Event("change"));
+    }
+  };
+  const updateUrl = (input) => {
+    const name = input.name;
+    const value = input.value;
+    const url = new URL(window.location.href);
+    url.searchParams.set(name, value);
+    if (window.location.href !== url.href) {
+      window.localStorage.setItem("page-scroll-top", "" + document.documentElement.scrollTop);
+      window.location.replace(url.href);
+    }
+  };
+  elements.forEach((element) => {
+    element.addEventListener("change", (e) => {
+      if (!(e.currentTarget instanceof HTMLInputElement))
+        return;
+      if (e.currentTarget.getAttribute("data-only-init") !== null)
+        return;
+      updateUrl(e.currentTarget);
+    });
+    if (element instanceof HTMLInputElement)
+      updateValue(element);
+  });
+  window.addEventListener("locationchange", (e) => {
+    elements.forEach((element) => {
+      if (element instanceof HTMLInputElement)
+        updateValue(element);
+    });
+  });
+  const pageScrollTop = parseFloat(window.localStorage.getItem("page-scroll-top") || "0");
+  document.documentElement.style.scrollBehavior = "auto";
+  window.scrollTo({ top: pageScrollTop });
+  document.documentElement.style.scrollBehavior = "";
+});
+
+window.addEventListener("load", () => {
+  const headerTitle = document.querySelector("#header .header__title");
+  if (headerTitle instanceof HTMLElement) {
+    new ResizeObserver(() => {
+      if (headerTitle.scrollWidth > headerTitle.clientWidth) {
+        headerTitle.classList.add("overflow");
+      } else {
+        headerTitle.classList.remove("overflow");
+      }
+    }).observe(headerTitle);
+  }
+});
+
+window.addEventListener("load", () => {
+  const sideMenu = document.getElementById("sideMenu");
+  if (!sideMenu)
+    return;
+  const sideMenuBody = sideMenu.querySelector(".side-menu__body");
+  const overlay = sideMenu.querySelector(".side-menu__overlay");
+  const burger = document.querySelector("#header .header__burger-btn");
+  const openMenu = () => {
+    if (sideMenu && burger && sideMenuBody) {
+      sideMenuBody.scrollTop = 0;
+      sideMenu.classList.add("open");
+      burger.classList.add("open");
+      document.documentElement.classList.add("side-menu-open");
+    }
+  };
+  const closeMenu = () => {
+    if (sideMenu && burger) {
+      sideMenu.classList.remove("open");
+      burger.classList.remove("open");
+      document.documentElement.classList.remove("side-menu-open");
+    }
+  };
+  const toggleMenu = () => {
+    if (sideMenu.classList.contains("open")) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  };
+  if (overlay)
+    overlay.addEventListener("click", closeMenu);
+  if (burger)
+    burger.addEventListener("click", toggleMenu);
+  document.querySelectorAll(".tab-group").forEach((tabGroup) => {
+    const label = tabGroup.querySelector(".tab-group__label");
+    if (label)
+      label.addEventListener("click", () => {
+        tabGroup.classList.toggle("expanded");
+      });
+  });
+});
+
 const getFinishDate = (el) => {
   const str = el.getAttribute("data-timer-finish-date");
   const finishDate = str ? new Date(str) : void 0;
@@ -324,49 +263,248 @@ window.addEventListener("load", () => {
   });
 });
 
-const INPUT_VALUE_SEP = ",";
+const getCssVariable = (name) => {
+  return getComputedStyle(document.body).getPropertyValue(name);
+};
+
 window.addEventListener("load", () => {
-  const elements = document.querySelectorAll(".input-url-sync:not([data-url-sync-disabled])");
-  const updateValue = (input) => {
-    const url = new URL(window.location.href);
-    const paramValues = url.searchParams.getAll(input.name);
-    const value = paramValues.join(INPUT_VALUE_SEP);
-    if (input.value !== value) {
-      input.setAttribute("value", value);
-      input.dispatchEvent(new Event("change"));
+  const POPPER_VIEWPORT_PADDING = getCssVariable("--popper-viewport-padding");
+  const ANIMATION_SLOW_MS = parseFloat(getCssVariable("--animation-slow")) * 1e3;
+  document.querySelectorAll(".popper").forEach((popperElement) => {
+    if (!(popperElement instanceof HTMLElement))
+      return;
+    const onHover = !!popperElement.getAttribute("data-popper-on-hover");
+    const anchorElementQuery = popperElement.getAttribute("data-popper-anchor-element");
+    const anchorElements = document.querySelectorAll(anchorElementQuery);
+    const closeElements = popperElement.querySelectorAll("[data-popper-close-element]");
+    if (!anchorElements)
+      console.warn(popperElement, "has no 'data-popper-anchor-element'");
+    let overlay;
+    let popper;
+    let closingTimeout;
+    const openPopper = (currentAnchorElement, options = {}) => {
+      const disableOverlay = options.disableOverlay ?? false;
+      clearTimeout(closingTimeout);
+      if (!popper)
+        popper = createPopper(currentAnchorElement, popperElement, {
+          strategy: "fixed",
+          modifiers: [
+            {
+              name: "preventOverflow",
+              options: {
+                altAxis: true,
+                padding: POPPER_VIEWPORT_PADDING
+              }
+            }
+          ]
+        });
+      if (!disableOverlay) {
+        overlay = document.createElement("div");
+        overlay.classList.add("popper-overlay");
+        overlay.addEventListener("click", closePopper);
+        document.body.prepend(overlay);
+      }
+      popperElement.classList.add("open");
+    };
+    const closePopper = () => {
+      if (overlay) {
+        overlay.remove();
+        overlay = void 0;
+      }
+      popperElement.classList.remove("open");
+      clearTimeout(closingTimeout);
+      closingTimeout = window.setTimeout(() => {
+        popper?.destroy();
+        popper = void 0;
+      }, ANIMATION_SLOW_MS);
+    };
+    anchorElements.forEach((anchorElement) => {
+      if (onHover) {
+        anchorElement.addEventListener("mouseenter", (e) => {
+          const isOpen = popperElement.classList.contains("open");
+          if (!isOpen) {
+            openPopper(e.currentTarget, { disableOverlay: true });
+          }
+        });
+        anchorElement.addEventListener("mouseenter", (e) => {
+        });
+        anchorElement.addEventListener("mouseleave", () => {
+          const isOpen = popperElement.classList.contains("open");
+          if (isOpen) {
+            closePopper();
+          }
+        });
+      } else {
+        closeElements.forEach((closeElement) => {
+          closeElement.addEventListener("click", closePopper);
+        });
+        anchorElement.addEventListener("click", (e) => {
+          const isOpen = popperElement.classList.contains("open");
+          if (!isOpen) {
+            openPopper(e.currentTarget);
+          } else {
+            closePopper();
+          }
+        });
+        window.addEventListener("blur", () => {
+          closePopper();
+        });
+      }
+    });
+  });
+});
+
+window.addEventListener("load", () => {
+  new Swiper(".swiper", {
+    modules: [Navigation, Pagination],
+    navigation: {
+      prevEl: ".swiper-button-prev",
+      nextEl: ".swiper-button-next"
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true
+    },
+    loop: true
+  });
+});
+
+window.addEventListener("load", () => {
+  document.querySelectorAll(".textarea-autosize").forEach((root) => {
+    if (!(root instanceof HTMLTextAreaElement)) {
+      console.error("Element with class 'textarea-autosize' is not textarea", root);
+      return;
+    }
+    root.addEventListener("input", () => {
+      const maxHeight = parseFloat(root.dataset.textareaAutosizeMaxWidth || "0");
+      const initialHeight = root.style.height;
+      console.log(initialHeight);
+      root.style.height = "auto";
+      if (maxHeight > 0 && root.scrollHeight < maxHeight) {
+        root.style.height = root.scrollHeight + "px";
+        root.style.overflowY = "hidden";
+      } else {
+        root.style.height = initialHeight;
+        root.style.overflowY = "auto";
+      }
+    });
+  });
+});
+
+const sameWidth = {
+  name: "sameWidth",
+  enabled: true,
+  phase: "beforeWrite",
+  requires: ["computeStyles"],
+  fn: ({ state }) => {
+    state.styles.popper.width = `${state.rects.reference.width}px`;
+  },
+  effect: ({ state }) => {
+    state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
+  }
+};
+const createPlacementHandler = (onPlacementChange) => {
+  return {
+    name: "placementHandler",
+    enabled: true,
+    phase: "beforeWrite",
+    requires: ["computeStyles"],
+    fn: ({ state }) => {
+      onPlacementChange(state.placement, state.elements.popper);
     }
   };
-  const updateUrl = (input) => {
-    const name = input.name;
-    const value = input.value;
-    const url = new URL(window.location.href);
-    url.searchParams.set(name, value);
-    if (window.location.href !== url.href) {
-      window.localStorage.setItem("page-scroll-top", "" + document.documentElement.scrollTop);
-      window.location.replace(url.href);
-    }
-  };
-  elements.forEach((element) => {
-    element.addEventListener("change", (e) => {
-      if (!(e.currentTarget instanceof HTMLInputElement))
-        return;
-      if (e.currentTarget.getAttribute("data-only-init") !== null)
-        return;
-      updateUrl(e.currentTarget);
+};
+
+function copyToClipboard(textToCopy) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(textToCopy);
+  } else {
+    let textArea = document.createElement("textarea");
+    textArea.value = textToCopy;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    return new Promise((res, rej) => {
+      document.execCommand("copy") ? res(void 0) : rej();
+      textArea.remove();
     });
-    if (element instanceof HTMLInputElement)
-      updateValue(element);
-  });
-  window.addEventListener("locationchange", (e) => {
-    elements.forEach((element) => {
-      if (element instanceof HTMLInputElement)
-        updateValue(element);
+  }
+}
+
+const parsePlacement = (className) => {
+  return (className.match(/left|right|top|bottom/g) || [])[0];
+};
+const SHOW_TIME_MS = 2e3;
+window.addEventListener("load", () => {
+  const ANIMATION_SLOW_MS = parseFloat(getCssVariable("--animation-slow")) * 1e3;
+  document.querySelectorAll(".copy-text").forEach((copyText) => {
+    const value = copyText.querySelector(".copy-text__value")?.textContent?.trim();
+    const tooltip = copyText.querySelector(".copy-text__success-tooltip");
+    if (!value || !(tooltip instanceof HTMLElement))
+      return;
+    let popper;
+    let hidingTimeout;
+    let autoHidingTimeout;
+    const showTooltip = () => {
+      clearTimeout(hidingTimeout);
+      popper = createPopper(copyText, tooltip, {
+        placement: parsePlacement(tooltip.className) ?? "auto",
+        strategy: "absolute",
+        modifiers: [
+          {
+            name: "flip",
+            options: {
+              fallbackPlacements: ["auto"]
+            }
+          },
+          createPlacementHandler((placement, element) => {
+            element.classList.remove("top");
+            element.classList.remove("left");
+            element.classList.remove("right");
+            element.classList.remove("bottom");
+            element.classList.add(placement);
+          })
+        ]
+      });
+      tooltip.classList.add("show");
+      tooltip.classList.remove("fade-out-slow");
+    };
+    const hideTooltip = (options = {}) => {
+      clearTimeout(hidingTimeout);
+      if (options.rightNow) {
+        tooltip.classList.remove("show");
+        tooltip.classList.remove("fade-out-slow");
+      } else {
+        tooltip.classList.add("fade-out-slow");
+        hidingTimeout = window.setTimeout(() => {
+          tooltip.classList.remove("show");
+          tooltip.classList.remove("fade-out-slow");
+          popper?.destroy();
+        }, ANIMATION_SLOW_MS);
+      }
+    };
+    const onClickOutside = (e) => {
+      if (e.target instanceof HTMLElement && e.target.closest(".copy-text") === copyText)
+        return;
+      hideTooltip({ rightNow: true });
+      document.documentElement.removeEventListener("click", onClickOutside);
+    };
+    copyText.addEventListener("click", () => {
+      copyToClipboard(value).then(() => {
+        clearTimeout(autoHidingTimeout);
+        showTooltip();
+        autoHidingTimeout = window.setTimeout(() => {
+          hideTooltip();
+          document.documentElement.removeEventListener("click", onClickOutside);
+        }, SHOW_TIME_MS);
+      });
+      document.documentElement.addEventListener("click", onClickOutside);
     });
+    document.body.appendChild(tooltip);
   });
-  const pageScrollTop = parseFloat(window.localStorage.getItem("page-scroll-top") || "0");
-  document.documentElement.style.scrollBehavior = "auto";
-  window.scrollTo({ top: pageScrollTop });
-  document.documentElement.style.scrollBehavior = "";
 });
 
 const isModal = (element) => {
@@ -522,30 +660,6 @@ const disablePopper = (popper) => {
   }));
 };
 
-const sameWidth = {
-  name: "sameWidth",
-  enabled: true,
-  phase: "beforeWrite",
-  requires: ["computeStyles"],
-  fn: ({ state }) => {
-    state.styles.popper.width = `${state.rects.reference.width}px`;
-  },
-  effect: ({ state }) => {
-    state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
-  }
-};
-const createPlacementHandler = (onPlacementChange) => {
-  return {
-    name: "placementHandler",
-    enabled: true,
-    phase: "beforeWrite",
-    requires: ["computeStyles"],
-    fn: ({ state }) => {
-      onPlacementChange(state.placement, state.elements.popper);
-    }
-  };
-};
-
 window.addEventListener("load", () => {
   document.querySelectorAll(".select").forEach((select) => {
     const input = select.querySelector("input");
@@ -644,98 +758,6 @@ window.addEventListener("load", () => {
         modals.forEach((modal) => closeModal(modal));
       });
     }
-  });
-});
-
-function copyToClipboard(textToCopy) {
-  if (navigator.clipboard && window.isSecureContext) {
-    return navigator.clipboard.writeText(textToCopy);
-  } else {
-    let textArea = document.createElement("textarea");
-    textArea.value = textToCopy;
-    textArea.style.position = "fixed";
-    textArea.style.left = "-999999px";
-    textArea.style.top = "-999999px";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    return new Promise((res, rej) => {
-      document.execCommand("copy") ? res(void 0) : rej();
-      textArea.remove();
-    });
-  }
-}
-
-const parsePlacement = (className) => {
-  return (className.match(/left|right|top|bottom/g) || [])[0];
-};
-const SHOW_TIME_MS = 2e3;
-window.addEventListener("load", () => {
-  const ANIMATION_SLOW_MS = parseFloat(getCssVariable("--animation-slow")) * 1e3;
-  document.querySelectorAll(".copy-text").forEach((copyText) => {
-    const value = copyText.querySelector(".copy-text__value")?.textContent?.trim();
-    const tooltip = copyText.querySelector(".copy-text__success-tooltip");
-    if (!value || !(tooltip instanceof HTMLElement))
-      return;
-    let popper;
-    let hidingTimeout;
-    let autoHidingTimeout;
-    const showTooltip = () => {
-      clearTimeout(hidingTimeout);
-      popper = createPopper(copyText, tooltip, {
-        placement: parsePlacement(tooltip.className) ?? "auto",
-        strategy: "absolute",
-        modifiers: [
-          {
-            name: "flip",
-            options: {
-              fallbackPlacements: ["auto"]
-            }
-          },
-          createPlacementHandler((placement, element) => {
-            element.classList.remove("top");
-            element.classList.remove("left");
-            element.classList.remove("right");
-            element.classList.remove("bottom");
-            element.classList.add(placement);
-          })
-        ]
-      });
-      tooltip.classList.add("show");
-      tooltip.classList.remove("fade-out-slow");
-    };
-    const hideTooltip = (options = {}) => {
-      clearTimeout(hidingTimeout);
-      if (options.rightNow) {
-        tooltip.classList.remove("show");
-        tooltip.classList.remove("fade-out-slow");
-      } else {
-        tooltip.classList.add("fade-out-slow");
-        hidingTimeout = window.setTimeout(() => {
-          tooltip.classList.remove("show");
-          tooltip.classList.remove("fade-out-slow");
-          popper?.destroy();
-        }, ANIMATION_SLOW_MS);
-      }
-    };
-    const onClickOutside = (e) => {
-      if (e.target instanceof HTMLElement && e.target.closest(".copy-text") === copyText)
-        return;
-      hideTooltip({ rightNow: true });
-      document.documentElement.removeEventListener("click", onClickOutside);
-    };
-    copyText.addEventListener("click", () => {
-      copyToClipboard(value).then(() => {
-        clearTimeout(autoHidingTimeout);
-        showTooltip();
-        autoHidingTimeout = window.setTimeout(() => {
-          hideTooltip();
-          document.documentElement.removeEventListener("click", onClickOutside);
-        }, SHOW_TIME_MS);
-      });
-      document.documentElement.addEventListener("click", onClickOutside);
-    });
-    document.body.appendChild(tooltip);
   });
 });
 

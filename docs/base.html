@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>arbitroom-acccount2</title>
+		<link rel="stylesheet" href="_assets/prismjs/prism.css" />
+		<link rel="stylesheet" href="_assets/simple.css" />
+		<link rel="stylesheet" href="_assets/styles.css" />
+	</head>
+	<body>
+		<header>
+			<nav>
+				<a href="index.html">Главная</a>
+				<a href="base.html">Принципы</a>
+				<a href="common.html">Общие компоненты</a>
+				<a href="pages.html">Специфичные компоненты</a>
+			</nav>
+			<h1>arbitroom-account2</h1>
+			<p>Документация для php-бекенда по верстке arbitroom-account2</p>
+		</header>
+		<main>
+			<h3>Принципы</h3>
+
+			<p>
+				1. Это в первую очередь верстка, а не готовый фронт. Тут нет взаимодествия с бэкендом. Оно может
+				иммитироваться с помощью фейковых данных и скриптов.
+			</p>
+
+			<p>Данные находятся в папке <code>/_fake</code> в виде json-файлов.</p>
+
+			<p>
+				Фейковые скрипты находятся прямо в html и помечены коментарием
+				<code>&lt;!-- fake script --&gt;</code>
+			</p>
+
+			<p>2. BEM-подобный синтаксис</p>
+			<pre>
+            <code class="language-html">
+&lt;form class=&quot;modal open&quot; id=&quot;enableEmailVerificationDialog&quot;&gt;
+&lt;div class=&quot;modal__content&quot;&gt;
+   &lt;div class=&quot;dialog max-width-xs full-width&quot;&gt;
+      &lt;div class=&quot;dialog__title&quot;&gt;Подключить проверку через почту
+      &lt;button class=&quot;icon-button contained small color-gray&quot; type=&quot;button&quot; data-close-modal=&quot;&quot;&gt;
+         &lt;svg data-icon-name=&quot;close&quot; class=&quot;svg-icon&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 20 20&quot;&gt;
+            ...
+         &lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;dialog__content&quot;&gt;
+      &lt;div style=&quot;font-size: 1rem; font-weight: 500; line-height: 1.5rem; margin-bottom: 2rem&quot;&gt;Введите электронную почту. На неё будет отправлен код подтверждения&lt;/div&gt;
+      &lt;div class=&quot;field&quot;&gt;
+         &lt;div class=&quot;field__input-wrapper&quot;&gt;
+            &lt;div class=&quot;input&quot;&gt;
+            &lt;input class=&quot;input-url-sync&quot; data-url-sync-disabled=&quot;&quot; name=&quot;email&quot; type=&quot;text&quot; placeholder=&quot;Электронная почта&quot;&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;dialog__actions&quot;&gt;
+      &lt;button class=&quot;button contained full-width&quot; type=&quot;submit&quot;&gt;Отправить код&lt;/button&gt;
+      &lt;/div&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+            </code>
+         </pre>
+
+			<p>3. Данные для компоненты передаются через <code>data</code>-аттрибуты</p>
+			<p>4. Компоненты могут выбрасывать <code>CustomEvent</code></p>
+			<p>
+				5. Компоненты в которых меняется значение, содержат в себе скрытый <code>input</code>. На него можно
+				повесить обработчик события <code>change</code>
+			</p>
+			<pre>
+            <code class="language-html">
+&lt;div class=&quot;toggle-button-group&quot; data-disable-toggle-button-group-js=&quot;&quot;&gt;
+  &lt;input class=&quot;input-url-sync&quot; data-url-sync-disabled=&quot;&quot; value=&quot;wallet&quot; hidden=&quot;&quot;&gt;
+  &lt;div class=&quot;toggle-button active&quot; data-value=&quot;wallet&quot; data-to-outcome-variant=&quot;wallet&quot;&gt;Кошелек&lt;/div&gt;
+  &lt;div class=&quot;toggle-button&quot; data-value=&quot;green&quot; data-to-outcome-variant=&quot;green&quot;&gt;Зеленый блок&lt;/div&gt;
+  &lt;div class=&quot;toggle-button&quot; data-value=&quot;blue&quot; data-to-outcome-variant=&quot;blue&quot;&gt;Синий блок&lt;/div&gt;
+  &lt;div class=&quot;toggle-button&quot; data-value=&quot;purple&quot; data-to-outcome-variant=&quot;purple&quot;&gt;Фиолетовый блок&lt;/div&gt;
+  &lt;div class=&quot;toggle-button&quot; data-value=&quot;partner-balance&quot; data-to-outcome-variant=&quot;partner-balance&quot;&gt;Партнерский баланс&lt;/div&gt;
+&lt;/div&gt;
+            </code>
+         </pre>
+		</main>
+		<script src="_assets/prismjs/prism.js"></script>
+	</body>
+</html>

@@ -1,0 +1,8 @@
+html {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 14px;
+}
+
+body {
+	grid-template-columns: 1fr min(1024px, 90%) 1fr;
+}

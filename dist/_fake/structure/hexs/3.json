@@ -1,0 +1,133 @@
+[
+	{
+		"id": 0,
+		"content": {
+			"pretitle": "2 уровень",
+			"status": "C2",
+			"name": "Марина Елисеева",
+			"turn": "1 000 000 USDT",
+			"turnLabel": "Весь об-т структуры"
+		},
+		"theme": "C2",
+		"detailUrl": "#some-url-to-detail",
+		"chatUrl": "#some-url-to-chat",
+		"backgroundSrc": "../_layout-assets/img/partner-hexs/B3.png"
+	},
+	{
+		"id": 1,
+		"content": {
+			"pretitle": "1 уровень",
+			"status": "B1",
+			"name": "Марина Елисеева",
+			"turn": "1 000 000 USDT",
+			"turnLabel": "Весь об-т структуры"
+		},
+		"theme": "C2",
+		"detailUrl": "#some-url-to-detail",
+		"chatUrl": "#some-url-to-chat"
+	},
+	{
+		"id": 2,
+		"content": {
+			"pretitle": "1 уровень",
+			"status": "C1",
+			"name": "Марина Елисеева",
+			"turn": "1 000 000 USDT",
+			"turnLabel": "Весь об-т структуры"
+		},
+		"theme": "C2",
+		"detailUrl": "#some-url-to-detail",
+		"chatUrl": "#some-url-to-chat"
+	},
+	{
+		"id": 3,
+		"content": {
+			"pretitle": "1 уровень",
+			"status": "A1",
+			"name": "Марина Елисеева",
+			"turn": "1 000 000 USDT",
+			"turnLabel": "Весь об-т структуры"
+		},
+		"theme": "C2",
+		"detailUrl": "#some-url-to-detail",
+		"chatUrl": "#some-url-to-chat"
+	},
+	{
+		"id": 4,
+		"content": {
+			"pretitle": "1 уровень",
+			"status": "B1",
+			"name": "Марина Елисеева",
+			"turn": "1 000 000 USDT",
+			"turnLabel": "Весь об-т структуры"
+		},
+		"theme": "C2",
+		"detailUrl": "#some-url-to-detail",
+		"chatUrl": "#some-url-to-chat"
+	},
+	{
+		"id": 5,
+		"content": {
+			"pretitle": "1 уровень",
+			"status": "C1",
+			"name": "Марина Елисеева",
+			"turn": "1 000 000 USDT",
+			"turnLabel": "Весь об-т структуры"
+		},
+		"theme": "C2",
+		"detailUrl": "#some-url-to-detail",
+		"chatUrl": "#some-url-to-chat"
+	},
+	{
+		"id": 6,
+		"content": {
+			"pretitle": "1 уровень",
+			"status": "A1",
+			"name": "Марина Елисеева",
+			"turn": "1 000 000 USDT",
+			"turnLabel": "Весь об-т структуры"
+		},
+		"theme": "C2",
+		"detailUrl": "#some-url-to-detail",
+		"chatUrl": "#some-url-to-chat"
+	},
+	{
+		"id": 7,
+		"content": {
+			"pretitle": "1 уровень",
+			"status": "B1",
+			"name": "Марина Елисеева",
+			"turn": "1 000 000 USDT",
+			"turnLabel": "Весь об-т структуры"
+		},
+		"theme": "C2",
+		"detailUrl": "#some-url-to-detail",
+		"chatUrl": "#some-url-to-chat"
+	},
+	{
+		"id": 8,
+		"content": {
+			"pretitle": "1 уровень",
+			"status": "C1",
+			"name": "Марина Елисеева",
+			"turn": "1 000 000 USDT",
+			"turnLabel": "Весь об-т структуры"
+		},
+		"theme": "C2",
+		"detailUrl": "#some-url-to-detail",
+		"chatUrl": "#some-url-to-chat"
+	},
+	{
+		"id": 9,
+		"content": {
+			"pretitle": "1 уровень",
+			"status": "A1",
+			"name": "Марина Елисеева",
+			"turn": "1 000 000 USDT",
+			"turnLabel": "Весь об-т структуры"
+		},
+		"theme": "C2",
+		"detailUrl": "#some-url-to-detail",
+		"chatUrl": "#some-url-to-chat"
+	}
+]

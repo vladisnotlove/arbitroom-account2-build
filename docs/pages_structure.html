@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>arbitroom-acccount2</title>
+		<link rel="stylesheet" href="_assets/prismjs/prism.css" />
+		<link rel="stylesheet" href="_assets/simple.css" />
+		<link rel="stylesheet" href="_assets/styles.css" />
+	</head>
+	<body>
+		<header>
+			<nav>
+				<a href="index.html">Главная</a>
+				<a href="base.html">Принципы</a>
+				<a href="common.html">Общие компоненты</a>
+				<a href="pages.html">Специфичные компоненты</a>
+			</nav>
+			<h1>arbitroom-account2</h1>
+			<p>Документация для php-бекенда по верстке arbitroom-account2</p>
+		</header>
+		<main>
+			<h3>Компоненты на странице "structure"</h3>
+			<h4>.hexs</h4>
+
+			<pre>
+            <code class="language-html">
+&lt;div class=&quot;hexs&quot; data-source=&quot;/_fake/structure/hexs/1.json&quot; &gt;
+	&lt;!-- need to check if all fonts download --&gt;
+	&lt;div class=&quot;hexs__fonts&quot;&gt;
+		&lt;div style=&quot;font: 400 16px Golos&quot;&gt;a&lt;/div&gt;
+		&lt;div style=&quot;font: 500 16px Golos&quot;&gt;a&lt;/div&gt;
+		&lt;div style=&quot;font: 600 16px Golos&quot;&gt;a&lt;/div&gt;
+		&lt;div style=&quot;font: 700 16px Golos&quot;&gt;a&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;hexs__spinner spinner&quot;&gt;...&lt;/div&gt;
+	&lt;div class=&quot;hexs__main&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+            </code>
+         </pre>
+
+			<p>Отображает массив сот из json в атрубуте <code>data-source</code></p>
+
+			<p>При изменение <code>data-source</code> соты перерендориваются</p>
+
+			<p>Формат одной соты:</p>
+			<pre>
+            <code class="language-js">
+{
+	id: number;
+	content: {
+		pretitle: string;
+		status: string;
+		name: string;
+		turn: string;
+		turnLabel: string;
+	};
+	theme?:
+		| "A1"
+		| "A2"
+		| "A3"
+		| "B1"
+		| "B1-F"
+		| "B2"
+		| "B2-F"
+		| "B3"
+		| "B3-F"
+		| "C1"
+		| "C1-F"
+		| "C2"
+		| "C2-F"
+		| "C3"
+		| "C3-F"
+		| "D1"
+		| "D2"
+		| "D3"
+		| "none"
+		| "base";
+	backgroundSrc?: string;
+	detailsUrl?: string;
+	chatUrl?: string;
+}
+            </code>
+         </pre>
+
+			<p>Также выбрасывает событие <code>hex-select</code> c сотой в detail.data</p>
+
+			<p>Пример использования:</p>
+			<pre>
+            <code class="language-js">
+hexs.addEventListener("hex-select", (e) => {
+	console.log(e.detail.data);
+});
+            </code>
+         </pre>
+		</main>
+		<script src="_assets/prismjs/prism.js"></script>
+	</body>
+</html>
