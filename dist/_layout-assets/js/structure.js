@@ -26,31 +26,16 @@ window.addEventListener("load", () => {
   });
 });
 
-window.addEventListener("load", () => {
-  const root = document.querySelector(".structure");
-  const btns = root.querySelectorAll("[data-change-hexs-source]");
-  const hexs = root.querySelector(".structure__hexs");
-  if (!root || !btns || !hexs)
-    return;
-  btns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const source = btn.getAttribute("data-change-hexs-source");
-      if (source)
-        hexs.setAttribute("data-source", source);
-    });
-  });
-});
-
 const addOnAttrChange = (element, attrName, callback, options = {}) => {
   const callOnCreate = options.callOnCreate ?? false;
   let prevAttr = element.getAttribute(attrName);
   if (callOnCreate) {
-    callback(prevAttr);
+    callback(prevAttr, prevAttr);
   }
   const observer = new MutationObserver((mutationList) => {
     const attr = element.getAttribute(attrName);
     if (attr !== prevAttr) {
-      callback(attr);
+      callback(attr, prevAttr);
     }
     prevAttr = attr;
   });
@@ -62,6 +47,46 @@ const addOnAttrChange = (element, attrName, callback, options = {}) => {
     observer.disconnect();
   };
 };
+
+window.addEventListener("load", () => {
+  const root = document.querySelector(".structure");
+  const btns = root.querySelectorAll("[data-change-hexs-source]");
+  const hexs = root.querySelector(".structure__hexs");
+  if (root && btns && hexs) {
+    btns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const source = btn.getAttribute("data-change-hexs-source");
+        if (source)
+          hexs.setAttribute("data-source", source);
+      });
+    });
+  }
+  const backBtn = root.querySelector(".structure__back-btn");
+  if (hexs && backBtn) {
+    let wasBack = false;
+    const backHistory = [];
+    addOnAttrChange(hexs, "data-source", (_, prevSource) => {
+      if (prevSource && !wasBack) {
+        backHistory.push(prevSource);
+      }
+      if (wasBack) {
+        wasBack = false;
+      }
+      if (backHistory.length > 0) {
+        backBtn.removeAttribute("hidden");
+      } else {
+        backBtn.setAttribute("hidden", "");
+      }
+    });
+    backBtn.addEventListener("click", () => {
+      const source = backHistory.pop();
+      if (source) {
+        hexs.setAttribute("data-source", source);
+        wasBack = true;
+      }
+    });
+  }
+});
 
 const updateRowWithPartner = (row, partner) => {
   row.querySelector('[data-name="name"] > .table__cell-value').textContent = partner.name;

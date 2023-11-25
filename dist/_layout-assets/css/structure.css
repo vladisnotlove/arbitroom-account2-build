@@ -365,8 +365,7 @@
   margin: 1rem;
 }.structure {
   position: relative;
-  min-height: max(100vh - 4rem, 860px);
-  height: 0;
+  height: max(100vh - 4rem, 860px);
 }
 .structure.show-details > .structure__hex-details, .structure.show-chat > .structure__hex-chat {
   opacity: 1;
@@ -406,6 +405,10 @@
   z-index: 200;
 }
 @media (max-width: 480px) {
+  .structure {
+    display: flex;
+    flex-direction: column;
+  }
   .structure.show-chat .structure__hexs, .structure.show-details .structure__hexs {
     display: none;
   }
@@ -421,6 +424,7 @@
   .structure__navigation > .button > svg {
     display: block;
   }
+  .structure__hexs,
   .structure__hex-chat,
   .structure__hex-details {
     top: 0;
@@ -435,6 +439,8 @@
     border: none;
   }
   .structure__hexs {
+    flex-grow: 1;
+    width: 100%;
     background: transparent;
     color: rgba(255, 255, 255, 0.92);
     border-radius: 0;
@@ -469,18 +475,24 @@
 
 @media (max-width: 480px) {
   .content {
-    display: flex;
-    flex-direction: column;
+    padding: 0;
   }
-  .content-structure {
+  .content-structure.show-hexs {
+    gap: 0;
+    height: calc(100vh - 3.5rem);
+    height: calc(100svh - 3.5rem);
+  }
+  .content-structure.show-hexs .content-structure__tabs {
+    margin: 1rem;
+  }
+  .content-structure.show-hexs .content-structure__structure {
     flex-grow: 1;
-    height: 100%;
+    flex-basis: 0;
+    min-height: 0;
+    height: unset;
   }
   .content-structure.show-hexs.hexs-full .content-structure__tabs {
     display: none;
-  }
-  .content-structure.show-hexs.hexs-full .content-structure__structure {
-    margin-top: -1rem;
   }
   .content-structure.show-hexs .content-structure__stats {
     display: none;
@@ -491,15 +503,14 @@
   .content-structure.show-hexs .content-structure__structure-turn {
     display: none;
   }
+  .content-structure.show-info {
+    gap: 1rem;
+    padding: 1rem 1rem 2rem 1rem;
+  }
   .content-structure.show-info .content-structure__structure {
     display: none;
   }
   .content-structure__tabs {
     display: flex;
-  }
-  .content-structure__structure {
-    flex-grow: 1;
-    min-height: 0;
-    margin: 0 -1rem -2rem -1rem;
   }
 }

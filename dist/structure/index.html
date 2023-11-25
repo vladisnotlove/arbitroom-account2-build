@@ -310,9 +310,9 @@
 						</div>
 					</div>
 					<div class="content-structure__structure structure">
-						<div class="structure__navigation"><button class="button contained neutral medium" data-change-hexs-source="../_fake/structure/hexs/2.json"><svg data-icon-name="person" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+						<div class="structure__navigation"><button class="structure__root-btn button contained neutral medium" data-change-hexs-source="../_fake/structure/hexs/2.json"><svg data-icon-name="person" class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 									<path d="M17.7545 13.9992C18.9966 13.9992 20.0034 15.0061 20.0034 16.2481V17.1665C20.0034 17.7399 19.8242 18.2989 19.4908 18.7654C17.9449 20.9287 15.4206 22.0004 12.0004 22.0004C8.5794 22.0004 6.05643 20.9282 4.51427 18.7639C4.18231 18.298 4.00391 17.7401 4.00391 17.1681V16.2481C4.00391 15.0061 5.01076 13.9992 6.25278 13.9992H17.7545ZM12.0004 2.00391C14.7618 2.00391 17.0004 4.24248 17.0004 7.00391C17.0004 9.76533 14.7618 12.0039 12.0004 12.0039C9.23894 12.0039 7.00036 9.76533 7.00036 7.00391C7.00036 4.24248 9.23894 2.00391 12.0004 2.00391Z"></path>
-								</svg><span>Мой аккаунт</span></button><button class="button contained neutral medium" data-change-hexs-source="../_fake/structure/hexs/3.json"><svg data-icon-name="arrow-left" class="svg-icon" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+								</svg><span>Мой аккаунт</span></button><button class="structure__back-btn button contained neutral medium" hidden><svg data-icon-name="arrow-left" class="svg-icon" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
 									<path d="M8.73171 16.7948C9.03264 17.0795 9.50733 17.0662 9.79196 16.7653C10.0766 16.4644 10.0634 15.9897 9.76243 15.7051L4.52339 10.75H17.2471C17.6613 10.75 17.9971 10.4142 17.9971 9.99995C17.9971 9.58574 17.6613 9.24995 17.2471 9.24995H4.52112L9.76243 4.29269C10.0634 4.00807 10.0766 3.53338 9.79196 3.23245C9.50733 2.93151 9.03264 2.91829 8.73171 3.20291L2.31449 9.27236C2.14819 9.42964 2.04819 9.62975 2.01448 9.83854C2.00308 9.89053 1.99707 9.94454 1.99707 9.99995C1.99707 10.0575 2.00356 10.1136 2.01585 10.1675C2.05084 10.3733 2.15039 10.5702 2.31449 10.7254L8.73171 16.7948Z"></path>
 								</svg><span>Шаг назад</span></button></div>
 						<div class="structure__hexs hexs" data-source="../_fake/structure/hexs/1.json" id="hexs"><!-- need to check if all fonts download -->
@@ -467,7 +467,6 @@
 								structure?.classList.add("show-details");
 								structure?.classList.remove("show-chat");
 								pageContent?.classList.add("hexs-full");
-								console.log(data);
 							}
 						});
 					}

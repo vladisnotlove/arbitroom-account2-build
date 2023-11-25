@@ -1,4 +1,165 @@
-import { c as createPopper, S as Swiper, N as Navigation, P as Pagination } from './_vendor.js';
+import { S as Swiper, N as Navigation, P as Pagination, c as createPopper } from './_vendor.js';
+
+window.addEventListener("load", () => {
+  new Swiper(".swiper", {
+    modules: [Navigation, Pagination],
+    navigation: {
+      prevEl: ".swiper-button-prev",
+      nextEl: ".swiper-button-next"
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true
+    },
+    loop: true
+  });
+});
+
+window.addEventListener("load", () => {
+  const headerTitle = document.querySelector("#header .header__title");
+  if (headerTitle instanceof HTMLElement) {
+    new ResizeObserver(() => {
+      if (headerTitle.scrollWidth > headerTitle.clientWidth) {
+        headerTitle.classList.add("overflow");
+      } else {
+        headerTitle.classList.remove("overflow");
+      }
+    }).observe(headerTitle);
+  }
+});
+
+window.addEventListener("load", () => {
+  const sideMenu = document.getElementById("sideMenu");
+  if (!sideMenu)
+    return;
+  const sideMenuBody = sideMenu.querySelector(".side-menu__body");
+  const overlay = sideMenu.querySelector(".side-menu__overlay");
+  const burger = document.querySelector("#header .header__burger-btn");
+  const openMenu = () => {
+    if (sideMenu && burger && sideMenuBody) {
+      sideMenuBody.scrollTop = 0;
+      sideMenu.classList.add("open");
+      burger.classList.add("open");
+      document.documentElement.classList.add("side-menu-open");
+    }
+  };
+  const closeMenu = () => {
+    if (sideMenu && burger) {
+      sideMenu.classList.remove("open");
+      burger.classList.remove("open");
+      document.documentElement.classList.remove("side-menu-open");
+    }
+  };
+  const toggleMenu = () => {
+    if (sideMenu.classList.contains("open")) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  };
+  if (overlay)
+    overlay.addEventListener("click", closeMenu);
+  if (burger)
+    burger.addEventListener("click", toggleMenu);
+  document.querySelectorAll(".tab-group").forEach((tabGroup) => {
+    const label = tabGroup.querySelector(".tab-group__label");
+    if (label)
+      label.addEventListener("click", () => {
+        tabGroup.classList.toggle("expanded");
+      });
+  });
+});
+
+const getCssVariable = (name) => {
+  return getComputedStyle(document.body).getPropertyValue(name);
+};
+
+window.addEventListener("load", () => {
+  const POPPER_VIEWPORT_PADDING = getCssVariable("--popper-viewport-padding");
+  const ANIMATION_SLOW_MS = parseFloat(getCssVariable("--animation-slow")) * 1e3;
+  document.querySelectorAll(".popper").forEach((popperElement) => {
+    if (!(popperElement instanceof HTMLElement))
+      return;
+    const onHover = !!popperElement.getAttribute("data-popper-on-hover");
+    const anchorElementQuery = popperElement.getAttribute("data-popper-anchor-element");
+    const anchorElements = document.querySelectorAll(anchorElementQuery);
+    const closeElements = popperElement.querySelectorAll("[data-popper-close-element]");
+    if (!anchorElements)
+      console.warn(popperElement, "has no 'data-popper-anchor-element'");
+    let overlay;
+    let popper;
+    let closingTimeout;
+    const openPopper = (currentAnchorElement, options = {}) => {
+      const disableOverlay = options.disableOverlay ?? false;
+      clearTimeout(closingTimeout);
+      if (!popper)
+        popper = createPopper(currentAnchorElement, popperElement, {
+          strategy: "fixed",
+          modifiers: [
+            {
+              name: "preventOverflow",
+              options: {
+                altAxis: true,
+                padding: POPPER_VIEWPORT_PADDING
+              }
+            }
+          ]
+        });
+      if (!disableOverlay) {
+        overlay = document.createElement("div");
+        overlay.classList.add("popper-overlay");
+        overlay.addEventListener("click", closePopper);
+        document.body.prepend(overlay);
+      }
+      popperElement.classList.add("open");
+    };
+    const closePopper = () => {
+      if (overlay) {
+        overlay.remove();
+        overlay = void 0;
+      }
+      popperElement.classList.remove("open");
+      clearTimeout(closingTimeout);
+      closingTimeout = window.setTimeout(() => {
+        popper?.destroy();
+        popper = void 0;
+      }, ANIMATION_SLOW_MS);
+    };
+    anchorElements.forEach((anchorElement) => {
+      if (onHover) {
+        anchorElement.addEventListener("mouseenter", (e) => {
+          const isOpen = popperElement.classList.contains("open");
+          if (!isOpen) {
+            openPopper(e.currentTarget, { disableOverlay: true });
+          }
+        });
+        anchorElement.addEventListener("mouseenter", (e) => {
+        });
+        anchorElement.addEventListener("mouseleave", () => {
+          const isOpen = popperElement.classList.contains("open");
+          if (isOpen) {
+            closePopper();
+          }
+        });
+      } else {
+        closeElements.forEach((closeElement) => {
+          closeElement.addEventListener("click", closePopper);
+        });
+        anchorElement.addEventListener("click", (e) => {
+          const isOpen = popperElement.classList.contains("open");
+          if (!isOpen) {
+            openPopper(e.currentTarget);
+          } else {
+            closePopper();
+          }
+        });
+        window.addEventListener("blur", () => {
+          closePopper();
+        });
+      }
+    });
+  });
+});
 
 const setValue = (elements, value) => {
   elements.input?.setAttribute("value", value);
@@ -140,61 +301,6 @@ window.addEventListener("load", () => {
   document.documentElement.style.scrollBehavior = "";
 });
 
-window.addEventListener("load", () => {
-  const headerTitle = document.querySelector("#header .header__title");
-  if (headerTitle instanceof HTMLElement) {
-    new ResizeObserver(() => {
-      if (headerTitle.scrollWidth > headerTitle.clientWidth) {
-        headerTitle.classList.add("overflow");
-      } else {
-        headerTitle.classList.remove("overflow");
-      }
-    }).observe(headerTitle);
-  }
-});
-
-window.addEventListener("load", () => {
-  const sideMenu = document.getElementById("sideMenu");
-  if (!sideMenu)
-    return;
-  const sideMenuBody = sideMenu.querySelector(".side-menu__body");
-  const overlay = sideMenu.querySelector(".side-menu__overlay");
-  const burger = document.querySelector("#header .header__burger-btn");
-  const openMenu = () => {
-    if (sideMenu && burger && sideMenuBody) {
-      sideMenuBody.scrollTop = 0;
-      sideMenu.classList.add("open");
-      burger.classList.add("open");
-      document.documentElement.classList.add("side-menu-open");
-    }
-  };
-  const closeMenu = () => {
-    if (sideMenu && burger) {
-      sideMenu.classList.remove("open");
-      burger.classList.remove("open");
-      document.documentElement.classList.remove("side-menu-open");
-    }
-  };
-  const toggleMenu = () => {
-    if (sideMenu.classList.contains("open")) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  };
-  if (overlay)
-    overlay.addEventListener("click", closeMenu);
-  if (burger)
-    burger.addEventListener("click", toggleMenu);
-  document.querySelectorAll(".tab-group").forEach((tabGroup) => {
-    const label = tabGroup.querySelector(".tab-group__label");
-    if (label)
-      label.addEventListener("click", () => {
-        tabGroup.classList.toggle("expanded");
-      });
-  });
-});
-
 const getFinishDate = (el) => {
   const str = el.getAttribute("data-timer-finish-date");
   const finishDate = str ? new Date(str) : void 0;
@@ -260,112 +366,6 @@ window.addEventListener("load", () => {
     input.addEventListener("blur", () => {
       input.classList.remove("focus");
     });
-  });
-});
-
-const getCssVariable = (name) => {
-  return getComputedStyle(document.body).getPropertyValue(name);
-};
-
-window.addEventListener("load", () => {
-  const POPPER_VIEWPORT_PADDING = getCssVariable("--popper-viewport-padding");
-  const ANIMATION_SLOW_MS = parseFloat(getCssVariable("--animation-slow")) * 1e3;
-  document.querySelectorAll(".popper").forEach((popperElement) => {
-    if (!(popperElement instanceof HTMLElement))
-      return;
-    const onHover = !!popperElement.getAttribute("data-popper-on-hover");
-    const anchorElementQuery = popperElement.getAttribute("data-popper-anchor-element");
-    const anchorElements = document.querySelectorAll(anchorElementQuery);
-    const closeElements = popperElement.querySelectorAll("[data-popper-close-element]");
-    if (!anchorElements)
-      console.warn(popperElement, "has no 'data-popper-anchor-element'");
-    let overlay;
-    let popper;
-    let closingTimeout;
-    const openPopper = (currentAnchorElement, options = {}) => {
-      const disableOverlay = options.disableOverlay ?? false;
-      clearTimeout(closingTimeout);
-      if (!popper)
-        popper = createPopper(currentAnchorElement, popperElement, {
-          strategy: "fixed",
-          modifiers: [
-            {
-              name: "preventOverflow",
-              options: {
-                altAxis: true,
-                padding: POPPER_VIEWPORT_PADDING
-              }
-            }
-          ]
-        });
-      if (!disableOverlay) {
-        overlay = document.createElement("div");
-        overlay.classList.add("popper-overlay");
-        overlay.addEventListener("click", closePopper);
-        document.body.prepend(overlay);
-      }
-      popperElement.classList.add("open");
-    };
-    const closePopper = () => {
-      if (overlay) {
-        overlay.remove();
-        overlay = void 0;
-      }
-      popperElement.classList.remove("open");
-      clearTimeout(closingTimeout);
-      closingTimeout = window.setTimeout(() => {
-        popper?.destroy();
-        popper = void 0;
-      }, ANIMATION_SLOW_MS);
-    };
-    anchorElements.forEach((anchorElement) => {
-      if (onHover) {
-        anchorElement.addEventListener("mouseenter", (e) => {
-          const isOpen = popperElement.classList.contains("open");
-          if (!isOpen) {
-            openPopper(e.currentTarget, { disableOverlay: true });
-          }
-        });
-        anchorElement.addEventListener("mouseenter", (e) => {
-        });
-        anchorElement.addEventListener("mouseleave", () => {
-          const isOpen = popperElement.classList.contains("open");
-          if (isOpen) {
-            closePopper();
-          }
-        });
-      } else {
-        closeElements.forEach((closeElement) => {
-          closeElement.addEventListener("click", closePopper);
-        });
-        anchorElement.addEventListener("click", (e) => {
-          const isOpen = popperElement.classList.contains("open");
-          if (!isOpen) {
-            openPopper(e.currentTarget);
-          } else {
-            closePopper();
-          }
-        });
-        window.addEventListener("blur", () => {
-          closePopper();
-        });
-      }
-    });
-  });
-});
-
-window.addEventListener("load", () => {
-  new Swiper(".swiper", {
-    modules: [Navigation, Pagination],
-    navigation: {
-      prevEl: ".swiper-button-prev",
-      nextEl: ".swiper-button-next"
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true
-    },
-    loop: true
   });
 });
 
@@ -542,110 +542,6 @@ window.addEventListener("load", () => {
   });
 });
 
-window.addEventListener("load", () => {
-  const stopCoef = 0.95;
-  document.querySelectorAll("[data-drag-scroll]").forEach((element) => {
-    if (!(element instanceof HTMLElement))
-      return;
-    let startPos = {
-      top: 0,
-      left: 0,
-      x: 0,
-      y: 0
-    };
-    let pos = {
-      top: 0,
-      left: 0,
-      x: 0,
-      y: 0
-    };
-    let prevPos = { ...pos };
-    let isGrabbed = false;
-    let transform = { x: 0, y: 0 };
-    const onMouseDown = (e) => {
-      startPos = {
-        left: element.scrollLeft,
-        top: element.scrollTop,
-        x: e.clientX,
-        y: e.clientY
-      };
-      pos = {
-        ...startPos
-      };
-      prevPos = {
-        ...pos
-      };
-      isGrabbed = true;
-      transform = {
-        x: 0,
-        y: 0
-      };
-      element.style.cursor = "grabbing";
-      element.style.userSelect = "none";
-      element.querySelectorAll("img").forEach((img) => img.draggable = false);
-      document.addEventListener("mousemove", onMouseMove);
-      document.addEventListener("mouseup", onMouseUp);
-      requestAnimationFrame(move);
-    };
-    const onMouseMove = (e) => {
-      const dx = e.clientX - startPos.x;
-      const dy = e.clientY - startPos.y;
-      pos.left = startPos.left - dx;
-      pos.top = startPos.top - dy;
-      pos.x = e.clientX;
-      pos.y = e.clientY;
-    };
-    const onMouseUp = (e) => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
-      isGrabbed = false;
-      element.style.cursor = "grab";
-      element.style.removeProperty("user-select");
-      requestAnimationFrame(moveByInertia);
-    };
-    const move = () => {
-      if (!isGrabbed)
-        return;
-      transform = {
-        x: prevPos.left - pos.left,
-        y: prevPos.top - pos.top
-      };
-      element.scrollTop = pos.top;
-      element.scrollLeft = pos.left;
-      prevPos = {
-        ...pos
-      };
-      requestAnimationFrame(move);
-    };
-    const moveByInertia = () => {
-      if (isGrabbed)
-        return;
-      if (Math.pow(transform.x, 2) + Math.pow(transform.y, 2) < 0.3)
-        return;
-      transform.x *= stopCoef;
-      transform.y *= stopCoef;
-      element.scrollLeft -= transform.x;
-      element.scrollTop -= transform.y;
-      requestAnimationFrame(moveByInertia);
-    };
-    const preventClickIfMove = (e) => {
-      const diff = {
-        x: startPos.x - e.clientX,
-        y: startPos.y - e.clientY
-      };
-      const diffLength = Math.sqrt(diff.x * diff.x + diff.y * diff.y);
-      if (diffLength > 4) {
-        e.stopPropagation();
-      }
-    };
-    element.style.cursor = "grab";
-    element.addEventListener("mousedown", onMouseDown);
-    element.addEventListener("click", preventClickIfMove, {
-      capture: true
-    });
-  });
-});
-
 const enablePopper = (popper) => {
   popper.setOptions((options) => ({
     ...options,
@@ -750,6 +646,110 @@ window.addEventListener("load", () => {
 });
 
 window.addEventListener("load", () => {
+  const stopCoef = 0.95;
+  document.querySelectorAll("[data-drag-scroll]").forEach((element) => {
+    if (!(element instanceof HTMLElement))
+      return;
+    let startPos = {
+      top: 0,
+      left: 0,
+      x: 0,
+      y: 0
+    };
+    let pos = {
+      top: 0,
+      left: 0,
+      x: 0,
+      y: 0
+    };
+    let prevPos = { ...pos };
+    let isGrabbed = false;
+    let transform = { x: 0, y: 0 };
+    const onMouseDown = (e) => {
+      startPos = {
+        left: element.scrollLeft,
+        top: element.scrollTop,
+        x: e.clientX,
+        y: e.clientY
+      };
+      pos = {
+        ...startPos
+      };
+      prevPos = {
+        ...pos
+      };
+      isGrabbed = true;
+      transform = {
+        x: 0,
+        y: 0
+      };
+      element.style.cursor = "grabbing";
+      element.style.userSelect = "none";
+      element.querySelectorAll("img").forEach((img) => img.draggable = false);
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+      requestAnimationFrame(move);
+    };
+    const onMouseMove = (e) => {
+      const dx = e.clientX - startPos.x;
+      const dy = e.clientY - startPos.y;
+      pos.left = startPos.left - dx;
+      pos.top = startPos.top - dy;
+      pos.x = e.clientX;
+      pos.y = e.clientY;
+    };
+    const onMouseUp = (e) => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+      isGrabbed = false;
+      element.style.cursor = "grab";
+      element.style.removeProperty("user-select");
+      requestAnimationFrame(moveByInertia);
+    };
+    const move = () => {
+      if (!isGrabbed)
+        return;
+      transform = {
+        x: prevPos.left - pos.left,
+        y: prevPos.top - pos.top
+      };
+      element.scrollTop = pos.top;
+      element.scrollLeft = pos.left;
+      prevPos = {
+        ...pos
+      };
+      requestAnimationFrame(move);
+    };
+    const moveByInertia = () => {
+      if (isGrabbed)
+        return;
+      if (Math.pow(transform.x, 2) + Math.pow(transform.y, 2) < 0.3)
+        return;
+      transform.x *= stopCoef;
+      transform.y *= stopCoef;
+      element.scrollLeft -= transform.x;
+      element.scrollTop -= transform.y;
+      requestAnimationFrame(moveByInertia);
+    };
+    const preventClickIfMove = (e) => {
+      const diff = {
+        x: startPos.x - e.clientX,
+        y: startPos.y - e.clientY
+      };
+      const diffLength = Math.sqrt(diff.x * diff.x + diff.y * diff.y);
+      if (diffLength > 4) {
+        e.stopPropagation();
+      }
+    };
+    element.style.cursor = "grab";
+    element.addEventListener("mousedown", onMouseDown);
+    element.addEventListener("click", preventClickIfMove, {
+      capture: true
+    });
+  });
+});
+
+window.addEventListener("load", () => {
   document.querySelectorAll("[data-close-modal]").forEach((trigger) => {
     const modalQuery = trigger.getAttribute("data-close-modal");
     const modals = modalQuery ? Array.from(document.querySelectorAll(modalQuery)) : [getModalParent(trigger)];
@@ -785,6 +785,23 @@ window.addEventListener("load", () => {
         turnEyeOn();
       }
     });
+  });
+});
+
+window.addEventListener("load", () => {
+  document.querySelectorAll("[data-toggle-class]").forEach((elem) => {
+    if (!(elem instanceof HTMLElement))
+      return;
+    const className = elem.dataset.toggleClass;
+    const selector = elem.dataset.target;
+    const targets = selector ? document.querySelectorAll(selector) : void 0;
+    if (className && targets) {
+      elem.addEventListener("click", (e) => {
+        targets.forEach((target) => {
+          target.classList.toggle(className);
+        });
+      });
+    }
   });
 });
 
@@ -893,23 +910,6 @@ window.addEventListener("load", () => {
   } catch (e) {
     console.error(e);
   }
-});
-
-window.addEventListener("load", () => {
-  document.querySelectorAll("[data-toggle-class]").forEach((elem) => {
-    if (!(elem instanceof HTMLElement))
-      return;
-    const className = elem.dataset.toggleClass;
-    const selector = elem.dataset.target;
-    const targets = selector ? document.querySelectorAll(selector) : void 0;
-    if (className && targets) {
-      elem.addEventListener("click", (e) => {
-        targets.forEach((target) => {
-          target.classList.toggle(className);
-        });
-      });
-    }
-  });
 });
 
 const VIEWPORT_PADDING = 12;
